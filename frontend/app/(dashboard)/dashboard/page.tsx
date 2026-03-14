@@ -1,34 +1,34 @@
 import { auth } from "@clerk/nextjs/server";
-import { supabase } from "@/lib/supabase";
+import { apiFetch } from "@/lib/api";
 import DashboardLanding from "@/app/components/DashboardLanding";
 import WorkspaceView from "@/app/components/WorkspaceView";
 
 export default async function DashboardPage() {
-  const { userId } = await auth();
+  const { userId, getToken } = await auth();
 
   if (!userId) return null;
 
-  // Find workspaces this user belongs to
-  const { data: memberships } = await supabase
-    .from("workspace_members")
-    .select("workspace_id, workspaces(id, name, invite_code, owner_id)")
-    .eq("user_id", userId)
-    .limit(1);
+  const token = await getToken();
 
-  const membership = memberships?.[0];
-  const workspace = membership?.workspaces as
-    | { id: string; name: string; invite_code: string; owner_id: string }
-    | undefined;
+  try {
+    // Backend GET /workspaces returns workspaces the user is a member of
+    const workspaces = await apiFetch<any[]>("/workspaces", { token });
 
-  if (!workspace) {
+    if (!workspaces || workspaces.length === 0) {
+      return <DashboardLanding />;
+    }
+
+    const workspace = workspaces[0];
+
+    return (
+      <WorkspaceView
+        workspaceId={workspace.id}
+        workspaceName={workspace.name}
+        workspaceSlug={workspace.slug}
+      />
+    );
+  } catch {
+    // If backend is down or errors, show landing
     return <DashboardLanding />;
   }
-
-  return (
-    <WorkspaceView
-      workspaceId={workspace.id}
-      workspaceName={workspace.name}
-      inviteCode={workspace.invite_code}
-    />
-  );
 }

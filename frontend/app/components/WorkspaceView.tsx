@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useUser } from "@clerk/nextjs";
-import { supabase } from "@/lib/supabase";
+import { useUser, useAuth } from "@clerk/nextjs";
+import { apiFetch } from "@/lib/api";
 import Sidebar from "./Sidebar";
 import ChatArea from "./ChatArea";
 import CreateAgentModal from "./CreateAgentModal";
@@ -11,19 +11,13 @@ import BotPanel from "./BotPanel";
 type WorkspaceViewProps = {
   workspaceId: string;
   workspaceName: string;
-  inviteCode: string;
-};
-
-type Channel = {
-  id: string;
-  name: string;
-  agent_id: string | null;
+  workspaceSlug: string;
 };
 
 type Agent = {
   id: string;
   name: string;
-  badge: string;
+  type: string;
 };
 
 type Member = {
@@ -35,76 +29,60 @@ type Member = {
 
 type Message = {
   id: string;
-  user_id: string | null;
-  display_name: string;
+  sender_id: string | null;
   content: string;
-  is_bot: boolean;
   created_at: string;
+  channel: string;
+  workspace_members?: { display_name: string } | null;
 };
 
 export default function WorkspaceView({
   workspaceId,
   workspaceName,
-  inviteCode,
+  workspaceSlug,
 }: WorkspaceViewProps) {
   const { user } = useUser();
-  const [channels, setChannels] = useState<Channel[]>([]);
+  const { getToken } = useAuth();
   const [agents, setAgents] = useState<Agent[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
-  const [activeChannelId, setActiveChannelId] = useState<string | null>(null);
+  const [activeChannel, setActiveChannel] = useState("general");
   const [messages, setMessages] = useState<Message[]>([]);
   const [showCreateAgent, setShowCreateAgent] = useState(false);
   const [showBot, setShowBot] = useState(false);
 
   const fetchData = useCallback(async () => {
-    const [channelsRes, agentsRes, membersRes] = await Promise.all([
-      supabase
-        .from("channels")
-        .select("*")
-        .eq("workspace_id", workspaceId)
-        .order("created_at"),
-      supabase
-        .from("agents")
-        .select("*")
-        .eq("workspace_id", workspaceId)
-        .order("created_at"),
-      supabase
-        .from("workspace_members")
-        .select("*")
-        .eq("workspace_id", workspaceId)
-        .order("created_at"),
-    ]);
-
-    if (channelsRes.data) {
-      setChannels(channelsRes.data);
-      if (!activeChannelId && channelsRes.data.length > 0) {
-        setActiveChannelId(channelsRes.data[0].id);
-      }
+    const token = await getToken();
+    try {
+      const [agentsData, membersData, messagesData] = await Promise.all([
+        apiFetch<Agent[]>(`/workspaces/${workspaceId}/agents`, { token }),
+        apiFetch<Member[]>(`/workspaces/${workspaceId}/members`, { token }),
+        apiFetch<Message[]>(
+          `/workspaces/${workspaceId}/messages?channel=${activeChannel}`,
+          { token },
+        ),
+      ]);
+      setAgents(agentsData || []);
+      setMembers(membersData || []);
+      // Backend returns newest-first; reverse for chat display
+      setMessages((messagesData || []).reverse());
+    } catch {
+      // Backend may be down — fail silently for now
     }
-    if (agentsRes.data) setAgents(agentsRes.data);
-    if (membersRes.data) setMembers(membersRes.data);
-  }, [workspaceId, activeChannelId]);
+  }, [workspaceId, activeChannel, getToken]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  useEffect(() => {
-    if (!activeChannelId) return;
-
-    async function fetchMessages() {
-      const { data } = await supabase
-        .from("messages")
-        .select("*")
-        .eq("channel_id", activeChannelId)
-        .order("created_at");
-      if (data) setMessages(data);
-    }
-
-    fetchMessages();
-  }, [activeChannelId]);
-
-  const activeChannel = channels.find((ch) => ch.id === activeChannelId);
+  // Build a list of "channels" from agents + the default #general
+  const channels = [
+    { id: "general", name: "general", agentId: null },
+    ...agents.map((a) => ({
+      id: `agent:${a.id}`,
+      name: a.name,
+      agentId: a.id,
+    })),
+  ];
 
   const displayName =
     user?.fullName || user?.primaryEmailAddress?.emailAddress || "User";
@@ -113,20 +91,23 @@ export default function WorkspaceView({
     <div className="h-screen flex bg-white">
       <Sidebar
         workspaceName={workspaceName}
-        inviteCode={inviteCode}
+        inviteCode={workspaceSlug}
         channels={channels}
         agents={agents}
         members={members}
-        activeChannelId={activeChannelId}
-        onSelectChannel={setActiveChannelId}
+        activeChannelId={activeChannel}
+        onSelectChannel={setActiveChannel}
         onOpenCreateAgent={() => setShowCreateAgent(true)}
         onOpenBot={() => setShowBot(true)}
       />
 
-      {activeChannel && user ? (
+      {user ? (
         <ChatArea
-          channelId={activeChannel.id}
-          channelName={activeChannel.name}
+          workspaceId={workspaceId}
+          channelName={
+            channels.find((c) => c.id === activeChannel)?.name || "general"
+          }
+          channel={activeChannel}
           messages={messages}
           currentUserId={user.id}
           currentDisplayName={displayName}

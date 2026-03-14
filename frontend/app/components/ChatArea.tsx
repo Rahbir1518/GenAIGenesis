@@ -1,19 +1,21 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
+import { useAuth } from "@clerk/nextjs";
+import { apiFetch } from "@/lib/api";
 
 type Message = {
   id: string;
-  user_id: string | null;
-  display_name: string;
+  sender_id: string | null;
   content: string;
-  is_bot: boolean;
   created_at: string;
+  channel: string;
+  workspace_members?: { display_name: string } | null;
 };
 
 type ChatAreaProps = {
-  channelId: string;
+  workspaceId: string;
+  channel: string;
   channelName: string;
   messages: Message[];
   currentUserId: string;
@@ -22,13 +24,15 @@ type ChatAreaProps = {
 };
 
 export default function ChatArea({
-  channelId,
+  workspaceId,
+  channel,
   channelName,
   messages,
   currentUserId,
   currentDisplayName,
   onMessageSent,
 }: ChatAreaProps) {
+  const { getToken } = useAuth();
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -41,20 +45,22 @@ export default function ChatArea({
     if (!input.trim() || sending) return;
     setSending(true);
 
-    const { data, error } = await supabase
-      .from("messages")
-      .insert({
-        channel_id: channelId,
-        user_id: currentUserId,
-        display_name: currentDisplayName,
-        content: input.trim(),
-        is_bot: false,
-      })
-      .select()
-      .single();
-
-    if (!error && data) {
-      onMessageSent(data);
+    try {
+      const token = await getToken();
+      const msg = await apiFetch<Message>(
+        `/workspaces/${workspaceId}/messages`,
+        {
+          method: "POST",
+          token,
+          body: JSON.stringify({
+            channel,
+            content: input.trim(),
+          }),
+        },
+      );
+      onMessageSent(msg);
+    } catch {
+      // fail silently for now
     }
 
     setInput("");
@@ -101,43 +107,47 @@ export default function ChatArea({
             </p>
           </div>
         )}
-        {messages.map((msg) => (
-          <div key={msg.id} className="animate-message-appear">
-            <div className="flex items-start gap-3">
-              <div
-                className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-semibold ${
-                  msg.is_bot
-                    ? "bg-accent text-white font-display"
-                    : "bg-accent-light/40 text-accent"
-                }`}
-              >
-                {msg.is_bot ? "n" : getInitials(msg.display_name)}
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <span
-                    className={`text-sm font-semibold ${
-                      msg.is_bot ? "text-accent" : "text-foreground"
-                    }`}
-                  >
-                    {msg.display_name}
-                  </span>
-                  {msg.is_bot && (
-                    <span className="px-1 py-0.5 rounded bg-accent/10 text-accent text-[9px] font-semibold uppercase leading-none">
-                      Bot
-                    </span>
-                  )}
-                  <span className="text-[10px] text-[var(--text-muted)]">
-                    {formatTime(msg.created_at)}
-                  </span>
+        {messages.map((msg) => {
+          const isBot = !msg.sender_id;
+          const senderName = msg.workspace_members?.display_name || (isBot ? "numen" : "Unknown");
+          return (
+            <div key={msg.id} className="animate-message-appear">
+              <div className="flex items-start gap-3">
+                <div
+                  className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-semibold ${
+                    isBot
+                      ? "bg-accent text-white font-display"
+                      : "bg-accent-light/40 text-accent"
+                  }`}
+                >
+                  {isBot ? "n" : getInitials(senderName)}
                 </div>
-                <p className="text-sm text-foreground break-words">
-                  {msg.content}
-                </p>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span
+                      className={`text-sm font-semibold ${
+                        isBot ? "text-accent" : "text-foreground"
+                      }`}
+                    >
+                      {senderName}
+                    </span>
+                    {isBot && (
+                      <span className="px-1 py-0.5 rounded bg-accent/10 text-accent text-[9px] font-semibold uppercase leading-none">
+                        Bot
+                      </span>
+                    )}
+                    <span className="text-[10px] text-[var(--text-muted)]">
+                      {formatTime(msg.created_at)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-foreground break-words">
+                    {msg.content}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         <div ref={messagesEndRef} />
       </div>
 
