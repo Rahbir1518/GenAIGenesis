@@ -34,6 +34,7 @@ class AskBody(BaseModel):
     workspace_id: str
     question: str
     asked_by: str  # workspace_member id
+    question_type: str | None = None
 
 
 @router.post("/ask", tags=["bot"])
@@ -61,6 +62,7 @@ async def ask_bot(body: AskBody, user_id: str = Depends(get_current_user_id)):
 
     async def event_stream():
         async for event in ask_pipeline(
+            question_type=body.question_type,
             workspace_id=body.workspace_id,
             question_text=body.question,
             asked_by=body.asked_by,

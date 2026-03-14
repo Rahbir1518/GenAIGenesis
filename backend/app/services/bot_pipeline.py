@@ -36,6 +36,7 @@ def sse_event(event: str, data: dict) -> str:
 # ---------------------------------------------------------------------------
 
 async def ask_pipeline(
+    question_type: str,
     workspace_id: str,
     question_text: str,
     asked_by: str,
@@ -50,13 +51,17 @@ async def ask_pipeline(
       - "error": error message
     """
     sb = get_supabase()
+    if question_type:
+        given_classification = {"question_type": question_type}
+    else:
+        given_classification = await ai.classify_question(question_text)
 
     try:
         # ----- Step 1: Classify -----
         yield sse_event("status", {"step": "classify", "message": "Classifying question..."})
         await asyncio.sleep(0.1)  # Let the event flush
 
-        classification = await ai.classify_question(question_text)
+        classification = given_classification
         is_who_knows = classification.get("is_who_knows", False)
         domains = classification.get("domains", [])
         question_type = classification.get("question_type", "capability")
