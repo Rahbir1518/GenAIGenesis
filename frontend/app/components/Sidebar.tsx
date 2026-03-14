@@ -31,6 +31,7 @@ type SidebarProps = {
   onSelectChannel: (channelId: string) => void;
   onOpenCreateAgent: () => void;
   onOpenBot: () => void;
+  interruptCount?: number;
 };
 
 export default function Sidebar({
@@ -43,6 +44,7 @@ export default function Sidebar({
   onSelectChannel,
   onOpenCreateAgent,
   onOpenBot,
+  interruptCount = 0,
 }: SidebarProps) {
   const [showInvite, setShowInvite] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -106,7 +108,7 @@ export default function Sidebar({
             Channels
           </p>
           <div className="space-y-0.5">
-            {channels.map((ch) => (
+            {channels.filter(ch => !ch.agentId).map((ch) => (
               <button
                 key={ch.id}
                 onClick={() => onSelectChannel(ch.id)}
@@ -154,17 +156,28 @@ export default function Sidebar({
                 No agents yet
               </p>
             )}
-            {agents.map((agent) => (
-              <div
-                key={agent.id}
-                className="flex items-center gap-2 px-2 py-1 text-sm text-[var(--text-muted)]"
-              >
-                <div className="w-5 h-5 rounded-full bg-accent/10 text-accent text-[9px] font-semibold flex items-center justify-center flex-shrink-0">
-                  {agent.type.slice(0, 2).toUpperCase()}
-                </div>
-                <span className="truncate">{agent.name}</span>
-              </div>
-            ))}
+            {agents.map((agent) => {
+              const channelId = `agent:${agent.id}`;
+              const isActive = activeChannelId === channelId;
+              return (
+                <button
+                  key={agent.id}
+                  onClick={() => onSelectChannel(channelId)}
+                  className={`w-full flex items-center gap-2 px-2 py-1.5 rounded text-sm transition-colors ${
+                    isActive
+                      ? "bg-accent-light/50 text-accent font-semibold"
+                      : "text-[var(--text-muted)] hover:bg-gray-100 hover:text-foreground"
+                  }`}
+                >
+                  <div className={`w-5 h-5 rounded-full text-[9px] font-semibold flex items-center justify-center flex-shrink-0 ${
+                    isActive ? "bg-accent text-white" : "bg-accent/10 text-accent"
+                  }`}>
+                    {agent.type.slice(0, 2).toUpperCase()}
+                  </div>
+                  <span className="truncate">{agent.name}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -197,26 +210,35 @@ export default function Sidebar({
         </div>
       </div>
 
-      {/* Bot bar */}
-      <button
-        onClick={onOpenBot}
-        className="mx-2 mb-2 px-3 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:bg-accent/90 transition-colors flex items-center gap-2"
-      >
-        <svg
-          className="w-4 h-4"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      {/* Interrupt counter + Bot bar */}
+      <div className="mx-2 mb-2 space-y-2">
+        {interruptCount > 0 && (
+          <div className="px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
+            <p className="text-[10px] text-green-600 font-mono uppercase">Interrupts Saved</p>
+            <p className="text-lg font-bold text-green-700 tabular-nums">{interruptCount}</p>
+          </div>
+        )}
+
+        <button
+          onClick={onOpenBot}
+          className="w-full px-3 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg text-sm font-medium hover:from-purple-700 hover:to-blue-700 transition-all flex items-center gap-2 shadow-sm"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-          />
-        </svg>
-        Ask numen
-      </button>
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+            />
+          </svg>
+          Ask ContextBridge
+        </button>
+      </div>
     </div>
   );
 }

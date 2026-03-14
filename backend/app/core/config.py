@@ -18,6 +18,13 @@ class Settings(BaseSettings):
     clerk_publishable_key: str = ""
     clerk_jwks_url: str = ""
 
+    # Gemini
+    gemini_api_key: str = ""
+
+    # AI Settings
+    confidence_threshold: float = 0.82
+    embedding_model: str = "text-embedding-004"
+
     # App
     app_base_url: str = "http://localhost:8000"
 
