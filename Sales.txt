@@ -1,1 +1,0 @@
-This file implements the best feature in our application. 
