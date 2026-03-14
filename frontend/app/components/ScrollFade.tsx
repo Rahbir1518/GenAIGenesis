@@ -6,12 +6,12 @@ export default function ScrollFade({
   children,
   className,
   stagger = 0,
-  exitScale = 0.95,
+  slideDistance = 20,
 }: {
   children: ReactNode;
   className?: string;
   stagger?: number;
-  exitScale?: number;
+  slideDistance?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -21,17 +21,17 @@ export default function ScrollFade({
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       el.style.opacity = "1";
-      el.style.transform = "scale(1)";
+      el.style.transform = "translateY(0px)";
       return;
     }
 
     let ticking = false;
-    const staggerPx = stagger * 60;
+    const staggerPx = stagger * 40;
 
     function tick() {
       if (!el) return;
       const vh = window.innerHeight;
-      const fadeZone = vh * 0.25;
+      const fadeZone = vh * 0.35;
       const rect = el.getBoundingClientRect();
 
       const enterRaw = (vh - rect.top - staggerPx) / fadeZone;
@@ -43,9 +43,9 @@ export default function ScrollFade({
       const tLinear = Math.min(enter, exit);
       const t = tLinear * (2 - tLinear); // ease-out curve
 
-      const scale = exitScale + (1 - exitScale) * t;
+      const y = (1 - t) * slideDistance;
       el.style.opacity = String(t);
-      el.style.transform = `scale(${scale})`;
+      el.style.transform = `translateY(${y}px)`;
       ticking = false;
     }
 
@@ -59,7 +59,7 @@ export default function ScrollFade({
     window.addEventListener("scroll", onScroll, { passive: true });
     tick(); // initial calculation
     return () => window.removeEventListener("scroll", onScroll);
-  }, [stagger, exitScale]);
+  }, [stagger, slideDistance]);
 
   return (
     <div

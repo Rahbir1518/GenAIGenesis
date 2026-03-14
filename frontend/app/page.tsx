@@ -7,6 +7,7 @@ import {
 import Link from "next/link";
 import GlobeWrapper from "./components/GlobeWrapper";
 import ScrollFade from "./components/ScrollFade";
+import DiscordMockup from "./components/DiscordMockup";
 
 export default function Home() {
   return (
@@ -58,13 +59,13 @@ export default function Home() {
 
       {/* ── Section 0: Hero ── */}
       <section className="min-h-[90vh] flex flex-col items-center justify-center px-6 overflow-hidden">
-        <ScrollFade exitScale={0.7} className="relative w-full max-w-3xl mx-auto">
+        <ScrollFade className="relative w-full max-w-3xl mx-auto">
           <GlobeWrapper />
-          <ScrollFade stagger={1} className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <h1 className="font-display font-bold text-white text-[6rem] md:text-[10rem] lg:text-[12rem] tracking-[0.15em] leading-none select-none opacity-90 drop-shadow-[0_0_40px_rgba(255,255,255,0.1)]">
               numen
             </h1>
-          </ScrollFade>
+          </div>
         </ScrollFade>
 
         <ScrollFade stagger={2} className="text-center max-w-2xl mt-4">
@@ -107,44 +108,54 @@ export default function Home() {
 
       {/* ── Section 1: Problem ── */}
       <section className="min-h-screen flex items-center justify-center">
-        <div className="max-w-3xl mx-auto px-6">
-          <ScrollFade>
-            <p className="font-mono text-xs tracking-widest uppercase text-gray-500 mb-6 text-center">
-              The Problem
-            </p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight text-center mb-16 text-white">
-              Every question costs
-              <br />
-              more than you think.
-            </h2>
-          </ScrollFade>
-
-          <div className="space-y-8">
-            {[
-              {
-                title: "Engineers context-switch.",
-                desc: "Sales reps ping Slack. Engineers lose 90 minutes of deep work per interruption cycle.",
-              },
-              {
-                title: "Answers live in someone\u2019s head.",
-                desc: "Critical product knowledge is trapped in DMs, docs, and tribal memory \u2014 not searchable.",
-              },
-              {
-                title: "Managers can\u2019t see the gaps.",
-                desc: "No visibility into what questions are being asked, how long they take, or where knowledge is missing.",
-              },
-            ].map((point, i) => (
-              <ScrollFade key={i} stagger={i + 1}>
-                <div className="border-l-2 border-white/20 pl-6">
-                  <h3 className="font-semibold text-white text-lg">
-                    {point.title}
-                  </h3>
-                  <p className="mt-1 text-white/60 leading-relaxed">
-                    {point.desc}
-                  </p>
-                </div>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left: Problem text */}
+            <div>
+              <ScrollFade>
+                <p className="font-mono text-xs tracking-widest uppercase text-gray-500 mb-6">
+                  The Problem
+                </p>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-12 text-white">
+                  Every question costs
+                  <br />
+                  more than you think.
+                </h2>
               </ScrollFade>
-            ))}
+
+              <div className="space-y-8">
+                {[
+                  {
+                    title: "Engineers context-switch.",
+                    desc: "Sales reps ping Slack. Engineers lose 90 minutes of deep work per interruption cycle.",
+                  },
+                  {
+                    title: "Answers live in someone\u2019s head.",
+                    desc: "Critical product knowledge is trapped in DMs, docs, and tribal memory \u2014 not searchable.",
+                  },
+                  {
+                    title: "Managers can\u2019t see the gaps.",
+                    desc: "No visibility into what questions are being asked, how long they take, or where knowledge is missing.",
+                  },
+                ].map((point, i) => (
+                  <ScrollFade key={i} stagger={i + 1}>
+                    <div className="border-l-2 border-white/20 pl-6">
+                      <h3 className="font-semibold text-white text-lg">
+                        {point.title}
+                      </h3>
+                      <p className="mt-1 text-white/60 leading-relaxed">
+                        {point.desc}
+                      </p>
+                    </div>
+                  </ScrollFade>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Chat animation */}
+            <ScrollFade stagger={2}>
+              <DiscordMockup />
+            </ScrollFade>
           </div>
         </div>
       </section>
