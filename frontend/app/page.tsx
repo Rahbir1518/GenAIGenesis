@@ -20,6 +20,7 @@ export default function Home() {
             numen
           </Link>
           {/* THIS IS A TEST FOR THE GITHUB TUNNEL */}
+          {/* This is the second test! */}
           <div className="flex items-center gap-3">
             <Show when="signed-out">
               <SignInButton forceRedirectUrl="/dashboard">
