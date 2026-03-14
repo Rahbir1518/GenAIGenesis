@@ -89,14 +89,14 @@ export default function DashboardLanding() {
           </p>
 
           {error && (
-            <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm text-center">
+            <div className="mb-6 p-3 bg-red-400/10 border border-red-400/30 rounded-lg text-red-400 text-sm text-center">
               {error}
             </div>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Create workspace card */}
-            <div className="border border-[var(--border)] rounded-xl p-6 bg-white">
+            <div className="border border-white/10 rounded-xl p-6 bg-white/5">
               <h2 className="text-lg font-semibold mb-1">Create a workspace</h2>
               <p className="text-sm text-[var(--text-muted)] mb-4">
                 Start fresh with your team.
@@ -107,7 +107,7 @@ export default function DashboardLanding() {
                 value={workspaceName}
                 onChange={(e) => setWorkspaceName(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleCreate()}
-                className="w-full px-3 py-2 border border-[var(--border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent mb-3"
+                className="w-full px-3 py-2 border border-white/10 bg-white/5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent mb-3"
               />
               <button
                 onClick={handleCreate}
@@ -119,7 +119,7 @@ export default function DashboardLanding() {
             </div>
 
             {/* Join workspace card */}
-            <div className="border border-[var(--border)] rounded-xl p-6 bg-white">
+            <div className="border border-white/10 rounded-xl p-6 bg-white/5">
               <h2 className="text-lg font-semibold mb-1">Join a workspace</h2>
               <p className="text-sm text-[var(--text-muted)] mb-4">
                 Enter a workspace slug from your team.
@@ -130,12 +130,12 @@ export default function DashboardLanding() {
                 value={joinSlug}
                 onChange={(e) => setJoinSlug(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleJoin()}
-                className="w-full px-3 py-2 border border-[var(--border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent mb-3 font-mono"
+                className="w-full px-3 py-2 border border-white/10 bg-white/5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent mb-3 font-mono"
               />
               <button
                 onClick={handleJoin}
                 disabled={joining || !joinSlug.trim()}
-                className="w-full py-2 bg-foreground text-white rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-2 bg-white/10 text-white border border-white/20 rounded-lg text-sm font-medium hover:bg-white/15 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {joining ? "Joining..." : "Join workspace"}
               </button>

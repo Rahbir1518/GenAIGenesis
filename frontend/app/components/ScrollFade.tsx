@@ -1,0 +1,73 @@
+"use client";
+
+import { useRef, useEffect, type ReactNode } from "react";
+
+export default function ScrollFade({
+  children,
+  className,
+  stagger = 0,
+  exitScale = 0.95,
+}: {
+  children: ReactNode;
+  className?: string;
+  stagger?: number;
+  exitScale?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.style.opacity = "1";
+      el.style.transform = "scale(1)";
+      return;
+    }
+
+    let ticking = false;
+    const staggerPx = stagger * 60;
+
+    function tick() {
+      if (!el) return;
+      const vh = window.innerHeight;
+      const fadeZone = vh * 0.25;
+      const rect = el.getBoundingClientRect();
+
+      const enterRaw = (vh - rect.top - staggerPx) / fadeZone;
+      const enter = Math.min(Math.max(enterRaw, 0), 1);
+
+      const exitRaw = (rect.bottom + staggerPx) / fadeZone;
+      const exit = Math.min(Math.max(exitRaw, 0), 1);
+
+      const tLinear = Math.min(enter, exit);
+      const t = tLinear * (2 - tLinear); // ease-out curve
+
+      const scale = exitScale + (1 - exitScale) * t;
+      el.style.opacity = String(t);
+      el.style.transform = `scale(${scale})`;
+      ticking = false;
+    }
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(tick);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    tick(); // initial calculation
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [stagger, exitScale]);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{ willChange: "opacity, transform" }}
+    >
+      {children}
+    </div>
+  );
+}

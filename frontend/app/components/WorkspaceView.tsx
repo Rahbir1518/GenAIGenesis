@@ -178,7 +178,7 @@ export default function WorkspaceView({
   }
 
   return (
-    <div className="h-screen flex bg-white">
+    <div className="h-screen flex bg-background">
       <Sidebar
         workspaceName={workspaceName}
         inviteCode={workspaceSlug}
@@ -215,7 +215,7 @@ export default function WorkspaceView({
 
         {/* Context Tree panel — visible when viewing an agent channel */}
         {activeAgent && (
-          <div className="w-72 border-l border-[var(--border)] flex-shrink-0 bg-[var(--bg-alt)]">
+          <div className="w-72 border-l border-white/10 flex-shrink-0 bg-white/5">
             <ContextTree
               agentId={activeAgent.id}
               agentName={activeAgent.name}
@@ -225,13 +225,13 @@ export default function WorkspaceView({
 
         {/* Right panel — stats (visible when on general) */}
         {!activeAgent && (
-          <div className="w-56 border-l border-[var(--border)] flex-shrink-0 bg-[var(--bg-alt)] p-4 hidden lg:block">
+          <div className="w-56 border-l border-white/10 flex-shrink-0 bg-white/5 p-4 hidden lg:block">
             <h3 className="text-xs font-mono tracking-widest uppercase text-[var(--text-muted)] mb-4">
               Live Stats
             </h3>
 
             {/* Interrupt Counter */}
-            <div className="bg-white rounded-lg border border-[var(--border)] p-3 mb-3">
+            <div className="bg-white/5 rounded-lg border border-white/10 p-3 mb-3">
               <p className="text-[10px] text-[var(--text-muted)] font-mono uppercase mb-1">
                 Interrupts Saved
               </p>
@@ -244,7 +244,7 @@ export default function WorkspaceView({
             </div>
 
             {/* Agent count */}
-            <div className="bg-white rounded-lg border border-[var(--border)] p-3 mb-3">
+            <div className="bg-white/5 rounded-lg border border-white/10 p-3 mb-3">
               <p className="text-[10px] text-[var(--text-muted)] font-mono uppercase mb-1">
                 Active Agents
               </p>
@@ -254,7 +254,7 @@ export default function WorkspaceView({
             </div>
 
             {/* Members */}
-            <div className="bg-white rounded-lg border border-[var(--border)] p-3">
+            <div className="bg-white/5 rounded-lg border border-white/10 p-3">
               <p className="text-[10px] text-[var(--text-muted)] font-mono uppercase mb-1">
                 Team Members
               </p>

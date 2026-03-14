@@ -51,7 +51,7 @@ const conversations = [
   },
 ];
 
-export default function DiscordMockup() {
+export default function DiscordMockup({ className = "" }: { className?: string }) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [index, setIndex] = useState(0);
   const [typedChars, setTypedChars] = useState(0);
@@ -117,8 +117,8 @@ export default function DiscordMockup() {
   const isFading = phase === "fade-out";
 
   return (
-    <div className="hidden lg:block lg:col-span-7 animate-fade-in-up-delay-1">
-      <div className="border border-gray-200 rounded-lg overflow-hidden">
+    <div className={`animate-fade-in-up-delay-1 ${className}`}>
+      <div className="border border-gray-200 rounded-lg overflow-hidden shadow-lg">
         {/* Header bar */}
         <div className="bg-gray-900 px-4 py-2.5 flex items-center gap-2">
           <div className="flex gap-1.5">
