@@ -5,13 +5,13 @@ import { useState } from "react";
 type Channel = {
   id: string;
   name: string;
-  agent_id: string | null;
+  agentId: string | null;
 };
 
 type Agent = {
   id: string;
   name: string;
-  badge: string;
+  type: string;
 };
 
 type Member = {
@@ -84,7 +84,7 @@ export default function Sidebar({
         </p>
         {showInvite && (
           <div className="mt-2 p-2 bg-white rounded-lg border border-[var(--border)] text-xs">
-            <p className="text-[var(--text-muted)] mb-1">Invite code:</p>
+            <p className="text-[var(--text-muted)] mb-1">Workspace slug (share to invite):</p>
             <div className="flex items-center gap-2">
               <code className="font-mono text-accent flex-1">{inviteCode}</code>
               <button
@@ -160,7 +160,7 @@ export default function Sidebar({
                 className="flex items-center gap-2 px-2 py-1 text-sm text-[var(--text-muted)]"
               >
                 <div className="w-5 h-5 rounded-full bg-accent/10 text-accent text-[9px] font-semibold flex items-center justify-center flex-shrink-0">
-                  {agent.badge.slice(0, 2).toUpperCase()}
+                  {agent.type.slice(0, 2).toUpperCase()}
                 </div>
                 <span className="truncate">{agent.name}</span>
               </div>
@@ -186,9 +186,9 @@ export default function Sidebar({
                   <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-green-400 border border-[var(--bg-alt)]" />
                 </div>
                 <span className="truncate">{member.display_name}</span>
-                {member.role === "owner" && (
+                {member.role === "admin" && (
                   <span className="text-[9px] text-accent bg-accent/10 px-1 rounded">
-                    owner
+                    admin
                   </span>
                 )}
               </div>

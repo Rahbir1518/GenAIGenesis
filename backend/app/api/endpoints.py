@@ -43,6 +43,7 @@ async def get_me(user_id: str = Depends(get_current_user_id)):
 class WorkspaceCreate(BaseModel):
     name: str
     slug: str
+    display_name: str | None = None
     github_repo: str | None = None
     settings: dict[str, Any] = {}
 
@@ -86,7 +87,8 @@ async def create_workspace(
     user_id: str = Depends(get_current_user_id),
 ):
     sb = get_supabase()
-    data = body.model_dump()
+    display_name = body.display_name or user_id
+    data = body.model_dump(exclude={"display_name"})
     data["owner_id"] = user_id  # automatically set from Clerk token
     resp = sb.table("workspaces").insert(data).execute()
     workspace = _rows(resp)[0]
@@ -96,7 +98,48 @@ async def create_workspace(
         "workspace_id": workspace["id"],
         "user_id": user_id,
         "role": "admin",
-        "display_name": user_id,
+        "display_name": display_name,
+    }).execute()
+
+    return workspace
+
+
+class JoinBody(BaseModel):
+    slug: str
+    display_name: str | None = None
+
+
+@router.post("/workspace/join", tags=["workspaces"], status_code=201)
+async def join_workspace(
+    body: JoinBody,
+    user_id: str = Depends(get_current_user_id),
+):
+    sb = get_supabase()
+    # Look up workspace by slug
+    resp = sb.table("workspaces").select("*").eq("slug", body.slug).execute()
+    rows = _rows(resp)
+    if not rows:
+        raise HTTPException(404, "Workspace not found")
+    workspace = rows[0]
+
+    # Check if already a member
+    existing = (
+        sb.table("workspace_members")
+        .select("id")
+        .eq("workspace_id", workspace["id"])
+        .eq("user_id", user_id)
+        .execute()
+    )
+    if _rows(existing):
+        raise HTTPException(409, "Already a member of this workspace")
+
+    # Add as member
+    display_name = body.display_name or user_id
+    sb.table("workspace_members").insert({
+        "workspace_id": workspace["id"],
+        "user_id": user_id,
+        "role": "viewer",
+        "display_name": display_name,
     }).execute()
 
     return workspace
@@ -258,7 +301,7 @@ async def list_messages(workspace_id: UUID, channel: str | None = None, limit: i
     sb = get_supabase()
     q = (
         sb.table("messages")
-        .select("*")
+        .select("*, workspace_members(display_name)")
         .eq("workspace_id", str(workspace_id))
         .order("created_at", desc=True)
         .limit(limit)
@@ -274,6 +317,21 @@ async def create_message(workspace_id: UUID, body: MessageCreate, _user_id: str 
     sb = get_supabase()
     data = body.model_dump(mode="json")
     data["workspace_id"] = str(workspace_id)
+
+    # Auto-resolve sender_id from the authenticated user's membership
+    if not data.get("sender_id"):
+        member_resp = (
+            sb.table("workspace_members")
+            .select("id")
+            .eq("workspace_id", str(workspace_id))
+            .eq("user_id", _user_id)
+            .limit(1)
+            .execute()
+        )
+        member_rows = _rows(member_resp)
+        if member_rows:
+            data["sender_id"] = member_rows[0]["id"]
+
     resp = sb.table("messages").insert(data).execute()
     return _rows(resp)[0]
 

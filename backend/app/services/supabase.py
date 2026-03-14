@@ -5,7 +5,7 @@ from supabase import create_client, Client
 from app.core.config import settings
 
 # Service-role client — bypasses RLS, use only on the server side.
-_client: Client | None = None
+_client = None
 
 
 def get_supabase() -> Client:

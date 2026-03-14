@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { useAuth } from "@clerk/nextjs";
+import { apiFetch } from "@/lib/api";
 
 type CreateAgentModalProps = {
   workspaceId: string;
@@ -9,11 +10,9 @@ type CreateAgentModalProps = {
   onCreated: () => void;
 };
 
-const BADGE_OPTIONS = [
+const TYPE_OPTIONS = [
   { value: "sales", label: "Sales" },
-  { value: "eng", label: "Engineering" },
-  { value: "support", label: "Support" },
-  { value: "marketing", label: "Marketing" },
+  { value: "engineering", label: "Engineering" },
   { value: "custom", label: "Custom" },
 ];
 
@@ -22,51 +21,35 @@ export default function CreateAgentModal({
   onClose,
   onCreated,
 }: CreateAgentModalProps) {
+  const { getToken } = useAuth();
   const [name, setName] = useState("");
-  const [badge, setBadge] = useState("sales");
-  const [customBadge, setCustomBadge] = useState("");
+  const [type, setType] = useState("sales");
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState("");
 
   async function handleCreate() {
-    const finalBadge = badge === "custom" ? customBadge.trim() : badge;
-    if (!name.trim() || !finalBadge) return;
+    if (!name.trim()) return;
     setCreating(true);
     setError("");
 
-    // Create agent
-    const { data: agent, error: agentError } = await supabase
-      .from("agents")
-      .insert({
-        workspace_id: workspaceId,
-        name: name.trim(),
-        badge: finalBadge,
-      })
-      .select()
-      .single();
-
-    if (agentError || !agent) {
-      setError(agentError?.message || "Failed to create agent");
+    try {
+      const token = await getToken();
+      await apiFetch(`/workspaces/${workspaceId}/agents`, {
+        method: "POST",
+        token,
+        body: JSON.stringify({
+          type,
+          name: name.trim(),
+          extraction_prompt: `Extract knowledge relevant to ${type} from messages.`,
+        }),
+      });
+      onCreated();
+      onClose();
+    } catch (e: any) {
+      setError(e.message || "Failed to create agent");
+    } finally {
       setCreating(false);
-      return;
     }
-
-    // Create corresponding channel
-    const { error: channelError } = await supabase.from("channels").insert({
-      workspace_id: workspaceId,
-      name: finalBadge,
-      agent_id: agent.id,
-    });
-
-    if (channelError) {
-      setError(channelError.message);
-      setCreating(false);
-      return;
-    }
-
-    setCreating(false);
-    onCreated();
-    onClose();
   }
 
   return (
@@ -106,35 +89,20 @@ export default function CreateAgentModal({
 
           <div>
             <label className="block text-xs font-medium text-[var(--text-muted)] mb-1">
-              Badge / Type
+              Type
             </label>
             <select
-              value={badge}
-              onChange={(e) => setBadge(e.target.value)}
+              value={type}
+              onChange={(e) => setType(e.target.value)}
               className="w-full px-3 py-2 border border-[var(--border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent bg-white"
             >
-              {BADGE_OPTIONS.map((opt) => (
+              {TYPE_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
               ))}
             </select>
           </div>
-
-          {badge === "custom" && (
-            <div>
-              <label className="block text-xs font-medium text-[var(--text-muted)] mb-1">
-                Custom badge name
-              </label>
-              <input
-                type="text"
-                placeholder="e.g. design"
-                value={customBadge}
-                onChange={(e) => setCustomBadge(e.target.value)}
-                className="w-full px-3 py-2 border border-[var(--border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent font-mono"
-              />
-            </div>
-          )}
         </div>
 
         <div className="flex gap-2 mt-5">
@@ -146,11 +114,7 @@ export default function CreateAgentModal({
           </button>
           <button
             onClick={handleCreate}
-            disabled={
-              creating ||
-              !name.trim() ||
-              (badge === "custom" && !customBadge.trim())
-            }
+            disabled={creating || !name.trim()}
             className="flex-1 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {creating ? "Creating..." : "Create agent"}
