@@ -358,7 +358,8 @@ async def handle_response(
     
     1. Update the question record with the answer
     2. Add the answer as new context to the tree
-    3. Return the updated question
+    3. Notify the original asker via a message (if applicable)
+    4. Return the updated question
     """
     sb = get_supabase()
 
@@ -399,6 +400,22 @@ async def handle_response(
             )
         except Exception as e:
             logger.error(f"Failed to add response to tree: {e}")
+
+    # Notify the original asker by inserting a system message
+    try:
+        asked_by = question.get("asked_by")
+        if asked_by:
+            sb.table("messages").insert({
+                "workspace_id": workspace_id,
+                "channel": "general",
+                "content": (
+                    f"✅ Your question has been answered!\n\n"
+                    f"**Q:** {question['question_text']}\n"
+                    f"**A:** {response_text}"
+                ),
+            }).execute()
+    except Exception as e:
+        logger.error(f"Failed to notify asker: {e}")
 
     return {"ok": True, "question_id": question_id}
 

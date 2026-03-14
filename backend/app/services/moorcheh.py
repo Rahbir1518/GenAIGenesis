@@ -1,4 +1,4 @@
-"""Moorcheh-powered engineering search — indexes GitHub PRs per workspace."""
+"""Moorcheh-powered search — indexes GitHub PRs, context tree, and sales per workspace."""
 
 from __future__ import annotations
 
@@ -13,14 +13,16 @@ from app.services.supabase import get_supabase
 
 logger = logging.getLogger(__name__)
 
-# Namespace naming convention: "ws-{workspace_id}-engineering"
-_NS_PREFIX = "ws-eng-"
+# Namespace naming convention
+_NS_ENG = "ws-eng-"   # PRs
+_NS_CTX = "ws-ctx-"   # tree_node summaries
+_NS_SALES = "ws-sales-"  # sales records
 
 
-def _namespace_name(workspace_id: str) -> str:
-    """Deterministic Moorcheh namespace for a workspace's engineering data."""
+def _namespace_name(workspace_id: str, prefix: str = _NS_ENG) -> str:
+    """Deterministic Moorcheh namespace for a workspace's data."""
     clean_id = workspace_id.replace("-", "")
-    return f"{_NS_PREFIX}{clean_id}"
+    return f"{prefix}{clean_id}"
 
 
 def _get_client() -> MoorchehClient:
@@ -107,7 +109,7 @@ def sync_workspace_prs(workspace_id: str) -> int:
         return 0
 
     docs = [_pr_to_document(pr) for pr in prs]
-    ns_name = _namespace_name(workspace_id)
+    ns_name = _namespace_name(workspace_id, _NS_ENG)
 
     with _get_client() as client:
         _ensure_namespace(client, ns_name)
@@ -126,22 +128,110 @@ def sync_workspace_prs(workspace_id: str) -> int:
     return len(docs)
 
 
+def sync_workspace_context(workspace_id: str) -> int:
+    """Index tree_node summaries into Moorcheh for expanded context window.
+
+    Returns the number of documents uploaded.
+    """
+    sb = get_supabase()
+
+    # Get all agents for workspace
+    agents_resp = sb.table("agents").select("id").eq("workspace_id", workspace_id).execute()
+    agent_ids = [a["id"] for a in (agents_resp.data or [])]
+    if not agent_ids:
+        return 0
+
+    docs = []
+    for aid in agent_ids:
+        resp = (
+            sb.table("tree_nodes")
+            .select("id, label, summary, node_type, source, confidence, workspace_members(display_name)")
+            .eq("agent_id", aid)
+            .execute()
+        )
+        for node in (resp.data or []):
+            owner = (node.get("workspace_members") or {}).get("display_name", "")
+            text = (
+                f"{node.get('label', '')}\n"
+                f"Type: {node.get('node_type', '')}\n"
+                f"Source: {node.get('source', '')}\n"
+                f"Owner: {owner}\n"
+                f"Summary: {node.get('summary', '')}"
+            )
+            docs.append({"id": str(node["id"]), "text": text})
+
+    if not docs:
+        return 0
+
+    ns_name = _namespace_name(workspace_id, _NS_CTX)
+    with _get_client() as client:
+        _ensure_namespace(client, ns_name)
+        batch_size = 50
+        for i in range(0, len(docs), batch_size):
+            batch = docs[i : i + batch_size]
+            client.documents.upload(namespace_name=ns_name, documents=batch)
+
+    logger.info("Synced %d context nodes to Moorcheh namespace %s", len(docs), ns_name)
+    return len(docs)
+
+
+def sync_workspace_sales(workspace_id: str) -> int:
+    """Index sales records into Moorcheh.
+
+    Returns the number of documents uploaded.
+    """
+    sb = get_supabase()
+    resp = (
+        sb.table("sales_records")
+        .select("id, title, raw_text, summary, source_type")
+        .eq("workspace_id", workspace_id)
+        .execute()
+    )
+    records = resp.data or []
+    if not records:
+        return 0
+
+    docs = []
+    for rec in records:
+        text = (
+            f"Title: {rec.get('title', '')}\n"
+            f"Type: {rec.get('source_type', 'manual')}\n"
+            f"Summary: {rec.get('summary', '')}\n"
+            f"Content: {(rec.get('raw_text', ''))[:3000]}"
+        )
+        docs.append({"id": str(rec["id"]), "text": text})
+
+    ns_name = _namespace_name(workspace_id, _NS_SALES)
+    with _get_client() as client:
+        _ensure_namespace(client, ns_name)
+        batch_size = 50
+        for i in range(0, len(docs), batch_size):
+            batch = docs[i : i + batch_size]
+            client.documents.upload(namespace_name=ns_name, documents=batch)
+
+    logger.info("Synced %d sales records to Moorcheh namespace %s", len(docs), ns_name)
+    return len(docs)
+
+
 def search_engineering_context(
     workspace_id: str,
     query: str,
     top_k: int = 5,
 ) -> list[dict]:
-    """Semantic search over the workspace's indexed PRs.
+    """Semantic search over the workspace's indexed PRs AND context tree.
 
+    Searches both the PR namespace and the context-tree namespace.
     Returns a list of result dicts from Moorcheh.
     """
-    ns_name = _namespace_name(workspace_id)
+    ns_eng = _namespace_name(workspace_id, _NS_ENG)
+    ns_ctx = _namespace_name(workspace_id, _NS_CTX)
 
     with _get_client() as client:
-        _ensure_namespace(client, ns_name)
+        _ensure_namespace(client, ns_eng)
+        _ensure_namespace(client, ns_ctx)
 
         results = client.similarity_search.query(
-            namespaces=[ns_name],
+            namespaces=[ns_eng, ns_ctx],
             query=query,
             top_k=top_k,
         )
@@ -154,12 +244,40 @@ def search_engineering_context(
     return [results]
 
 
+def search_all_context(
+    workspace_id: str,
+    query: str,
+    top_k: int = 5,
+) -> list[dict]:
+    """Search across ALL Moorcheh namespaces for a workspace (PRs, context, sales)."""
+    ns_eng = _namespace_name(workspace_id, _NS_ENG)
+    ns_ctx = _namespace_name(workspace_id, _NS_CTX)
+    ns_sales = _namespace_name(workspace_id, _NS_SALES)
+
+    with _get_client() as client:
+        _ensure_namespace(client, ns_eng)
+        _ensure_namespace(client, ns_ctx)
+        _ensure_namespace(client, ns_sales)
+
+        results = client.similarity_search.query(
+            namespaces=[ns_eng, ns_ctx, ns_sales],
+            query=query,
+            top_k=top_k,
+        )
+
+    if isinstance(results, dict):
+        return results.get("results", results.get("matches", [results]))
+    if isinstance(results, list):
+        return results
+    return [results]
+
+
 def generate_engineering_answer(
     workspace_id: str,
     query: str,
 ) -> str:
     """Use Moorcheh's generative answer endpoint for a grounded response."""
-    ns_name = _namespace_name(workspace_id)
+    ns_name = _namespace_name(workspace_id, _NS_ENG)
 
     with _get_client() as client:
         _ensure_namespace(client, ns_name)
@@ -189,11 +307,16 @@ def engineering_search_pipeline_sync(
     workspace_id: str,
     question_text: str,
 ) -> dict[str, Any]:
-    """Synchronous version of the engineering pipeline (runs in a thread)."""
+    """Synchronous version of the engineering pipeline (runs in a thread).
+
+    Syncs PRs AND context tree nodes into Moorcheh, then searches + generates.
+    """
     # 1. Sync PRs into Moorcheh (idempotent)
     synced = sync_workspace_prs(workspace_id)
+    # Also sync tree_node context for expanded context window
+    ctx_synced = sync_workspace_context(workspace_id)
 
-    if synced == 0:
+    if synced == 0 and ctx_synced == 0:
         # Check if we already have data from a prior sync by trying search
         try:
             results = search_engineering_context(workspace_id, question_text, top_k=1)
@@ -213,7 +336,7 @@ def engineering_search_pipeline_sync(
             }
 
     # Small delay to let Moorcheh finish indexing new documents
-    if synced > 0:
+    if synced > 0 or ctx_synced > 0:
         time.sleep(2)
 
     # 2. Semantic search for relevant PRs
@@ -225,5 +348,5 @@ def engineering_search_pipeline_sync(
     return {
         "answer": answer,
         "sources": sources,
-        "synced_count": synced,
+        "synced_count": synced + ctx_synced,
     }

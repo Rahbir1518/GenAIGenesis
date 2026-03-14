@@ -423,3 +423,147 @@ async def list_analytics(workspace_id: UUID, limit: int = 30, _user_id: str = De
         .execute()
     )
     return _rows(resp)
+
+
+# ── Sales Records ────────────────────────────────────────────────────────
+
+class SalesRecordCreate(BaseModel):
+    title: str
+    raw_text: str
+    source_type: str = "manual"
+    metadata: dict[str, Any] = {}
+
+
+@router.get("/workspaces/{workspace_id}/sales-records", tags=["sales"])
+async def list_sales_records(
+    workspace_id: UUID,
+    limit: int = 50,
+    _user_id: str = Depends(get_current_user_id),
+):
+    sb = get_supabase()
+    resp = (
+        sb.table("sales_records")
+        .select("*")
+        .eq("workspace_id", str(workspace_id))
+        .order("created_at", desc=True)
+        .limit(limit)
+        .execute()
+    )
+    return _rows(resp)
+
+
+@router.post("/workspaces/{workspace_id}/sales-records", tags=["sales"], status_code=201)
+async def create_sales_record(
+    workspace_id: UUID,
+    body: SalesRecordCreate,
+    _user_id: str = Depends(get_current_user_id),
+):
+    """Create a sales record and extract context into the knowledge tree."""
+    sb = get_supabase()
+    data = body.model_dump()
+    data["workspace_id"] = str(workspace_id)
+    resp = sb.table("sales_records").insert(data).execute()
+    record = _rows(resp)[0]
+
+    # Process in background — extract facts into tree_nodes
+    from app.services.context_engine import process_sales_record
+    try:
+        await process_sales_record(record["id"])
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).error(f"Sales record processing failed: {e}")
+
+    return record
+
+
+@router.get("/sales-records/{record_id}", tags=["sales"])
+async def get_sales_record(
+    record_id: UUID,
+    _user_id: str = Depends(get_current_user_id),
+):
+    sb = get_supabase()
+    resp = sb.table("sales_records").select("*").eq("id", str(record_id)).execute()
+    rows = _rows(resp)
+    if not rows:
+        raise HTTPException(404, "Sales record not found")
+    return rows[0]
+
+
+# ── Onboarding Sessions ─────────────────────────────────────────────────
+
+class OnboardingCreate(BaseModel):
+    user_name: str | None = None
+    role: str | None = None
+    raw_responses: dict[str, Any] = {}
+    goals: list[str] = []
+
+
+class OnboardingUpdate(BaseModel):
+    raw_responses: dict[str, Any] | None = None
+    goals: list[str] | None = None
+    status: str | None = None
+
+
+@router.get("/workspaces/{workspace_id}/onboarding", tags=["onboarding"])
+async def list_onboarding_sessions(
+    workspace_id: UUID,
+    _user_id: str = Depends(get_current_user_id),
+):
+    sb = get_supabase()
+    resp = (
+        sb.table("onboarding_sessions")
+        .select("*")
+        .eq("workspace_id", str(workspace_id))
+        .order("created_at", desc=True)
+        .execute()
+    )
+    return _rows(resp)
+
+
+@router.post("/workspaces/{workspace_id}/onboarding", tags=["onboarding"], status_code=201)
+async def create_onboarding_session(
+    workspace_id: UUID,
+    body: OnboardingCreate,
+    user_id: str = Depends(get_current_user_id),
+):
+    """Start an onboarding session for a new workspace member."""
+    sb = get_supabase()
+    data = body.model_dump()
+    data["workspace_id"] = str(workspace_id)
+    data["user_id"] = user_id
+    resp = sb.table("onboarding_sessions").insert(data).execute()
+    return _rows(resp)[0]
+
+
+@router.patch("/onboarding/{session_id}", tags=["onboarding"])
+async def update_onboarding_session(
+    session_id: UUID,
+    body: OnboardingUpdate,
+    _user_id: str = Depends(get_current_user_id),
+):
+    sb = get_supabase()
+    payload = body.model_dump(exclude_none=True)
+    if not payload:
+        raise HTTPException(400, "Nothing to update")
+    payload["updated_at"] = "now()"
+    resp = (
+        sb.table("onboarding_sessions")
+        .update(payload)
+        .eq("id", str(session_id))
+        .execute()
+    )
+    rows = _rows(resp)
+    if not rows:
+        raise HTTPException(404, "Onboarding session not found")
+    return rows[0]
+
+
+@router.post("/onboarding/{session_id}/complete", tags=["onboarding"])
+async def complete_onboarding(
+    session_id: UUID,
+    _user_id: str = Depends(get_current_user_id),
+):
+    """Complete onboarding: generate AI persona and extract expertise into tree."""
+    from app.services.context_engine import process_onboarding_session
+    result = await process_onboarding_session(str(session_id))
+    return result
