@@ -1,15 +1,9 @@
-import React from 'react'
-import Link from "next/link"
-const SignUp = () => {
-    return (
-        <div>
-            <Link href="/dashboard">
-                <button style={{ padding: '10px 20px', cursor: 'pointer' }} className='bg-red-600'>
-                    go to Dashboard from Sign Up
-                </button>
-            </Link>
-        </div>
-    )
-}
+import { SignUp } from '@clerk/nextjs'
 
-export default SignUp
+export default function SignUpPage() {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+      <SignUp fallbackRedirectUrl="/dashboard" />
+    </div>
+  )
+}
