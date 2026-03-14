@@ -74,7 +74,6 @@ async def github_webhook(
     background_tasks: BackgroundTasks,
     x_github_event: str = Header(None)
 ):
-    print("This got here")
     """Receive GitHub Webhooks, verify signature, and process PRs asynchronously."""
     
     # Extract signature header (Note: FastAPI headers are usually lowercased and underscores converted from dashes)
@@ -96,19 +95,15 @@ async def github_webhook(
 
     # 3. Filter Event Types (Noise reduction)
     if x_github_event != "pull_request":
-        print("THIS IS NOT A PR")
         return {"status": "ignored", "reason": "Not a pull_request event"}
 
     action = payload.get("action")
     if action not in ["opened", "synchronize", "closed"]:
-        print("THIS ONE DONT MATTER")
         return {"status": "ignored", "reason": f"Action '{action}' ignored"}
 
     # 4. Resolve Workspace ID from Repository Full Name
     repository = payload.get("repository", {})
     full_name = repository.get("full_name")
-    print(f"Repo: {repository}")
-    print(f"Full Name: {full_name}")
     
     if not full_name:
         return {"status": "ignored", "reason": "No repository full_name found"}
