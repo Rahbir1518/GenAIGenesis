@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { apiFetch } from "@/lib/api";
 import DashboardLanding from "@/app/components/DashboardLanding";
-import WorkspaceView from "@/app/components/WorkspaceView";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const { userId, getToken } = await auth();
@@ -11,24 +11,47 @@ export default async function DashboardPage() {
   const token = await getToken();
 
   try {
-    // Backend GET /workspaces returns workspaces the user is a member of
     const workspaces = await apiFetch<any[]>("/workspaces", { token });
 
     if (!workspaces || workspaces.length === 0) {
       return <DashboardLanding />;
     }
 
-    const workspace = workspaces[0];
-
+    // Show a workspace picker so users can choose or create more
     return (
-      <WorkspaceView
-        workspaceId={workspace.id}
-        workspaceName={workspace.name}
-        workspaceSlug={workspace.slug}
-      />
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+        <div className="max-w-2xl w-full">
+          <h1 className="text-3xl font-display font-bold text-center mb-2">
+            Your Workspaces
+          </h1>
+          <p className="text-center text-[var(--text-muted)] mb-8">
+            Select a workspace or create a new one.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            {workspaces.map((ws: any) => (
+              <Link
+                key={ws.id}
+                href={`/dashboard/${ws.slug}`}
+                className="block border border-[var(--border)] rounded-xl p-5 bg-white hover:border-accent hover:shadow-md transition-all group"
+              >
+                <h3 className="font-semibold text-base group-hover:text-accent transition-colors">
+                  {ws.name}
+                </h3>
+                <p className="text-xs text-[var(--text-muted)] mt-1 font-mono">
+                  /{ws.slug}
+                </p>
+              </Link>
+            ))}
+          </div>
+
+          <div className="border-t border-[var(--border)] pt-6">
+            <DashboardLanding />
+          </div>
+        </div>
+      </div>
     );
   } catch {
-    // If backend is down or errors, show landing
     return <DashboardLanding />;
   }
 }

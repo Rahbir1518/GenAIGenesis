@@ -32,7 +32,7 @@ export default function DashboardLanding() {
       const token = await getToken();
       const displayName =
         user.fullName || user.primaryEmailAddress?.emailAddress || user.id;
-      await apiFetch("/workspaces", {
+      const created = await apiFetch<any>("/workspaces", {
         method: "POST",
         token,
         body: JSON.stringify({
@@ -41,7 +41,7 @@ export default function DashboardLanding() {
           display_name: displayName,
         }),
       });
-      router.refresh();
+      router.push(`/dashboard/${created.slug}`);
     } catch (e: any) {
       setError(e.message || "Failed to create workspace");
     } finally {
@@ -58,7 +58,7 @@ export default function DashboardLanding() {
       const token = await getToken();
       const displayName =
         user.fullName || user.primaryEmailAddress?.emailAddress || user.id;
-      await apiFetch("/workspace/join", {
+      const joined = await apiFetch<any>("/workspace/join", {
         method: "POST",
         token,
         body: JSON.stringify({
@@ -66,7 +66,7 @@ export default function DashboardLanding() {
           display_name: displayName,
         }),
       });
-      router.refresh();
+      router.push(`/dashboard/${joined.slug}`);
     } catch (e: any) {
       setError(e.message || "Invalid workspace slug");
     } finally {
