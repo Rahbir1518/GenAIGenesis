@@ -33,6 +33,12 @@ export default function Home() {
             >
               How it works
             </a>
+            <Link
+              href="/pricing"
+              className="hidden sm:inline px-3 py-1.5 text-sm font-medium text-white/60 hover:text-white transition-colors"
+            >
+              Pricing
+            </Link>
             <Show when="signed-out">
               <SignInButton forceRedirectUrl="/dashboard">
                 <button className="px-4 py-1.5 text-sm font-medium text-white/60 hover:text-white transition-colors cursor-pointer">
@@ -310,57 +316,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Section 4: CTA + Footer ── */}
-      <section className="min-h-screen flex flex-col">
-        <ScrollFade className="flex-1 flex items-center justify-center">
-          <div className="max-w-3xl mx-auto px-6 text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight text-white">
-              Stop losing deals to
-              <br />
-              <span className="text-accent">slow answers.</span>
-            </h2>
-            <p className="mt-6 text-lg text-white/60">
-              Set up in minutes. No credit card required.
-            </p>
-            <div className="mt-10">
-              <SignUpButton forceRedirectUrl="/dashboard">
-                <button className="px-8 py-3.5 text-sm font-semibold text-white bg-accent rounded-lg hover:opacity-90 transition-opacity cursor-pointer">
-                  Start for free
-                </button>
-              </SignUpButton>
-            </div>
-          </div>
-        </ScrollFade>
-        <footer className="border-t border-white/10 py-8">
-          <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-            <div className="flex items-center gap-4">
-              <span className="font-display font-bold text-sm tracking-[0.2em] text-white">
+      {/* ── Footer ── */}
+      <footer className="border-t border-white/10 mt-20">
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          <div className="flex flex-col md:flex-row justify-between gap-12">
+            {/* Left: Logo + tagline */}
+            <div className="max-w-xs">
+              <span className="font-display font-bold text-lg tracking-[0.3em] text-white">
                 numen
               </span>
-              <p>
-                Built for{" "}
-                <span className="font-medium text-white/70">
-                  GenAI Genesis 2025
-                </span>
+              <p className="mt-3 text-sm text-white/50 leading-relaxed">
+                Intelligent team knowledge automation
               </p>
             </div>
-            <div className="flex gap-6">
-              <a
-                href="#problem"
-                className="hover:text-white/80 transition-colors"
-              >
-                About
-              </a>
-              <a href="#" className="hover:text-white/80 transition-colors">
-                Privacy
-              </a>
-              <a href="#" className="hover:text-white/80 transition-colors">
-                Terms
-              </a>
+
+            {/* Right: Link columns */}
+            <div className="flex gap-16">
+              <div>
+                <p className="text-sm font-semibold text-white mb-4">Product</p>
+                <ul className="space-y-3 text-sm text-white/50">
+                  <li>
+                    <a href="#how-it-works" className="hover:text-white transition-colors">Features</a>
+                  </li>
+                  <li>
+                    <Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">Contact</a>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white mb-4">Legal</p>
+                <ul className="space-y-3 text-sm text-white/50">
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">Privacy</a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">Terms</a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        </footer>
-      </section>
+
+          {/* Bottom bar */}
+          <div className="mt-12 pt-8 border-t border-white/10">
+            <p className="text-xs text-white/40">
+              © 2026 numen
+            </p>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
