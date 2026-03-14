@@ -1,0 +1,367 @@
+"""API routes that expose Supabase-backed resources."""
+
+from __future__ import annotations
+
+from typing import Any
+from uuid import UUID
+
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
+
+from app.core.auth import get_current_user_id
+from app.services.supabase import get_supabase
+
+router = APIRouter()
+
+# ── helpers ──────────────────────────────────────────────────────────────
+
+def _rows(response) -> list[dict]:
+    """Extract rows from a Supabase response, raising on error."""
+    if hasattr(response, "data"):
+        return response.data
+    raise HTTPException(status_code=500, detail="Unexpected Supabase response")
+
+
+# ── Auth info ────────────────────────────────────────────────────────────
+
+
+@router.get("/me", tags=["auth"])
+async def get_me(user_id: str = Depends(get_current_user_id)):
+    """Return the current Clerk user ID and their workspace memberships."""
+    sb = get_supabase()
+    resp = (
+        sb.table("workspace_members")
+        .select("*, workspaces(*)")
+        .eq("user_id", user_id)
+        .execute()
+    )
+    return {"user_id": user_id, "memberships": _rows(resp)}
+
+
+# ── Workspaces ───────────────────────────────────────────────────────────
+
+class WorkspaceCreate(BaseModel):
+    name: str
+    slug: str
+    github_repo: str | None = None
+    settings: dict[str, Any] = {}
+
+
+class WorkspaceUpdate(BaseModel):
+    name: str | None = None
+    github_repo: str | None = None
+    settings: dict[str, Any] | None = None
+
+
+@router.get("/workspaces", tags=["workspaces"])
+async def list_workspaces(user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    # Only return workspaces the user is a member of
+    resp = (
+        sb.table("workspace_members")
+        .select("workspace_id, workspaces(*)")
+        .eq("user_id", user_id)
+        .execute()
+    )
+    rows = _rows(resp)
+    return [r["workspaces"] for r in rows if r.get("workspaces")]
+
+
+@router.get("/workspaces/{workspace_id}", tags=["workspaces"])
+async def get_workspace(
+    workspace_id: UUID,
+    user_id: str = Depends(get_current_user_id),
+):
+    sb = get_supabase()
+    resp = sb.table("workspaces").select("*").eq("id", str(workspace_id)).execute()
+    rows = _rows(resp)
+    if not rows:
+        raise HTTPException(404, "Workspace not found")
+    return rows[0]
+
+
+@router.post("/workspaces", tags=["workspaces"], status_code=201)
+async def create_workspace(
+    body: WorkspaceCreate,
+    user_id: str = Depends(get_current_user_id),
+):
+    sb = get_supabase()
+    data = body.model_dump()
+    data["owner_id"] = user_id  # automatically set from Clerk token
+    resp = sb.table("workspaces").insert(data).execute()
+    workspace = _rows(resp)[0]
+
+    # Auto-add the creator as an admin member
+    sb.table("workspace_members").insert({
+        "workspace_id": workspace["id"],
+        "user_id": user_id,
+        "role": "admin",
+        "display_name": user_id,
+    }).execute()
+
+    return workspace
+
+
+@router.patch("/workspaces/{workspace_id}", tags=["workspaces"])
+async def update_workspace(
+    workspace_id: UUID,
+    body: WorkspaceUpdate,
+    user_id: str = Depends(get_current_user_id),
+):
+    sb = get_supabase()
+    payload = body.model_dump(exclude_none=True)
+    if not payload:
+        raise HTTPException(400, "Nothing to update")
+    resp = sb.table("workspaces").update(payload).eq("id", str(workspace_id)).execute()
+    rows = _rows(resp)
+    if not rows:
+        raise HTTPException(404, "Workspace not found")
+    return rows[0]
+
+
+@router.delete("/workspaces/{workspace_id}", tags=["workspaces"], status_code=204)
+async def delete_workspace(
+    workspace_id: UUID,
+    user_id: str = Depends(get_current_user_id),
+):
+    sb = get_supabase()
+    sb.table("workspaces").delete().eq("id", str(workspace_id)).execute()
+
+
+# ── Workspace Members ────────────────────────────────────────────────────
+
+class MemberCreate(BaseModel):
+    user_id: str
+    role: str
+    display_name: str
+    github_username: str | None = None
+    slack_id: str | None = None
+
+
+class MemberUpdate(BaseModel):
+    role: str | None = None
+    display_name: str | None = None
+    github_username: str | None = None
+    slack_id: str | None = None
+
+
+@router.get("/workspaces/{workspace_id}/members", tags=["members"])
+async def list_members(workspace_id: UUID, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    resp = (
+        sb.table("workspace_members")
+        .select("*")
+        .eq("workspace_id", str(workspace_id))
+        .execute()
+    )
+    return _rows(resp)
+
+
+@router.post("/workspaces/{workspace_id}/members", tags=["members"], status_code=201)
+async def create_member(workspace_id: UUID, body: MemberCreate, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    data = body.model_dump()
+    data["workspace_id"] = str(workspace_id)
+    resp = sb.table("workspace_members").insert(data).execute()
+    return _rows(resp)[0]
+
+
+@router.patch("/members/{member_id}", tags=["members"])
+async def update_member(member_id: UUID, body: MemberUpdate, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    payload = body.model_dump(exclude_none=True)
+    if not payload:
+        raise HTTPException(400, "Nothing to update")
+    resp = (
+        sb.table("workspace_members")
+        .update(payload)
+        .eq("id", str(member_id))
+        .execute()
+    )
+    rows = _rows(resp)
+    if not rows:
+        raise HTTPException(404, "Member not found")
+    return rows[0]
+
+
+@router.delete("/members/{member_id}", tags=["members"], status_code=204)
+async def delete_member(member_id: UUID, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    sb.table("workspace_members").delete().eq("id", str(member_id)).execute()
+
+
+# ── Agents ───────────────────────────────────────────────────────────────
+
+class AgentCreate(BaseModel):
+    type: str
+    name: str
+    extraction_prompt: str
+    domain_scope: list[str] = []
+
+
+class AgentUpdate(BaseModel):
+    name: str | None = None
+    extraction_prompt: str | None = None
+    domain_scope: list[str] | None = None
+
+
+@router.get("/workspaces/{workspace_id}/agents", tags=["agents"])
+async def list_agents(workspace_id: UUID, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    resp = (
+        sb.table("agents")
+        .select("*")
+        .eq("workspace_id", str(workspace_id))
+        .execute()
+    )
+    return _rows(resp)
+
+
+@router.post("/workspaces/{workspace_id}/agents", tags=["agents"], status_code=201)
+async def create_agent(workspace_id: UUID, body: AgentCreate, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    data = body.model_dump()
+    data["workspace_id"] = str(workspace_id)
+    resp = sb.table("agents").insert(data).execute()
+    return _rows(resp)[0]
+
+
+@router.patch("/agents/{agent_id}", tags=["agents"])
+async def update_agent(agent_id: UUID, body: AgentUpdate, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    payload = body.model_dump(exclude_none=True)
+    if not payload:
+        raise HTTPException(400, "Nothing to update")
+    resp = sb.table("agents").update(payload).eq("id", str(agent_id)).execute()
+    rows = _rows(resp)
+    if not rows:
+        raise HTTPException(404, "Agent not found")
+    return rows[0]
+
+
+@router.delete("/agents/{agent_id}", tags=["agents"], status_code=204)
+async def delete_agent(agent_id: UUID, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    sb.table("agents").delete().eq("id", str(agent_id)).execute()
+
+
+# ── Messages ─────────────────────────────────────────────────────────────
+
+class MessageCreate(BaseModel):
+    channel: str
+    sender_id: UUID | None = None
+    content: str
+
+
+@router.get("/workspaces/{workspace_id}/messages", tags=["messages"])
+async def list_messages(workspace_id: UUID, channel: str | None = None, limit: int = 50, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    q = (
+        sb.table("messages")
+        .select("*")
+        .eq("workspace_id", str(workspace_id))
+        .order("created_at", desc=True)
+        .limit(limit)
+    )
+    if channel:
+        q = q.eq("channel", channel)
+    resp = q.execute()
+    return _rows(resp)
+
+
+@router.post("/workspaces/{workspace_id}/messages", tags=["messages"], status_code=201)
+async def create_message(workspace_id: UUID, body: MessageCreate, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    data = body.model_dump(mode="json")
+    data["workspace_id"] = str(workspace_id)
+    resp = sb.table("messages").insert(data).execute()
+    return _rows(resp)[0]
+
+
+# ── Tree Nodes ───────────────────────────────────────────────────────────
+
+@router.get("/agents/{agent_id}/tree", tags=["tree"])
+async def list_tree_nodes(agent_id: UUID, parent_id: UUID | None = None, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    q = sb.table("tree_nodes").select("*").eq("agent_id", str(agent_id))
+    if parent_id:
+        q = q.eq("parent_id", str(parent_id))
+    else:
+        q = q.is_("parent_id", "null")
+    resp = q.execute()
+    return _rows(resp)
+
+
+@router.get("/agents/{agent_id}/tree/staleness", tags=["tree"])
+async def list_tree_nodes_with_staleness(agent_id: UUID, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    resp = (
+        sb.table("tree_nodes_with_staleness")
+        .select("*")
+        .eq("agent_id", str(agent_id))
+        .execute()
+    )
+    return _rows(resp)
+
+
+# ── Questions ────────────────────────────────────────────────────────────
+
+class QuestionCreate(BaseModel):
+    asked_by: UUID
+    question_text: str
+    classified_domains: list[str] = []
+    question_type: str | None = None
+    urgency: str = "normal"
+
+
+class FeedbackBody(BaseModel):
+    feedback: str  # 'thumbs_up' | 'thumbs_down'
+
+
+@router.get("/workspaces/{workspace_id}/questions", tags=["questions"])
+async def list_questions(workspace_id: UUID, limit: int = 50, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    resp = (
+        sb.table("questions")
+        .select("*")
+        .eq("workspace_id", str(workspace_id))
+        .order("created_at", desc=True)
+        .limit(limit)
+        .execute()
+    )
+    return _rows(resp)
+
+
+@router.post("/workspaces/{workspace_id}/questions", tags=["questions"], status_code=201)
+async def create_question(workspace_id: UUID, body: QuestionCreate, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    data = body.model_dump(mode="json")
+    data["workspace_id"] = str(workspace_id)
+    resp = sb.table("questions").insert(data).execute()
+    return _rows(resp)[0]
+
+
+@router.post("/questions/{question_id}/feedback", tags=["questions"])
+async def submit_feedback(question_id: UUID, body: FeedbackBody, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    resp = sb.rpc("apply_feedback", {
+        "p_question_id": str(question_id),
+        "p_feedback": body.feedback,
+    }).execute()
+    return {"ok": True}
+
+
+# ── Analytics ────────────────────────────────────────────────────────────
+
+@router.get("/workspaces/{workspace_id}/analytics", tags=["analytics"])
+async def list_analytics(workspace_id: UUID, limit: int = 30, _user_id: str = Depends(get_current_user_id)):
+    sb = get_supabase()
+    resp = (
+        sb.table("analytics_daily")
+        .select("*")
+        .eq("workspace_id", str(workspace_id))
+        .order("date", desc=True)
+        .limit(limit)
+        .execute()
+    )
+    return _rows(resp)
