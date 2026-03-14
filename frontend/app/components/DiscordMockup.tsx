@@ -8,7 +8,7 @@ const conversations = [
   {
     user: "Sarah Chen",
     initials: "SC",
-    color: "bg-blue-100",
+    color: "bg-blue-400/20",
     time: "10:42 AM",
     question: "Does our API support batch uploads over 10k rows?",
     answer:
@@ -19,7 +19,7 @@ const conversations = [
   {
     user: "James Okafor",
     initials: "JO",
-    color: "bg-purple-100",
+    color: "bg-purple-400/20",
     time: "11:15 AM",
     question: "What's the rate limit on the analytics endpoint?",
     answer:
@@ -30,7 +30,7 @@ const conversations = [
   {
     user: "Priya Sharma",
     initials: "PS",
-    color: "bg-emerald-100",
+    color: "bg-emerald-400/20",
     time: "2:08 PM",
     question: "Can we customize the webhook payload format?",
     answer:
@@ -41,7 +41,7 @@ const conversations = [
   {
     user: "Alex Rivera",
     initials: "AR",
-    color: "bg-orange-100",
+    color: "bg-orange-400/20",
     time: "3:34 PM",
     question: "How does the SDK handle token refresh automatically?",
     answer:
@@ -51,7 +51,7 @@ const conversations = [
   },
 ];
 
-export default function DiscordMockup() {
+export default function DiscordMockup({ className = "" }: { className?: string }) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [index, setIndex] = useState(0);
   const [typedChars, setTypedChars] = useState(0);
@@ -117,8 +117,8 @@ export default function DiscordMockup() {
   const isFading = phase === "fade-out";
 
   return (
-    <div className="hidden lg:block lg:col-span-7 animate-fade-in-up-delay-1">
-      <div className="border border-gray-200 rounded-lg overflow-hidden">
+    <div className={`animate-fade-in-up-delay-1 ${className}`}>
+      <div className="border border-white/10 rounded-lg overflow-hidden shadow-lg">
         {/* Header bar */}
         <div className="bg-gray-900 px-4 py-2.5 flex items-center gap-2">
           <div className="flex gap-1.5">
@@ -132,35 +132,35 @@ export default function DiscordMockup() {
         </div>
 
         {/* Body: server sidebar + channels sidebar + main */}
-        <div className="flex bg-white text-sm">
+        <div className="flex bg-[#131127] text-sm">
           {/* Server sidebar */}
-          <div className="w-12 bg-gray-100 border-r border-gray-200 flex flex-col items-center py-3 gap-2 flex-shrink-0">
+          <div className="w-12 bg-white/5 border-r border-white/10 flex flex-col items-center py-3 gap-2 flex-shrink-0">
             {/* numen server (active) */}
             <div className="w-9 h-9 rounded-2xl bg-accent text-white font-display text-xs flex items-center justify-center cursor-default">
               n
             </div>
             {/* Divider */}
-            <div className="w-6 h-0.5 bg-gray-300 rounded-full" />
+            <div className="w-6 h-0.5 bg-white/20 rounded-full" />
             {/* Other servers */}
-            <div className="w-9 h-9 rounded-full bg-gray-300 text-gray-500 text-[10px] font-semibold flex items-center justify-center cursor-default">
+            <div className="w-9 h-9 rounded-full bg-white/10 text-white/40 text-[10px] font-semibold flex items-center justify-center cursor-default">
               AC
             </div>
-            <div className="w-9 h-9 rounded-full bg-gray-300 text-gray-500 text-[10px] font-semibold flex items-center justify-center cursor-default">
+            <div className="w-9 h-9 rounded-full bg-white/10 text-white/40 text-[10px] font-semibold flex items-center justify-center cursor-default">
               DT
             </div>
-            <div className="w-9 h-9 rounded-full bg-gray-300 text-gray-500 text-[10px] font-semibold flex items-center justify-center cursor-default">
+            <div className="w-9 h-9 rounded-full bg-white/10 text-white/40 text-[10px] font-semibold flex items-center justify-center cursor-default">
               OS
             </div>
           </div>
 
           {/* Channels sidebar */}
-          <div className="w-40 bg-gray-50 border-r border-gray-200 p-3 flex-shrink-0">
-            <p className="font-mono text-[10px] tracking-widest uppercase text-gray-400 mb-2">
+          <div className="w-40 bg-white/5 border-r border-white/10 p-3 flex-shrink-0">
+            <p className="font-mono text-[10px] tracking-widest uppercase text-white/30 mb-2">
               Channels
             </p>
-            <div className="space-y-0.5 text-xs text-gray-500">
+            <div className="space-y-0.5 text-xs text-white/40">
               <p className="px-2 py-1 rounded cursor-default"># general</p>
-              <p className="px-2 py-1 rounded bg-accent-light/50 text-accent font-semibold cursor-default">
+              <p className="px-2 py-1 rounded bg-accent/15 text-accent font-semibold cursor-default">
                 # ask-numen
               </p>
               <p className="px-2 py-1 rounded cursor-default"># engineering</p>
@@ -171,7 +171,7 @@ export default function DiscordMockup() {
           {/* Main chat area */}
           <div className="flex-1 flex flex-col min-h-[280px]">
             {/* Channel header */}
-            <div className="border-b border-gray-200 px-4 py-2 flex items-center gap-1.5">
+            <div className="border-b border-white/10 px-4 py-2 flex items-center gap-1.5">
               <span className="text-gray-400 text-xs">#</span>
               <span className="font-semibold text-sm text-foreground">
                 ask-numen
@@ -195,7 +195,7 @@ export default function DiscordMockup() {
                       <span className="text-sm font-semibold text-foreground">
                         {convo.user}
                       </span>
-                      <span className="text-[10px] text-gray-400">
+                      <span className="text-[10px] text-white/30">
                         {convo.time}
                       </span>
                     </div>
@@ -212,11 +212,11 @@ export default function DiscordMockup() {
                       n
                     </div>
                     <span className="text-sm text-accent font-semibold">numen</span>
-                    <span className="text-xs text-gray-400">is typing</span>
+                    <span className="text-xs text-white/30">is typing</span>
                     <span className="flex gap-0.5 ml-0.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce-dot-1" />
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce-dot-2" />
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce-dot-3" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-bounce-dot-1" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-bounce-dot-2" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-bounce-dot-3" />
                     </span>
                   </div>
                 )}
@@ -234,17 +234,17 @@ export default function DiscordMockup() {
                       <span className="px-1 py-0.5 rounded bg-accent/10 text-accent text-[9px] font-semibold uppercase leading-none">
                         Bot
                       </span>
-                      <span className="text-[10px] text-gray-400">
+                      <span className="text-[10px] text-white/30">
                         {convo.time}
                       </span>
                     </div>
                     <div className="pl-8">
                       <p className="text-sm text-foreground">{convo.answer}</p>
                       <div className="mt-2 flex flex-wrap gap-2">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded bg-accent-light text-accent text-xs font-mono">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded bg-accent/15 text-accent text-xs font-mono">
                           {convo.source}
                         </span>
-                        <span className="inline-flex items-center px-2 py-0.5 rounded bg-green-50 text-green-700 text-xs font-mono">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded bg-green-400/10 text-green-400 text-xs font-mono">
                           {convo.confidence} confidence
                         </span>
                       </div>
@@ -255,7 +255,7 @@ export default function DiscordMockup() {
             </div>
 
             {/* Input bar */}
-            <div className="border-t border-gray-200 px-4 py-3 flex items-center gap-2">
+            <div className="border-t border-white/10 px-4 py-3 flex items-center gap-2">
               {phase === "typing" ? (
                 <>
                   <span className="text-sm text-foreground">
@@ -265,7 +265,7 @@ export default function DiscordMockup() {
                 </>
               ) : (
                 <>
-                  <span className="text-sm text-gray-400">
+                  <span className="text-sm text-white/30">
                     Ask numen anything...
                   </span>
                   <span className="w-0.5 h-4 bg-accent animate-cursor" />

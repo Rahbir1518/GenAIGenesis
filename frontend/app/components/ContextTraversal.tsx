@@ -33,10 +33,10 @@ export default function ContextTraversal({
   }
 
   function borderColor(conf: number) {
-    if (conf >= 0.82) return "border-green-300 bg-green-50/50";
-    if (conf >= 0.50) return "border-amber-300 bg-amber-50/50";
-    if (conf >= 0.30) return "border-orange-300 bg-orange-50/50";
-    return "border-red-300 bg-red-50/50";
+    if (conf >= 0.82) return "border-green-400/30 bg-green-400/10";
+    if (conf >= 0.50) return "border-amber-400/30 bg-amber-400/10";
+    if (conf >= 0.30) return "border-orange-400/30 bg-orange-400/10";
+    return "border-red-400/30 bg-red-400/10";
   }
 
   return (
@@ -59,10 +59,10 @@ export default function ContextTraversal({
               key={node.node_id + "-" + i}
               className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 ${
                 isActive
-                  ? "border-accent bg-accent-light/30 animate-node-pulse shadow-sm"
+                  ? "border-accent bg-accent/10 animate-node-pulse shadow-sm"
                   : isVisited
                   ? borderColor(ec)
-                  : "border-[var(--border)] bg-white opacity-50"
+                  : "border-white/10 bg-white/5 opacity-50"
               }`}
             >
               {/* Node type icon */}
@@ -72,7 +72,7 @@ export default function ContextTraversal({
                     ? "bg-accent"
                     : isVisited
                     ? confidenceColor(ec)
-                    : "bg-gray-300"
+                    : "bg-white/20"
                 }`}
               />
 
@@ -87,7 +87,7 @@ export default function ContextTraversal({
                     {node.label}
                   </span>
                   {node.node_type === "domain" && (
-                    <span className="text-[9px] text-purple-500 bg-purple-50 px-1 rounded">domain</span>
+                    <span className="text-[9px] text-purple-400 bg-purple-400/10 px-1 rounded">domain</span>
                   )}
                 </div>
                 {isVisited && node.summary && (
@@ -100,7 +100,7 @@ export default function ContextTraversal({
               {/* Confidence bar */}
               {(isActive || isVisited) && (
                 <div className="flex items-center gap-1.5 flex-shrink-0">
-                  <div className="w-12 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="w-12 h-1.5 bg-white/10 rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${confidenceColor(ec)}`}
                       style={{ width: `${Math.round(ec * 100)}%` }}

@@ -211,16 +211,16 @@ export default function BotPanel({
     <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/20 pointer-events-auto"
+        className="absolute inset-0 bg-black/50 pointer-events-auto"
         onClick={onClose}
       />
 
       <div className="w-full max-w-2xl pointer-events-auto mb-0">
-        <div className="bg-white border border-[var(--border)] border-b-0 rounded-t-xl shadow-2xl animate-fade-in-up max-h-[80vh] flex flex-col">
+        <div className="bg-[#131127] border border-white/10 border-b-0 rounded-t-xl shadow-2xl animate-fade-in-up max-h-[80vh] flex flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)] flex-shrink-0">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 flex-shrink-0">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 text-white font-display text-[10px] flex items-center justify-center shadow-sm">
+              <div className="w-7 h-7 rounded-full bg-accent text-white font-display text-[10px] flex items-center justify-center shadow-sm">
                 CB
               </div>
               <span className="text-sm font-semibold">Ask ContextBridge</span>
@@ -252,7 +252,7 @@ export default function BotPanel({
             {question && (
               <div className="mb-3">
                 <div className="flex items-start gap-2">
-                  <div className="w-6 h-6 rounded-full bg-accent-light/40 text-accent text-[10px] font-semibold flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full bg-accent/15 text-accent text-[10px] font-semibold flex items-center justify-center flex-shrink-0 mt-0.5">
                     You
                   </div>
                   <p className="text-sm text-foreground">{question}</p>
@@ -281,7 +281,7 @@ export default function BotPanel({
             {result && (result.type === "answer" || result.type === "answer_caveat") && (
               <div className="animate-message-appear mt-3">
                 <div className="flex items-start gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full bg-accent text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">
                     CB
                   </div>
                   <div className="flex-1 min-w-0">
@@ -289,7 +289,7 @@ export default function BotPanel({
 
                     {/* Caveat */}
                     {result.type === "answer_caveat" && result.caveat && (
-                      <div className="mt-2 p-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-700">
+                      <div className="mt-2 p-2 bg-amber-400/10 border border-amber-400/30 rounded text-xs text-amber-400">
                         ⚠️ {result.caveat}
                       </div>
                     )}
@@ -297,14 +297,14 @@ export default function BotPanel({
                     {/* Source info */}
                     <div className="mt-2 flex flex-wrap gap-2">
                       {result.source_node && (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded bg-accent-light text-accent text-xs font-mono">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded bg-accent/15 text-accent text-xs font-mono">
                           📍 {result.source_node.label}
                         </span>
                       )}
                       <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono ${
                         (result.confidence || 0) >= 0.82
-                          ? "bg-green-50 text-green-700"
-                          : "bg-amber-50 text-amber-700"
+                          ? "bg-green-400/10 text-green-400"
+                          : "bg-amber-400/10 text-amber-400"
                       }`}>
                         {Math.round((result.confidence || 0) * 100)}% confidence
                       </span>
@@ -325,7 +325,7 @@ export default function BotPanel({
             {result && result.type === "route" && (
               <div className="animate-message-appear mt-3">
                 <div className="flex items-start gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full bg-accent text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">
                     CB
                   </div>
                   <div className="flex-1">
@@ -333,26 +333,26 @@ export default function BotPanel({
                       I don't have enough confidence to answer this directly. Let me route this to the right person.
                     </p>
 
-                    <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="p-3 bg-accent/10 border border-accent/30 rounded-lg">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-7 h-7 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold flex items-center justify-center">
+                        <div className="w-7 h-7 rounded-full bg-accent/20 text-accent text-xs font-semibold flex items-center justify-center">
                           {(result.routed_to?.name || "?").slice(0, 2).toUpperCase()}
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-blue-900">{result.routed_to?.name}</p>
-                          <p className="text-[10px] text-blue-600">{result.routed_to?.domain}</p>
+                          <p className="text-sm font-semibold text-white">{result.routed_to?.name}</p>
+                          <p className="text-[10px] text-accent">{result.routed_to?.domain}</p>
                         </div>
                       </div>
 
                       <button
                         onClick={() => handlePing(result.suggested_message || "")}
-                        className="w-full py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 transition-colors"
+                        className="w-full py-1.5 bg-accent text-white rounded text-xs font-medium hover:bg-accent/80 transition-colors"
                       >
-                        🔔 Ping {result.routed_to?.name}
+                        Ping {result.routed_to?.name}
                       </button>
                     </div>
 
-                    <span className={`inline-flex items-center mt-2 px-2 py-0.5 rounded text-xs font-mono bg-red-50 text-red-700`}>
+                    <span className={`inline-flex items-center mt-2 px-2 py-0.5 rounded text-xs font-mono bg-red-400/10 text-red-400`}>
                       {Math.round((result.confidence || 0) * 100)}% confidence
                     </span>
 
@@ -370,7 +370,7 @@ export default function BotPanel({
             {result && result.type === "who_knows" && (
               <div className="animate-message-appear mt-3">
                 <div className="flex items-start gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full bg-accent text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">
                     CB
                   </div>
                   <div className="flex-1">
@@ -380,20 +380,20 @@ export default function BotPanel({
 
                     <div className="space-y-2">
                       {(result.experts || []).map((expert, i) => (
-                        <div key={i} className="p-2 bg-purple-50 border border-purple-200 rounded-lg flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 text-xs font-bold flex items-center justify-center flex-shrink-0">
+                        <div key={i} className="p-2 bg-purple-400/10 border border-purple-400/30 rounded-lg flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-purple-400/15 text-purple-400 text-xs font-bold flex items-center justify-center flex-shrink-0">
                             #{i + 1}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-purple-900">{expert.owner_name}</p>
-                            <p className="text-[10px] text-purple-600 truncate">{expert.reason || expert.domain}</p>
-                            <span className="text-[10px] text-purple-500 font-mono">
+                            <p className="text-sm font-semibold text-white">{expert.owner_name}</p>
+                            <p className="text-[10px] text-purple-400 truncate">{expert.reason || expert.domain}</p>
+                            <span className="text-[10px] text-purple-400 font-mono">
                               {Math.round((expert.confidence || 0) * 100)}% confidence
                             </span>
                           </div>
                           <button
                             onClick={() => handlePing(`Hey ${expert.owner_name}, someone is asking about ${result.topic}`)}
-                            className="px-2 py-1 bg-purple-600 text-white rounded text-[10px] font-medium hover:bg-purple-700 transition-colors flex-shrink-0"
+                            className="px-2 py-1 bg-purple-500 text-white rounded text-[10px] font-medium hover:bg-purple-500/80 transition-colors flex-shrink-0"
                           >
                             Ping
                           </button>
@@ -413,7 +413,7 @@ export default function BotPanel({
             {result && result.type === "no_context" && (
               <div className="animate-message-appear mt-3">
                 <div className="flex items-start gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full bg-accent text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">
                     CB
                   </div>
                   <div>
@@ -428,8 +428,8 @@ export default function BotPanel({
           </div>
 
           {/* Input */}
-          <div className="px-4 py-3 border-t border-[var(--border)] flex-shrink-0">
-            <div className="flex items-center gap-2 bg-[var(--bg-alt)] border border-[var(--border)] rounded-lg px-3 py-2">
+          <div className="px-4 py-3 border-t border-white/10 flex-shrink-0">
+            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
               <input
                 type="text"
                 placeholder="Ask ContextBridge anything..."

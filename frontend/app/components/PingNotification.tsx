@@ -82,14 +82,14 @@ export default function PingNotification({
       {questions.map((q) => (
         <div
           key={q.id}
-          className="bg-white border border-blue-200 rounded-xl shadow-lg p-3 animate-fade-in-up"
+          className="bg-[#131127] border border-accent/30 rounded-xl shadow-lg p-3 animate-fade-in-up"
         >
           <div className="flex items-start gap-2 mb-2">
-            <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-[10px] font-bold flex items-center justify-center flex-shrink-0">
-              🔔
+            <div className="w-6 h-6 rounded-full bg-accent/15 text-accent text-[10px] font-bold flex items-center justify-center flex-shrink-0">
+              !
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-blue-900">
+              <p className="text-xs font-semibold text-white">
                 Someone is asking:
               </p>
               <p className="text-sm text-foreground mt-0.5">{q.question_text}</p>
@@ -102,32 +102,32 @@ export default function PingNotification({
                 value={responseText}
                 onChange={(e) => setResponseText(e.target.value)}
                 placeholder="Type your answer — it will be added to the Context Tree..."
-                className="w-full px-2 py-1.5 border border-[var(--border)] rounded text-xs focus:outline-none focus:ring-1 focus:ring-accent resize-none"
+                className="w-full px-2 py-1.5 border border-white/10 bg-white/5 rounded text-xs focus:outline-none focus:ring-1 focus:ring-accent resize-none"
                 rows={3}
               />
               <div className="flex gap-2 mt-1.5">
                 <button
                   onClick={() => handleSubmit(q.id)}
                   disabled={submitting || !responseText.trim()}
-                  className="flex-1 py-1 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="flex-1 py-1 bg-accent text-white rounded text-xs font-medium hover:bg-accent/80 transition-colors disabled:opacity-50"
                 >
                   {submitting ? "Sending..." : "Submit Answer"}
                 </button>
                 <button
                   onClick={() => { setActiveId(null); setResponseText(""); }}
-                  className="px-2 py-1 border border-[var(--border)] rounded text-xs hover:bg-gray-50"
+                  className="px-2 py-1 border border-white/10 rounded text-xs hover:bg-white/5"
                 >
                   Cancel
                 </button>
               </div>
               <p className="text-[9px] text-[var(--text-muted)] mt-1">
-                💡 Your answer will be added to the Context Tree automatically
+                Your answer will be added to the Context Tree automatically
               </p>
             </div>
           ) : (
             <button
               onClick={() => setActiveId(q.id)}
-              className="w-full py-1.5 bg-blue-50 border border-blue-200 rounded text-xs text-blue-700 font-medium hover:bg-blue-100 transition-colors"
+              className="w-full py-1.5 bg-accent/10 border border-accent/30 rounded text-xs text-accent font-medium hover:bg-accent/15 transition-colors"
             >
               Answer this question
             </button>

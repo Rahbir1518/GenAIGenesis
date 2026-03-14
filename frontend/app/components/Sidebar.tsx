@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 type Channel = {
   id: string;
@@ -56,9 +58,16 @@ export default function Sidebar({
   }
 
   return (
-    <div className="w-60 bg-[var(--bg-alt)] border-r border-[var(--border)] flex flex-col h-full flex-shrink-0">
+    <div className="w-60 bg-white/5 border-r border-white/10 flex flex-col h-full flex-shrink-0">
+      {/* Logo */}
+      <div className="px-4 py-3 border-b border-white/10 text-center">
+        <Link href="/" className="font-display font-bold text-sm tracking-[0.2em] text-white hover:text-white/80 transition-colors">
+          numen
+        </Link>
+      </div>
+
       {/* Workspace header */}
-      <div className="px-4 py-3 border-b border-[var(--border)]">
+      <div className="px-4 py-3 border-b border-white/10">
         <div className="flex items-center justify-between">
           <h2 className="font-semibold text-sm truncate">{workspaceName}</h2>
           <button
@@ -85,7 +94,7 @@ export default function Sidebar({
           {members.length} member{members.length !== 1 ? "s" : ""}
         </p>
         {showInvite && (
-          <div className="mt-2 p-2 bg-white rounded-lg border border-[var(--border)] text-xs">
+          <div className="mt-2 p-2 bg-white/10 rounded-lg border border-white/10 text-xs">
             <p className="text-[var(--text-muted)] mb-1">Workspace slug (share to invite):</p>
             <div className="flex items-center gap-2">
               <code className="font-mono text-accent flex-1">{inviteCode}</code>
@@ -114,8 +123,8 @@ export default function Sidebar({
                 onClick={() => onSelectChannel(ch.id)}
                 className={`w-full text-left px-2 py-1 rounded text-sm transition-colors ${
                   activeChannelId === ch.id
-                    ? "bg-accent-light/50 text-accent font-semibold"
-                    : "text-[var(--text-muted)] hover:bg-gray-100 hover:text-foreground"
+                    ? "bg-accent/15 text-accent font-semibold"
+                    : "text-[var(--text-muted)] hover:bg-white/10 hover:text-foreground"
                 }`}
               >
                 # {ch.name}
@@ -165,8 +174,8 @@ export default function Sidebar({
                   onClick={() => onSelectChannel(channelId)}
                   className={`w-full flex items-center gap-2 px-2 py-1.5 rounded text-sm transition-colors ${
                     isActive
-                      ? "bg-accent-light/50 text-accent font-semibold"
-                      : "text-[var(--text-muted)] hover:bg-gray-100 hover:text-foreground"
+                      ? "bg-accent/15 text-accent font-semibold"
+                      : "text-[var(--text-muted)] hover:bg-white/10 hover:text-foreground"
                   }`}
                 >
                   <div className={`w-5 h-5 rounded-full text-[9px] font-semibold flex items-center justify-center flex-shrink-0 ${
@@ -193,10 +202,10 @@ export default function Sidebar({
                 className="flex items-center gap-2 px-2 py-1 text-sm text-[var(--text-muted)]"
               >
                 <div className="relative">
-                  <div className="w-5 h-5 rounded-full bg-gray-200 text-gray-600 text-[9px] font-semibold flex items-center justify-center">
+                  <div className="w-5 h-5 rounded-full bg-white/10 text-white/60 text-[9px] font-semibold flex items-center justify-center">
                     {member.display_name.slice(0, 2).toUpperCase()}
                   </div>
-                  <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-green-400 border border-[var(--bg-alt)]" />
+                  <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-green-400 border border-background" />
                 </div>
                 <span className="truncate">{member.display_name}</span>
                 {member.role === "admin" && (
@@ -213,15 +222,15 @@ export default function Sidebar({
       {/* Interrupt counter + Bot bar */}
       <div className="mx-2 mb-2 space-y-2">
         {interruptCount > 0 && (
-          <div className="px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
-            <p className="text-[10px] text-green-600 font-mono uppercase">Interrupts Saved</p>
-            <p className="text-lg font-bold text-green-700 tabular-nums">{interruptCount}</p>
+          <div className="px-3 py-2 bg-green-400/10 border border-green-400/30 rounded-lg">
+            <p className="text-[10px] text-green-400 font-mono uppercase">Interrupts Saved</p>
+            <p className="text-lg font-bold text-green-400 tabular-nums">{interruptCount}</p>
           </div>
         )}
 
         <button
           onClick={onOpenBot}
-          className="w-full px-3 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg text-sm font-medium hover:from-purple-700 hover:to-blue-700 transition-all flex items-center gap-2 shadow-sm"
+          className="w-full px-3 py-2 bg-accent text-white rounded-lg text-sm font-medium hover:bg-accent/90 transition-all flex items-center gap-2"
         >
           <svg
             className="w-4 h-4"
@@ -238,6 +247,11 @@ export default function Sidebar({
           </svg>
           Ask ContextBridge
         </button>
+
+        <div className="pt-2 border-t border-white/10 mt-2 flex items-center justify-between px-2">
+          <span className="text-xs text-[var(--text-muted)] font-medium">Account</span>
+          <UserButton />
+        </div>
       </div>
     </div>
   );

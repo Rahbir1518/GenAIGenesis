@@ -93,7 +93,7 @@ export default function ContextTree({ agentId, agentName }: ContextTreeProps) {
     return (
       <div key={node.id} style={{ marginLeft: depth * 12 }}>
         <div
-          className={`flex items-start gap-2 px-2 py-1.5 rounded cursor-pointer transition-all hover:bg-gray-50 border-l-2 ${stalenessClass(ec)}`}
+          className={`flex items-start gap-2 px-2 py-1.5 rounded cursor-pointer transition-all hover:bg-white/5 border-l-2 ${stalenessClass(ec)}`}
           onClick={() => {
             if (hasChildren) toggleExpand(node.id);
             else toggleExpand(node.id);
@@ -114,10 +114,10 @@ export default function ContextTree({ agentId, agentName }: ContextTreeProps) {
             <div className="flex items-center gap-1.5">
               <span className="text-xs font-medium truncate">{node.label}</span>
               {node.node_type === "domain" && (
-                <span className="text-[8px] text-purple-500 bg-purple-50 px-1 rounded">D</span>
+                <span className="text-[8px] text-purple-400 bg-purple-400/10 px-1 rounded">D</span>
               )}
               {node.source === "bot_answer" && (
-                <span className="text-[8px] text-blue-500 bg-blue-50 px-1 rounded">bot</span>
+                <span className="text-[8px] text-accent bg-accent/10 px-1 rounded">bot</span>
               )}
             </div>
 
@@ -138,7 +138,7 @@ export default function ContextTree({ agentId, agentName }: ContextTreeProps) {
 
           {/* Confidence + meta */}
           <div className="flex items-center gap-1.5 flex-shrink-0">
-            <div className="w-8 h-1 bg-gray-200 rounded-full overflow-hidden">
+            <div className="w-8 h-1 bg-white/10 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full ${confidenceColor(ec)}`}
                 style={{ width: `${Math.round(ec * 100)}%` }}
@@ -168,7 +168,7 @@ export default function ContextTree({ agentId, agentName }: ContextTreeProps) {
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="px-3 py-2 border-b border-[var(--border)] flex-shrink-0">
+      <div className="px-3 py-2 border-b border-white/10 flex-shrink-0">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold">{agentName} Context Tree</p>
