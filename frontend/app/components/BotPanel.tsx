@@ -46,6 +46,14 @@ type BotPanelProps = {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
+type QuestionType = "Sales" | "General" | "Engineering" | "Onboarding" | null;
+
+const QUESTION_TYPES: { type: QuestionType; icon: string; desc: string }[] = [
+  { type: "Sales", icon: "💰", desc: "Deals, pipeline & revenue" },
+  { type: "General", icon: "💬", desc: "Anything about the workspace" },
+  { type: "Engineering", icon: "⚙️", desc: "Code, infra & technical" },
+  { type: "Onboarding", icon: "🚀", desc: "New member questions" },
+];
 export default function BotPanel({
   workspaceId,
   memberId,
@@ -63,6 +71,7 @@ export default function BotPanel({
   const [respondingTo, setRespondingTo] = useState<string | null>(null);
   const [responseInput, setResponseInput] = useState("");
   const abortRef = useRef<AbortController | null>(null);
+  const [questionType, setQuestionType] = useState<QuestionType>(null);
 
   const handleAsk = useCallback(async () => {
     if (!input.trim() || isProcessing) return;
@@ -79,7 +88,7 @@ export default function BotPanel({
     try {
       const token = await getToken();
       abortRef.current = new AbortController();
-
+      console.log(questionType);
       const res = await fetch(`${API_BASE}/ask`, {
         method: "POST",
         headers: {
@@ -87,6 +96,7 @@ export default function BotPanel({
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
+          question_type: questionType,
           workspace_id: workspaceId,
           question: q,
           asked_by: memberId,
@@ -178,6 +188,7 @@ export default function BotPanel({
     setActiveTraversalIndex(-1);
     setIsProcessing(false);
     setStatus("");
+    setQuestionType(null);
   }
 
   async function handlePing(message: string) {
@@ -240,12 +251,37 @@ export default function BotPanel({
 
           {/* Content */}
           <div className="px-4 py-3 overflow-y-auto flex-1 min-h-0">
-            {/* Idle state */}
+            {/* Idle state — question type selector */}
             {!question && !isProcessing && (
-              <p className="text-sm text-[var(--text-muted)] text-center py-6">
-                Ask ContextBridge anything about your workspace. It will traverse
-                the Context Tree to find answers or route you to the right person.
-              </p>
+              <div className="py-4">
+                <p className="text-sm text-[var(--text-muted)] text-center mb-4">
+                  {questionType
+                    ? "Great — now type your question below."
+                    : "What kind of question do you have?"}
+                </p>
+
+                <div className="grid grid-cols-2 gap-2">
+                  {QUESTION_TYPES.map(({ type, icon, desc }) => (
+                    <button
+                      key={type}
+                      onClick={() => setQuestionType(type)}
+                      className={`flex items-center gap-3 p-3 rounded-lg border text-left transition-all duration-150 ${questionType === type
+                        ? "border-accent bg-accent/15 shadow-[0_0_12px_rgba(var(--accent-rgb,99,102,241),0.25)]"
+                        : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/8"
+                        }`}
+                    >
+                      <span className="text-xl leading-none">{icon}</span>
+                      <div>
+                        <p className={`text-sm font-semibold ${questionType === type ? "text-accent" : "text-foreground"
+                          }`}>
+                          {type}
+                        </p>
+                        <p className="text-[10px] text-[var(--text-muted)] leading-tight">{desc}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
 
             {/* User question */}
@@ -301,11 +337,10 @@ export default function BotPanel({
                           📍 {result.source_node.label}
                         </span>
                       )}
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono ${
-                        (result.confidence || 0) >= 0.82
-                          ? "bg-green-400/10 text-green-400"
-                          : "bg-amber-400/10 text-amber-400"
-                      }`}>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono ${(result.confidence || 0) >= 0.82
+                        ? "bg-green-400/10 text-green-400"
+                        : "bg-amber-400/10 text-amber-400"
+                        }`}>
                         {Math.round((result.confidence || 0) * 100)}% confidence
                       </span>
                     </div>
@@ -429,19 +464,33 @@ export default function BotPanel({
 
           {/* Input */}
           <div className="px-4 py-3 border-t border-white/10 flex-shrink-0">
-            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+            <div className={`flex items-center gap-2 bg-white/5 border rounded-lg px-3 py-2 transition-colors ${!questionType ? "border-white/5 opacity-50" : "border-white/10"
+              }`}>
+              {/* Selected type pill */}
+              {questionType && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/15 text-accent text-[10px] font-semibold flex-shrink-0 whitespace-nowrap">
+                  {questionType}
+                  <button
+                    onClick={() => setQuestionType(null)}
+                    className="ml-0.5 hover:text-white transition-colors"
+                    aria-label="Clear question type"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
               <input
                 type="text"
-                placeholder="Ask ContextBridge anything..."
+                placeholder={questionType ? "Ask your question..." : "Select a category above first"}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleAsk()}
-                disabled={isProcessing}
+                disabled={isProcessing || !questionType}
                 className="flex-1 bg-transparent text-sm focus:outline-none placeholder:text-[var(--text-muted)] disabled:opacity-50"
               />
               <button
                 onClick={handleAsk}
-                disabled={!input.trim() || isProcessing}
+                disabled={!input.trim() || isProcessing || !questionType}
                 className="text-accent hover:text-accent/80 transition-colors disabled:opacity-30"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

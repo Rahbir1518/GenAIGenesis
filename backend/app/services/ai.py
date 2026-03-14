@@ -129,7 +129,7 @@ CLASSIFY_PROMPT = """You are a question classifier for a workspace knowledge sys
 Classify the following question and extract information about it.
 
 Return a JSON object with:
-- "question_type": one of "capability", "status", "ownership", "comparison", "urgent"
+- "question_type": one of "sales", "engineering", "general", "onboarding"
 - "domains": array of relevant domain strings (e.g., ["authentication", "api"])
 - "is_who_knows": boolean — true if the user is asking "who knows about X" or "who owns X"
 - "topic": the core topic being asked about (2-5 words)
@@ -142,6 +142,7 @@ Question:
 
 async def classify_question(question_text: str) -> dict:
     """Classify a question and extract domains."""
+    
     client = _get_client()
 
     response = client.models.generate_content(
