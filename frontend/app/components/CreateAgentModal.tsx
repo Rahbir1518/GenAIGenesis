@@ -72,14 +72,14 @@ export default function CreateAgentModal({
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-xl border border-[var(--border)] shadow-xl w-full max-w-md p-6 animate-fade-in-up">
+      <div className="relative bg-[#131127] rounded-xl border border-white/10 shadow-xl w-full max-w-md p-6 animate-fade-in-up">
         <h2 className="text-lg font-semibold mb-1">Create an Agent</h2>
         <p className="text-sm text-[var(--text-muted)] mb-4">
           Agents read #general for context and build a Knowledge Tree automatically.
         </p>
 
         {error && (
-          <div className="mb-3 p-2 bg-red-50 border border-red-200 rounded text-red-700 text-xs">
+          <div className="mb-3 p-2 bg-red-400/10 border border-red-400/30 rounded text-red-400 text-xs">
             {error}
           </div>
         )}
@@ -94,7 +94,7 @@ export default function CreateAgentModal({
               placeholder="e.g. Engineering Agent"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 border border-[var(--border)] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+              className="w-full px-3 py-2 border border-white/10 bg-white/5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
             />
           </div>
 
@@ -109,8 +109,8 @@ export default function CreateAgentModal({
                   onClick={() => setType(opt.value)}
                   className={`p-2 rounded-lg border text-left transition-all ${
                     type === opt.value
-                      ? "border-accent bg-accent-light/30 ring-1 ring-accent/20"
-                      : "border-[var(--border)] hover:border-gray-300"
+                      ? "border-accent bg-accent/10 ring-1 ring-accent/20"
+                      : "border-white/10 hover:border-white/20"
                   }`}
                 >
                   <p className={`text-xs font-semibold ${type === opt.value ? "text-accent" : "text-foreground"}`}>
@@ -126,7 +126,7 @@ export default function CreateAgentModal({
         <div className="flex gap-2 mt-5">
           <button
             onClick={onClose}
-            className="flex-1 py-2 border border-[var(--border)] rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+            className="flex-1 py-2 border border-white/10 rounded-lg text-sm font-medium hover:bg-white/5 transition-colors"
           >
             Cancel
           </button>

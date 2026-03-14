@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
+  --background: #0D0B1A;
+  --foreground: #ffffff;
   --accent: #2563EB;
-  --accent-light: #DBEAFE;
-  --text-muted: #6B7280;
-  --bg-alt: #F9FAFB;
-  --border: #E5E7EB;
+  --accent-light: #1e3a5f;
+  --text-muted: #9CA3AF;
+  --bg-alt: #131127;
+  --border: rgba(255, 255, 255, 0.1);
 }
 
 @theme inline {
@@ -20,14 +20,20 @@
   --font-display: var(--font-space-grotesk);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-html {
-  scroll-behavior: smooth;
+body::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes fade-in-up {
@@ -87,6 +93,13 @@ html {
 .bg-dot-pattern {
   background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+.bg-grid-dark {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
 
 @keyframes node-pulse {

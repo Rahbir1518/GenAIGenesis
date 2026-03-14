@@ -19,7 +19,10 @@ export default async function DashboardPage() {
 
     // Show a workspace picker so users can choose or create more
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+      <div className="min-h-screen bg-background flex items-center justify-center p-6 relative">
+        <Link href="/" className="absolute top-4 left-6 z-10 font-display font-bold text-lg tracking-[0.3em] text-white hover:text-white/80 transition-colors">
+          numen
+        </Link>
         <div className="max-w-2xl w-full">
           <h1 className="text-3xl font-display font-bold text-center mb-2">
             Your Workspaces
@@ -33,7 +36,7 @@ export default async function DashboardPage() {
               <Link
                 key={ws.id}
                 href={`/dashboard/${ws.slug}`}
-                className="block border border-[var(--border)] rounded-xl p-5 bg-white hover:border-accent hover:shadow-md transition-all group"
+                className="block border border-white/10 rounded-xl p-5 bg-white/5 hover:border-accent transition-all group"
               >
                 <h3 className="font-semibold text-base group-hover:text-accent transition-colors">
                   {ws.name}
@@ -45,7 +48,7 @@ export default async function DashboardPage() {
             ))}
           </div>
 
-          <div className="border-t border-[var(--border)] pt-6">
+          <div className="border-t border-white/10 pt-6">
             <DashboardLanding />
           </div>
         </div>
