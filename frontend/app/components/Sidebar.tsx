@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { UserButton } from "@clerk/nextjs";
 
 type Channel = {
   id: string;
@@ -238,6 +239,11 @@ export default function Sidebar({
           </svg>
           Ask ContextBridge
         </button>
+
+        <div className="pt-2 border-t border-[var(--border)] mt-2 flex items-center justify-between px-2">
+          <span className="text-xs text-[var(--text-muted)] font-medium">Account</span>
+          <UserButton />
+        </div>
       </div>
     </div>
   );
