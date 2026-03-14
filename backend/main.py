@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.endpoints import router
 from app.api.bot_endpoints import router as bot_router
+from app.api.webhooks import router as webhooks_router
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +94,7 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 app.include_router(router, prefix="/api")
 app.include_router(bot_router, prefix="/api")
+app.include_router(webhooks_router, prefix="/api")
 
 
 @app.get("/health")

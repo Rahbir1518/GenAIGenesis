@@ -21,6 +21,10 @@ class Settings(BaseSettings):
     # Gemini
     gemini_api_key: str = ""
 
+    # GitHub
+    github_webhook_secret: str = ""
+    github_access_token: str = ""
+
     # AI Settings
     confidence_threshold: float = 0.82
     embedding_model: str = "text-embedding-004"
