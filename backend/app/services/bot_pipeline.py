@@ -16,6 +16,7 @@ from app.services.context_engine import (
     upsert_tree_node,
 )
 from app.services.supabase import get_supabase
+from app.services import moorcheh as moorcheh_service
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +75,61 @@ async def ask_pipeline(
             "domains": domains,
             "is_who_knows": is_who_knows,
         })
+
+        # ----- Engineering fast-path via Moorcheh PR index -----
+        if question_type == "engineering" and not is_who_knows:
+            yield sse_event("status", {"step": "moorcheh_sync", "message": "Syncing PR data into Moorcheh..."})
+            try:
+                result = await asyncio.to_thread(
+                    moorcheh_service.engineering_search_pipeline_sync,
+                    workspace_id,
+                    question_text,
+                )
+                moorcheh_answer = result.get("answer", "")
+                moorcheh_sources = result.get("sources", [])
+
+                if moorcheh_answer and moorcheh_answer.strip():
+                    yield sse_event("status", {"step": "moorcheh_search", "message": "Searching PR knowledge base..."})
+
+                    # Emit source traversal events for the frontend
+                    for i, src in enumerate(moorcheh_sources[:5]):
+                        yield sse_event("traversal", {
+                            "index": i,
+                            "node_id": src.get("id", f"moorcheh-{i}"),
+                            "label": src.get("text", src.get("id", "PR"))[:80],
+                            "summary": src.get("text", "")[:200],
+                            "confidence": round(src.get("score", 0.9), 2),
+                            "effective_confidence": round(src.get("score", 0.9), 2),
+                            "similarity": round(src.get("score", 0.9), 3),
+                            "owner_name": "",
+                            "node_type": "pr_context",
+                            "agent_name": "Moorcheh Engineering",
+                            "parent_label": None,
+                        })
+                        await asyncio.sleep(0.3)
+
+                    question_record = _record_question(
+                        sb, workspace_id, asked_by, question_text,
+                        question_type, domains, urgency,
+                        [], moorcheh_answer, 0.90, False, None,
+                    )
+                    _update_analytics(sb, workspace_id, auto_answered=True)
+
+                    yield sse_event("result", {
+                        "type": "answer",
+                        "answer": moorcheh_answer,
+                        "confidence": 0.90,
+                        "source_node": {
+                            "id": "moorcheh",
+                            "label": "GitHub PR Knowledge Base",
+                            "agent_name": "Moorcheh Engineering",
+                        },
+                        "question_id": question_record.get("id") if question_record else None,
+                    })
+                    return
+            except Exception as moorcheh_err:
+                logger.warning("Moorcheh engineering path failed, falling back: %s", moorcheh_err)
+                yield sse_event("status", {"step": "moorcheh_fallback", "message": "PR search unavailable, using context tree..."})
 
         # ----- Step 2: Vector Search -----
         yield sse_event("status", {"step": "search", "message": "Searching context tree..."})
