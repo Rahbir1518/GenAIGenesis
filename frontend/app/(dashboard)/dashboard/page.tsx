@@ -1,4 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
+import { UserButton } from "@clerk/nextjs";
 import { apiFetch } from "@/lib/api";
 import DashboardLanding from "@/app/components/DashboardLanding";
 import Link from "next/link";
@@ -19,37 +20,41 @@ export default async function DashboardPage() {
 
     // Show a workspace picker so users can choose or create more
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-6 relative">
-        <Link href="/" className="absolute top-4 left-6 z-10 font-display font-bold text-lg tracking-[0.3em] text-white hover:text-white/80 transition-colors">
-          numen
-        </Link>
-        <div className="max-w-2xl w-full">
-          <h1 className="text-3xl font-display font-bold text-center mb-2">
-            Your Workspaces
-          </h1>
-          <p className="text-center text-[var(--text-muted)] mb-8">
-            Select a workspace or create a new one.
-          </p>
+      <div className="min-h-screen bg-background flex flex-col">
+        <div className="p-4 px-6 flex items-center justify-between shrink-0">
+          <Link href="/" className="font-display font-bold text-lg tracking-[0.3em] text-white hover:text-white/80 transition-colors">
+            numen
+          </Link>
+          <UserButton />
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-            {workspaces.map((ws: any) => (
-              <Link
-                key={ws.id}
-                href={`/dashboard/${ws.slug}`}
-                className="block border border-white/10 rounded-xl p-5 bg-white/5 hover:border-accent transition-all group"
-              >
-                <h3 className="font-semibold text-base group-hover:text-accent transition-colors">
-                  {ws.name}
-                </h3>
-                <p className="text-xs text-[var(--text-muted)] mt-1 font-mono">
-                  /{ws.slug}
-                </p>
-              </Link>
-            ))}
-          </div>
+        <div className="flex-1 flex flex-col items-center justify-center p-6">
+          <div className="max-w-2xl w-full">
+            <h1 className="text-3xl font-display font-bold text-center mb-2">
+              Your Workspaces
+            </h1>
+            <p className="text-center text-[var(--text-muted)] mb-8">
+              Select a workspace or create a new one.
+            </p>
 
-          <div className="border-t border-white/10 pt-6">
-            <DashboardLanding />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              {workspaces.map((ws: any) => (
+                <Link
+                  key={ws.id}
+                  href={`/dashboard/${ws.slug}`}
+                  className="block border border-white/10 rounded-xl p-5 bg-white/5 hover:border-accent transition-all group"
+                >
+                  <h3 className="font-semibold text-base group-hover:text-accent transition-colors">
+                    {ws.name}
+                  </h3>
+                  <p className="text-xs text-[var(--text-muted)] mt-1 font-mono">
+                    /{ws.slug}
+                  </p>
+                </Link>
+              ))}
+            </div>
+
+            <DashboardLanding embedded />
           </div>
         </div>
       </div>
