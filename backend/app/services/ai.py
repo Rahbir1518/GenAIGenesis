@@ -187,6 +187,7 @@ Rules:
 4. Reference which domain/node the information comes from.
 5. Keep answers concise (2-4 sentences max).
 6. If context is completely insufficient, say you don't have enough information.
+7. IMPORTANT — Always answer in plain, non-technical language that a business or sales person can understand. Never include function names, code snippets, variable names, file paths, or implementation details. Instead, describe what the system does, why it matters, and how it works at a high level. For example, instead of "the authenticate() function validates JWT tokens", say "the system verifies the user's identity before granting access."
 
 Question: \"\"\"{question_text}\"\"\"
 """
