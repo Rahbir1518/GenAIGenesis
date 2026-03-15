@@ -1,0 +1,1020 @@
+﻿[INFO]   Downloading environs-9.5.0-py2.py3-none-any.whl.metadata (14 kB)
+
+[INFO] Collecting Events==0.5 (from -r requirements.txt (line 91))
+
+[INFO]   Downloading Events-0.5-py3-none-any.whl.metadata (3.9 kB)
+
+[INFO] Collecting executing==2.1.0 (from -r requirements.txt (line 92))
+
+[INFO]   Downloading executing-2.1.0-py2.py3-none-any.whl.metadata (8.9 kB)
+
+[INFO] Collecting faiss-cpu==1.9.0 (from -r requirements.txt (line 93))
+
+[INFO]   Downloading faiss_cpu-1.9.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.4 kB)
+
+[INFO] Collecting fake-useragent==1.5.1 (from -r requirements.txt (line 94))
+
+[INFO]   Downloading fake_useragent-1.5.1-py3-none-any.whl.metadata (15 kB)
+
+[INFO] Collecting fastapi==0.115.5 (from -r requirements.txt (line 95))
+
+[INFO]   Downloading fastapi-0.115.5-py3-none-any.whl.metadata (27 kB)
+
+[INFO] Collecting fastapi-cli==0.0.24 (from -r requirements.txt (line 96))
+
+[INFO]   Downloading fastapi_cli-0.0.24-py3-none-any.whl.metadata (6.4 kB)
+
+[INFO] Collecting fastapi-cloud-cli==0.15.0 (from -r requirements.txt (line 97))
+
+[INFO]   Downloading fastapi_cloud_cli-0.15.0-py3-none-any.whl.metadata (3.3 kB)
+
+[INFO] Collecting fastar==0.8.0 (from -r requirements.txt (line 98))
+
+[INFO]   Downloading fastar-0.8.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)
+
+[INFO] Collecting fastavro==1.9.7 (from -r requirements.txt (line 99))
+
+[INFO]   Downloading fastavro-1.9.7-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.5 kB)
+
+[INFO] Collecting faster-whisper==1.2.1 (from -r requirements.txt (line 100))
+
+[INFO]   Downloading faster_whisper-1.2.1-py3-none-any.whl.metadata (16 kB)
+
+[INFO] Collecting fastjsonschema==2.20.0 (from -r requirements.txt (line 101))
+
+[INFO]   Downloading fastjsonschema-2.20.0-py3-none-any.whl.metadata (2.1 kB)
+
+[INFO] Collecting filelock==3.16.1 (from -r requirements.txt (line 102))
+
+[INFO]   Downloading filelock-3.16.1-py3-none-any.whl.metadata (2.9 kB)
+
+[INFO] Collecting firecrawl-py==1.4.0 (from -r requirements.txt (line 103))
+
+[INFO]   Downloading firecrawl_py-1.4.0-py3-none-any.whl.metadata (10 kB)
+
+[INFO] Collecting FLAML==2.3.2 (from -r requirements.txt (line 104))
+
+[INFO]   Downloading FLAML-2.3.2-py3-none-any.whl.metadata (16 kB)
+
+[INFO] Collecting flatbuffers==25.12.19 (from -r requirements.txt (line 105))
+
+[INFO]   Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+
+[INFO] Collecting fonttools==4.54.1 (from -r requirements.txt (line 106))
+
+[INFO]   Downloading fonttools-4.54.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (163 kB)
+
+[INFO] Collecting freetype-py==2.5.1 (from -r requirements.txt (line 107))
+
+[INFO]   Downloading freetype_py-2.5.1-py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl.metadata (6.3 kB)
+
+[INFO] Collecting frozendict==2.4.6 (from -r requirements.txt (line 108))
+
+[INFO]   Downloading frozendict-2.4.6-py312-none-any.whl.metadata (23 kB)
+
+[INFO] Collecting frozenlist==1.5.0 (from -r requirements.txt (line 109))
+
+[INFO]   Downloading frozenlist-1.5.0-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (13 kB)
+
+[INFO] Collecting fsspec==2024.10.0 (from -r requirements.txt (line 110))
+
+[INFO]   Downloading fsspec-2024.10.0-py3-none-any.whl.metadata (11 kB)
+
+[INFO] Collecting future==1.0.0 (from -r requirements.txt (line 111))
+
+[INFO]   Downloading future-1.0.0-py3-none-any.whl.metadata (4.0 kB)
+
+[INFO] Collecting gast==0.7.0 (from -r requirements.txt (line 112))
+
+[INFO]   Downloading gast-0.7.0-py3-none-any.whl.metadata (1.5 kB)
+
+[INFO] Collecting geomet==0.2.1.post1 (from -r requirements.txt (line 113))
+
+[INFO]   Downloading geomet-0.2.1.post1-py3-none-any.whl.metadata (1.0 kB)
+
+[INFO] Collecting gitdb==4.0.11 (from -r requirements.txt (line 114))
+
+[INFO]   Downloading gitdb-4.0.11-py3-none-any.whl.metadata (1.2 kB)
+
+[INFO] Collecting GitPython==3.1.43 (from -r requirements.txt (line 115))
+
+[INFO]   Downloading GitPython-3.1.43-py3-none-any.whl.metadata (13 kB)
+
+[INFO] Collecting google-ai-generativelanguage==0.6.6 (from -r requirements.txt (line 116))
+
+[INFO]   Downloading google_ai_generativelanguage-0.6.6-py3-none-any.whl.metadata (5.6 kB)
+
+[INFO] Collecting google-api-core==2.22.0 (from -r requirements.txt (line 117))
+
+[INFO]   Downloading google_api_core-2.22.0-py3-none-any.whl.metadata (2.9 kB)
+
+[INFO] Collecting google-api-python-client==2.151.0 (from -r requirements.txt (line 118))
+
+[INFO]   Downloading google_api_python_client-2.151.0-py2.py3-none-any.whl.metadata (6.7 kB)
+
+[INFO] Collecting google-auth==2.48.0 (from -r requirements.txt (line 119))
+
+[INFO]   Downloading google_auth-2.48.0-py3-none-any.whl.metadata (6.2 kB)
+
+[INFO] Collecting google-auth-httplib2==0.2.0 (from -r requirements.txt (line 120))
+
+[INFO]   Downloading google_auth_httplib2-0.2.0-py2.py3-none-any.whl.metadata (2.2 kB)
+
+[INFO] Collecting google-auth-oauthlib==1.2.1 (from -r requirements.txt (line 121))
+
+[INFO]   Downloading google_auth_oauthlib-1.2.1-py2.py3-none-any.whl.metadata (2.7 kB)
+
+[INFO] Collecting google-cloud-bigquery==3.26.0 (from -r requirements.txt (line 122))
+
+[INFO]   Downloading google_cloud_bigquery-3.26.0-py2.py3-none-any.whl.metadata (8.7 kB)
+
+[INFO] Collecting google-cloud-core==2.4.1 (from -r requirements.txt (line 123))
+
+[INFO]   Downloading google_cloud_core-2.4.1-py2.py3-none-any.whl.metadata (2.7 kB)
+
+[INFO] Collecting google-cloud-resource-manager==1.13.0 (from -r requirements.txt (line 124))
+
+[INFO]   Downloading google_cloud_resource_manager-1.13.0-py2.py3-none-any.whl.metadata (5.4 kB)
+
+[INFO] Collecting google-cloud-storage==2.18.2 (from -r requirements.txt (line 125))
+
+[INFO]   Downloading google_cloud_storage-2.18.2-py2.py3-none-any.whl.metadata (9.1 kB)
+
+[INFO] Collecting google-crc32c==1.6.0 (from -r requirements.txt (line 126))
+
+[INFO]   Downloading google_crc32c-1.6.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.3 kB)
+
+[INFO] Collecting google-genai==1.67.0 (from -r requirements.txt (line 127))
+
+[INFO]   Downloading google_genai-1.67.0-py3-none-any.whl.metadata (52 kB)
+
+[INFO] Collecting google-generativeai==0.7.2 (from -r requirements.txt (line 128))
+
+[INFO]   Downloading google_generativeai-0.7.2-py3-none-any.whl.metadata (4.0 kB)
+
+[INFO] Collecting google-pasta==0.2.0 (from -r requirements.txt (line 129))
+
+[INFO]   Downloading google_pasta-0.2.0-py3-none-any.whl.metadata (814 bytes)
+
+[INFO] Collecting google-resumable-media==2.7.2 (from -r requirements.txt (line 130))
+
+[INFO]   Downloading google_resumable_media-2.7.2-py2.py3-none-any.whl.metadata (2.2 kB)
+
+[INFO] Collecting google_search_results==2.4.2 (from -r requirements.txt (line 131))
+
+[INFO]   Downloading google_search_results-2.4.2.tar.gz (18 kB)
+
+[INFO]   Installing build dependencies: started
+
+[INFO]   Installing build dependencies: finished with status 'done'
+
+[INFO]   Getting requirements to build wheel: started
+
+[INFO]   Getting requirements to build wheel: finished with status 'done'
+
+[INFO]   Preparing metadata (pyproject.toml): started
+
+[INFO]   Preparing metadata (pyproject.toml): finished with status 'done'
+
+[INFO] Collecting googleapis-common-protos==1.65.0 (from -r requirements.txt (line 132))
+
+[INFO]   Downloading googleapis_common_protos-1.65.0-py2.py3-none-any.whl.metadata (1.5 kB)
+
+[INFO] Collecting gptcache==0.1.44 (from -r requirements.txt (line 133))
+
+[INFO]   Downloading gptcache-0.1.44-py3-none-any.whl.metadata (24 kB)
+
+[INFO] Collecting gql==3.5.0 (from -r requirements.txt (line 134))
+
+[INFO]   Downloading gql-3.5.0-py2.py3-none-any.whl.metadata (9.2 kB)
+
+[INFO] Collecting grandalf==0.8 (from -r requirements.txt (line 135))
+
+[INFO]   Downloading grandalf-0.8-py3-none-any.whl.metadata (1.7 kB)
+
+[INFO] Collecting graphql-core==3.2.5 (from -r requirements.txt (line 136))
+
+[INFO]   Downloading graphql_core-3.2.5-py3-none-any.whl.metadata (10 kB)
+
+[INFO] Collecting greenlet==3.1.1 (from -r requirements.txt (line 137))
+
+[INFO]   Downloading greenlet-3.1.1-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+
+[INFO] Collecting groq==0.11.0 (from -r requirements.txt (line 138))
+
+[INFO]   Downloading groq-0.11.0-py3-none-any.whl.metadata (13 kB)
+
+[INFO] Collecting grpc-google-iam-v1==0.13.1 (from -r requirements.txt (line 139))
+
+[INFO]   Downloading grpc_google_iam_v1-0.13.1-py2.py3-none-any.whl.metadata (3.3 kB)
+
+[INFO] Collecting grpcio==1.64.3 (from -r requirements.txt (line 140))
+
+[INFO]   Downloading grpcio-1.64.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.3 kB)
+
+[INFO] Collecting grpcio-health-checking==1.62.3 (from -r requirements.txt (line 141))
+
+[INFO]   Downloading grpcio_health_checking-1.62.3-py3-none-any.whl.metadata (1.3 kB)
+
+[INFO] Collecting grpcio-status==1.62.3 (from -r requirements.txt (line 142))
+
+[INFO]   Downloading grpcio_status-1.62.3-py3-none-any.whl.metadata (1.3 kB)
+
+[INFO] Collecting grpcio-tools==1.62.3 (from -r requirements.txt (line 143))
+
+[INFO]   Downloading grpcio_tools-1.62.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.2 kB)
+
+[INFO] Collecting gunicorn==23.0.0 (from -r requirements.txt (line 144))
+
+[INFO]   Downloading gunicorn-23.0.0-py3-none-any.whl.metadata (4.4 kB)
+
+[INFO] Collecting h11==0.14.0 (from -r requirements.txt (line 145))
+
+[INFO]   Downloading h11-0.14.0-py3-none-any.whl.metadata (8.2 kB)
+
+[INFO] Collecting h2==4.1.0 (from -r requirements.txt (line 146))
+
+[INFO]   Downloading h2-4.1.0-py3-none-any.whl.metadata (3.6 kB)
+
+[INFO] Collecting h5py==3.15.1 (from -r requirements.txt (line 147))
+
+[INFO]   Downloading h5py-3.15.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+
+[INFO] Collecting hpack==4.0.0 (from -r requirements.txt (line 148))
+
+[INFO]   Downloading hpack-4.0.0-py3-none-any.whl.metadata (2.5 kB)
+
+[INFO] Collecting html5lib==1.1 (from -r requirements.txt (line 149))
+
+[INFO]   Downloading html5lib-1.1-py2.py3-none-any.whl.metadata (16 kB)
+
+[INFO] Collecting httpcore==1.0.6 (from -r requirements.txt (line 150))
+
+[INFO]   Downloading httpcore-1.0.6-py3-none-any.whl.metadata (21 kB)
+
+[INFO] Collecting httplib2==0.22.0 (from -r requirements.txt (line 151))
+
+[INFO]   Downloading httplib2-0.22.0-py3-none-any.whl.metadata (2.6 kB)
+
+[INFO] Collecting httptools==0.6.4 (from -r requirements.txt (line 152))
+
+[INFO]   Downloading httptools-0.6.4-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.6 kB)
+
+[INFO] Collecting httpx==0.28.1 (from -r requirements.txt (line 153))
+
+[INFO]   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+
+[INFO] Collecting httpx-sse==0.4.0 (from -r requirements.txt (line 154))
+
+[INFO]   Downloading httpx_sse-0.4.0-py3-none-any.whl.metadata (9.0 kB)
+
+[INFO] Collecting huggingface-hub==0.26.2 (from -r requirements.txt (line 155))
+
+[INFO]   Downloading huggingface_hub-0.26.2-py3-none-any.whl.metadata (13 kB)
+
+[INFO] Collecting humanfriendly==10.0 (from -r requirements.txt (line 156))
+
+[INFO]   Downloading humanfriendly-10.0-py2.py3-none-any.whl.metadata (9.2 kB)
+
+[INFO] Collecting hyperframe==6.0.1 (from -r requirements.txt (line 157))
+
+[INFO]   Downloading hyperframe-6.0.1-py3-none-any.whl.metadata (2.7 kB)
+
+[INFO] Collecting idna==3.7 (from -r requirements.txt (line 158))
+
+[INFO]   Downloading idna-3.7-py3-none-any.whl.metadata (9.9 kB)
+
+[INFO] Collecting ijson==3.3.0 (from -r requirements.txt (line 159))
+
+[INFO]   Downloading ijson-3.3.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (21 kB)
+
+[INFO] Collecting imageio-ffmpeg==0.6.0 (from -r requirements.txt (line 160))
+
+[INFO]   Downloading imageio_ffmpeg-0.6.0-py3-none-manylinux2014_x86_64.whl.metadata (1.5 kB)
+
+[INFO] Collecting imgurpython==1.1.7 (from -r requirements.txt (line 161))
+
+[INFO]   Downloading imgurpython-1.1.7.tar.gz (8.4 kB)
+
+[INFO]   Installing build dependencies: started
+
+[INFO]   Installing build dependencies: finished with status 'done'
+
+[INFO]   Getting requirements to build wheel: started
+
+[INFO]   Getting requirements to build wheel: finished with status 'done'
+
+[INFO]   Preparing metadata (pyproject.toml): started
+
+[INFO]   Preparing metadata (pyproject.toml): finished with status 'done'
+
+[INFO] Collecting importlib_metadata==8.4.0 (from -r requirements.txt (line 162))
+
+[INFO]   Downloading importlib_metadata-8.4.0-py3-none-any.whl.metadata (4.7 kB)
+
+[INFO] Collecting importlib_resources==6.4.5 (from -r requirements.txt (line 163))
+
+[INFO]   Downloading importlib_resources-6.4.5-py3-none-any.whl.metadata (4.0 kB)
+
+[INFO] Collecting inflection==0.5.1 (from -r requirements.txt (line 164))
+
+[INFO]   Downloading inflection-0.5.1-py2.py3-none-any.whl.metadata (1.7 kB)
+
+[INFO] Collecting inquirerpy==0.3.4 (from -r requirements.txt (line 165))
+
+[INFO]   Downloading InquirerPy-0.3.4-py3-none-any.whl.metadata (8.1 kB)
+
+[INFO] Collecting installer==0.7.0 (from -r requirements.txt (line 166))
+
+[INFO]   Downloading installer-0.7.0-py3-none-any.whl.metadata (936 bytes)
+
+[INFO] Collecting instructor==1.3.3 (from -r requirements.txt (line 167))
+
+[INFO]   Downloading instructor-1.3.3-py3-none-any.whl.metadata (13 kB)
+
+[INFO] Collecting ipython==8.29.0 (from -r requirements.txt (line 168))
+
+[INFO]   Downloading ipython-8.29.0-py3-none-any.whl.metadata (5.0 kB)
+
+[INFO] Collecting jaraco.classes==3.4.0 (from -r requirements.txt (line 169))
+
+[INFO]   Downloading jaraco.classes-3.4.0-py3-none-any.whl.metadata (2.6 kB)
+
+[INFO] Collecting jaraco.context==6.0.1 (from -r requirements.txt (line 170))
+
+[INFO]   Downloading jaraco.context-6.0.1-py3-none-any.whl.metadata (4.1 kB)
+
+[INFO] Collecting jax==0.4.34 (from -r requirements.txt (line 171))
+
+[INFO]   Downloading jax-0.4.34-py3-none-any.whl.metadata (22 kB)
+
+[INFO] Collecting jaxlib==0.4.34 (from -r requirements.txt (line 172))
+
+[INFO]   Downloading jaxlib-0.4.34-cp312-cp312-manylinux2014_x86_64.whl.metadata (983 bytes)
+
+[INFO] Collecting jedi==0.19.1 (from -r requirements.txt (line 173))
+
+[INFO]   Downloading jedi-0.19.1-py2.py3-none-any.whl.metadata (22 kB)
+
+[INFO] Collecting Jinja2==3.1.4 (from -r requirements.txt (line 174))
+
+[INFO]   Downloading jinja2-3.1.4-py3-none-any.whl.metadata (2.6 kB)
+
+[INFO] Collecting jiter==0.4.2 (from -r requirements.txt (line 175))
+
+[INFO]   Downloading jiter-0.4.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.6 kB)
+
+[INFO] Collecting jmespath==1.0.1 (from -r requirements.txt (line 176))
+
+[INFO]   Downloading jmespath-1.0.1-py3-none-any.whl.metadata (7.6 kB)
+
+[INFO] Collecting joblib==1.4.2 (from -r requirements.txt (line 177))
+
+[INFO]   Downloading joblib-1.4.2-py3-none-any.whl.metadata (5.4 kB)
+
+[INFO] Collecting jq==1.8.0 (from -r requirements.txt (line 178))
+
+[INFO]   Downloading jq-1.8.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.0 kB)
+
+[INFO] Collecting json_repair==0.25.3 (from -r requirements.txt (line 179))
+
+[INFO]   Downloading json_repair-0.25.3-py3-none-any.whl.metadata (7.9 kB)
+
+[INFO] Collecting jsonpatch==1.33 (from -r requirements.txt (line 180))
+
+[INFO]   Downloading jsonpatch-1.33-py2.py3-none-any.whl.metadata (3.0 kB)
+
+[INFO] Collecting jsonpath-python==1.0.6 (from -r requirements.txt (line 181))
+
+[INFO]   Downloading jsonpath_python-1.0.6-py3-none-any.whl.metadata (12 kB)
+
+[INFO] Collecting jsonpickle==3.4.2 (from -r requirements.txt (line 182))
+
+[INFO]   Downloading jsonpickle-3.4.2-py3-none-any.whl.metadata (8.1 kB)
+
+[INFO] Collecting jsonpointer==3.0.0 (from -r requirements.txt (line 183))
+
+[INFO]   Downloading jsonpointer-3.0.0-py2.py3-none-any.whl.metadata (2.3 kB)
+
+[INFO] Collecting jsonref==1.1.0 (from -r requirements.txt (line 184))
+
+[INFO]   Downloading jsonref-1.1.0-py3-none-any.whl.metadata (2.7 kB)
+
+[INFO] Collecting jsonschema==4.23.0 (from -r requirements.txt (line 185))
+
+[INFO]   Downloading jsonschema-4.23.0-py3-none-any.whl.metadata (7.9 kB)
+
+[INFO] Collecting jsonschema-specifications==2024.10.1 (from -r requirements.txt (line 186))
+
+[INFO]   Downloading jsonschema_specifications-2024.10.1-py3-none-any.whl.metadata (3.0 kB)
+
+[INFO] Collecting keras==3.13.2 (from -r requirements.txt (line 187))
+
+[INFO]   Downloading keras-3.13.2-py3-none-any.whl.metadata (6.3 kB)
+
+[INFO] Collecting keyring==24.3.1 (from -r requirements.txt (line 188))
+
+[INFO]   Downloading keyring-24.3.1-py3-none-any.whl.metadata (20 kB)
+
+[INFO] Collecting kiwisolver==1.4.7 (from -r requirements.txt (line 189))
+
+[INFO]   Downloading kiwisolver-1.4.7-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.3 kB)
+
+[INFO] Collecting kubernetes==31.0.0 (from -r requirements.txt (line 190))
+
+[INFO]   Downloading kubernetes-31.0.0-py2.py3-none-any.whl.metadata (1.5 kB)
+
+[INFO] Collecting langchain-anthropic==0.1.23 (from -r requirements.txt (line 191))
+
+[INFO]   Downloading langchain_anthropic-0.1.23-py3-none-any.whl.metadata (2.2 kB)
+
+[INFO] Collecting langchain-core==0.2.38 (from -r requirements.txt (line 192))
+
+[INFO]   Downloading langchain_core-0.2.38-py3-none-any.whl.metadata (6.2 kB)
+
+[INFO] Collecting langchain-elasticsearch==0.2.2 (from -r requirements.txt (line 193))
+
+[INFO]   Downloading langchain_elasticsearch-0.2.2-py3-none-any.whl.metadata (8.3 kB)
+
+[INFO] Collecting langchain-google-genai==1.0.10 (from -r requirements.txt (line 194))
+
+[INFO]   Downloading langchain_google_genai-1.0.10-py3-none-any.whl.metadata (3.8 kB)
+
+[INFO] Collecting langchain-groq==0.1.9 (from -r requirements.txt (line 195))
+
+[INFO]   Downloading langchain_groq-0.1.9-py3-none-any.whl.metadata (2.9 kB)
+
+[INFO] Collecting langchain-milvus==0.1.6 (from -r requirements.txt (line 196))
+
+[INFO]   Downloading langchain_milvus-0.1.6-py3-none-any.whl.metadata (1.9 kB)
+
+[INFO] Collecting langchain-mistralai==0.1.12 (from -r requirements.txt (line 197))
+
+[INFO]   Downloading langchain_mistralai-0.1.12-py3-none-any.whl.metadata (2.4 kB)
+
+[INFO] Collecting langchain-nvidia-ai-endpoints==0.1.6 (from -r requirements.txt (line 198))
+
+[INFO]   Downloading langchain_nvidia_ai_endpoints-0.1.6-py3-none-any.whl.metadata (9.3 kB)
+
+[INFO] Collecting langchain-openai==0.1.22 (from -r requirements.txt (line 199))
+
+[INFO]   Downloading langchain_openai-0.1.22-py3-none-any.whl.metadata (2.6 kB)
+
+[INFO] Collecting langchain-text-splitters==0.2.4 (from -r requirements.txt (line 200))
+
+[INFO]   Downloading langchain_text_splitters-0.2.4-py3-none-any.whl.metadata (2.3 kB)
+
+[INFO] Collecting langchain-unstructured==0.1.2 (from -r requirements.txt (line 201))
+
+[INFO]   Downloading langchain_unstructured-0.1.2-py3-none-any.whl.metadata (3.2 kB)
+
+[INFO] Collecting langchainhub==0.1.21 (from -r requirements.txt (line 202))
+
+[INFO]   Downloading langchainhub-0.1.21-py3-none-any.whl.metadata (659 bytes)
+
+[INFO] Collecting langfuse==2.53.9 (from -r requirements.txt (line 203))
+
+[INFO]   Downloading langfuse-2.53.9-py3-none-any.whl.metadata (3.2 kB)
+
+[INFO] Collecting langsmith==0.1.86 (from -r requirements.txt (line 204))
+
+[INFO]   Downloading langsmith-0.1.86-py3-none-any.whl.metadata (13 kB)
+
+[INFO] Collecting lark==1.2.2 (from -r requirements.txt (line 205))
+
+[INFO]   Downloading lark-1.2.2-py3-none-any.whl.metadata (1.8 kB)
+
+[INFO] Collecting lazy_loader==0.4 (from -r requirements.txt (line 206))
+
+[INFO]   Downloading lazy_loader-0.4-py3-none-any.whl.metadata (7.6 kB)
+
+[INFO] Collecting libclang==18.1.1 (from -r requirements.txt (line 207))
+
+[INFO]   Downloading libclang-18.1.1-py2.py3-none-manylinux2010_x86_64.whl.metadata (5.2 kB)
+
+[INFO] Collecting litellm==1.51.0 (from -r requirements.txt (line 208))
+
+[INFO]   Downloading litellm-1.51.0-py3-none-any.whl.metadata (32 kB)
+
+[INFO] Collecting llvmlite==0.43.0 (from -r requirements.txt (line 209))
+
+[INFO]   Downloading llvmlite-0.43.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.8 kB)
+
+[INFO] Collecting loguru==0.7.2 (from -r requirements.txt (line 210))
+
+[INFO]   Downloading loguru-0.7.2-py3-none-any.whl.metadata (23 kB)
+
+[INFO] Collecting lsprotocol==2023.0.1 (from -r requirements.txt (line 211))
+
+[INFO]   Downloading lsprotocol-2023.0.1-py3-none-any.whl.metadata (2.2 kB)
+
+[INFO] Collecting lxml==6.0.2 (from -r requirements.txt (line 212))
+
+[INFO]   Downloading lxml-6.0.2-cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (3.6 kB)
+
+[INFO] Collecting lz4==4.3.3 (from -r requirements.txt (line 213))
+
+[INFO]   Downloading lz4-4.3.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.7 kB)
+
+[INFO] Collecting magicattr==0.1.6 (from -r requirements.txt (line 214))
+
+[INFO]   Downloading magicattr-0.1.6-py2.py3-none-any.whl.metadata (3.2 kB)
+
+[INFO] Collecting Mako==1.3.6 (from -r requirements.txt (line 215))
+
+[INFO]   Downloading Mako-1.3.6-py3-none-any.whl.metadata (2.9 kB)
+
+[INFO] Collecting Markdown==3.7 (from -r requirements.txt (line 216))
+
+[INFO]   Downloading Markdown-3.7-py3-none-any.whl.metadata (7.0 kB)
+
+[INFO] Collecting markdown-it-py==3.0.0 (from -r requirements.txt (line 217))
+
+[INFO]   Downloading markdown_it_py-3.0.0-py3-none-any.whl.metadata (6.9 kB)
+
+[INFO] Collecting MarkupSafe==3.0.2 (from -r requirements.txt (line 218))
+
+[INFO]   Downloading MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)
+
+[INFO] Collecting marshmallow==3.23.1 (from -r requirements.txt (line 219))
+
+[INFO]   Downloading marshmallow-3.23.1-py3-none-any.whl.metadata (7.5 kB)
+
+[INFO] Collecting matplotlib==3.9.2 (from -r requirements.txt (line 220))
+
+[INFO]   Downloading matplotlib-3.9.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+
+[INFO] Collecting matplotlib-inline==0.1.7 (from -r requirements.txt (line 221))
+
+[INFO]   Downloading matplotlib_inline-0.1.7-py3-none-any.whl.metadata (3.9 kB)
+
+[INFO] Collecting mdurl==0.1.2 (from -r requirements.txt (line 222))
+
+[INFO]   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+
+[INFO] Collecting mediapipe==0.10.32 (from -r requirements.txt (line 223))
+
+[INFO]   Downloading mediapipe-0.10.32-py3-none-manylinux_2_28_x86_64.whl.metadata (9.8 kB)
+
+[INFO] Collecting metal_sdk==2.5.1 (from -r requirements.txt (line 224))
+
+[INFO]   Downloading metal_sdk-2.5.1-py3-none-any.whl.metadata (1.0 kB)
+
+[INFO] Collecting metaphor-python==0.1.23 (from -r requirements.txt (line 225))
+
+[INFO]   Downloading metaphor_python-0.1.23-py3-none-any.whl.metadata (636 bytes)
+
+[INFO] Collecting ml_dtypes==0.5.4 (from -r requirements.txt (line 226))
+
+[INFO]   Downloading ml_dtypes-0.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.9 kB)
+
+[INFO] Collecting mmh3==5.0.1 (from -r requirements.txt (line 227))
+
+[INFO]   Downloading mmh3-5.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (14 kB)
+
+[INFO] Collecting monotonic==1.6 (from -r requirements.txt (line 228))
+
+[INFO]   Downloading monotonic-1.6-py2.py3-none-any.whl.metadata (1.5 kB)
+
+[INFO] Collecting moorcheh-sdk==1.3.3 (from -r requirements.txt (line 229))
+
+[INFO]   Downloading moorcheh_sdk-1.3.3-py3-none-any.whl.metadata (9.2 kB)
+
+[INFO] Collecting more-itertools==10.5.0 (from -r requirements.txt (line 230))
+
+[INFO]   Downloading more_itertools-10.5.0-py3-none-any.whl.metadata (36 kB)
+
+[INFO] Collecting mpmath==1.3.0 (from -r requirements.txt (line 231))
+
+[INFO]   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+
+[INFO] Collecting msgpack==1.1.0 (from -r requirements.txt (line 232))
+
+[INFO]   Downloading msgpack-1.1.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (8.4 kB)
+
+[INFO] Collecting multidict==6.1.0 (from -r requirements.txt (line 233))
+
+[INFO]   Downloading multidict-6.1.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.0 kB)
+
+[INFO] Collecting multiprocess==0.70.17 (from -r requirements.txt (line 234))
+
+[INFO]   Downloading multiprocess-0.70.17-py312-none-any.whl.metadata (7.2 kB)
+
+[INFO] Collecting multitasking==0.0.11 (from -r requirements.txt (line 235))
+
+[INFO]   Downloading multitasking-0.0.11-py3-none-any.whl.metadata (5.5 kB)
+
+[INFO] Collecting mypy-extensions==1.0.0 (from -r requirements.txt (line 236))
+
+[INFO]   Downloading mypy_extensions-1.0.0-py3-none-any.whl.metadata (1.1 kB)
+
+[INFO] Collecting namex==0.1.0 (from -r requirements.txt (line 237))
+
+[INFO]   Downloading namex-0.1.0-py3-none-any.whl.metadata (322 bytes)
+
+[INFO] Collecting nanoid==2.0.0 (from -r requirements.txt (line 238))
+
+[INFO]   Downloading nanoid-2.0.0-py3-none-any.whl.metadata (3.5 kB)
+
+[INFO] Collecting narwhals==1.13.3 (from -r requirements.txt (line 239))
+
+[INFO]   Downloading narwhals-1.13.3-py3-none-any.whl.metadata (7.4 kB)
+
+[INFO] Collecting nest-asyncio==1.6.0 (from -r requirements.txt (line 240))
+
+[INFO]   Downloading nest_asyncio-1.6.0-py3-none-any.whl.metadata (2.8 kB)
+
+[INFO] Collecting networkx==3.4.2 (from -r requirements.txt (line 241))
+
+[INFO]   Downloading networkx-3.4.2-py3-none-any.whl.metadata (6.3 kB)
+
+[INFO] Collecting nltk==3.9.1 (from -r requirements.txt (line 242))
+
+[INFO]   Downloading nltk-3.9.1-py3-none-any.whl.metadata (2.9 kB)
+
+[INFO] Collecting numexpr==2.10.1 (from -r requirements.txt (line 243))
+
+[INFO]   Downloading numexpr-2.10.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.2 kB)
+
+[INFO] Collecting numpy==2.2.0 (from -r requirements.txt (line 244))
+
+[INFO]   Downloading numpy-2.2.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (62 kB)
+
+[INFO] Collecting oauthlib==3.2.2 (from -r requirements.txt (line 245))
+
+[INFO]   Downloading oauthlib-3.2.2-py3-none-any.whl.metadata (7.5 kB)
+
+[INFO] Collecting onnxruntime==1.20.0 (from -r requirements.txt (line 246))
+
+[INFO]   Downloading onnxruntime-1.20.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (4.4 kB)
+
+[INFO] Collecting openai==1.54.3 (from -r requirements.txt (line 247))
+
+[INFO]   Downloading openai-1.54.3-py3-none-any.whl.metadata (24 kB)
+
+[INFO] Collecting opencv-contrib-python==4.10.0.84 (from -r requirements.txt (line 248))
+
+[INFO]   Downloading opencv_contrib_python-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+
+[INFO] Collecting opencv-python==4.10.0.84 (from -r requirements.txt (line 249))
+
+[INFO]   Downloading opencv_python-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+
+[INFO] Collecting opencv-python-headless==4.13.0.92 (from -r requirements.txt (line 250))
+
+[INFO]   Downloading opencv_python_headless-4.13.0.92-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+
+[INFO] Collecting opensearch-py==2.7.1 (from -r requirements.txt (line 251))
+
+[INFO]   Downloading opensearch_py-2.7.1-py3-none-any.whl.metadata (6.9 kB)
+
+[INFO] Collecting opentelemetry-api==1.27.0 (from -r requirements.txt (line 252))
+
+[INFO]   Downloading opentelemetry_api-1.27.0-py3-none-any.whl.metadata (1.4 kB)
+
+[INFO] Collecting opentelemetry-exporter-otlp-proto-common==1.27.0 (from -r requirements.txt (line 253))
+
+[INFO]   Downloading opentelemetry_exporter_otlp_proto_common-1.27.0-py3-none-any.whl.metadata (1.8 kB)
+
+[INFO] Collecting opentelemetry-exporter-otlp-proto-grpc==1.27.0 (from -r requirements.txt (line 254))
+
+[INFO]   Downloading opentelemetry_exporter_otlp_proto_grpc-1.27.0-py3-none-any.whl.metadata (2.3 kB)
+
+[INFO] Collecting opentelemetry-exporter-otlp-proto-http==1.27.0 (from -r requirements.txt (line 255))
+
+[INFO]   Downloading opentelemetry_exporter_otlp_proto_http-1.27.0-py3-none-any.whl.metadata (2.3 kB)
+
+[INFO] Collecting opentelemetry-exporter-prometheus==0.48b0 (from -r requirements.txt (line 256))
+
+[INFO]   Downloading opentelemetry_exporter_prometheus-0.48b0-py3-none-any.whl.metadata (1.8 kB)
+
+[INFO] Collecting opentelemetry-instrumentation==0.48b0 (from -r requirements.txt (line 257))
+
+[INFO]   Downloading opentelemetry_instrumentation-0.48b0-py3-none-any.whl.metadata (6.1 kB)
+
+[INFO] Collecting opentelemetry-instrumentation-asgi==0.48b0 (from -r requirements.txt (line 258))
+
+[INFO]   Downloading opentelemetry_instrumentation_asgi-0.48b0-py3-none-any.whl.metadata (2.0 kB)
+
+[INFO] Collecting opentelemetry-instrumentation-fastapi==0.48b0 (from -r requirements.txt (line 259))
+
+[INFO]   Downloading opentelemetry_instrumentation_fastapi-0.48b0-py3-none-any.whl.metadata (2.1 kB)
+
+[INFO] Collecting opentelemetry-proto==1.27.0 (from -r requirements.txt (line 260))
+
+[INFO]   Downloading opentelemetry_proto-1.27.0-py3-none-any.whl.metadata (2.3 kB)
+
+[INFO] Collecting opentelemetry-sdk==1.27.0 (from -r requirements.txt (line 261))
+
+[INFO]   Downloading opentelemetry_sdk-1.27.0-py3-none-any.whl.metadata (1.5 kB)
+
+[INFO] Collecting opentelemetry-semantic-conventions==0.48b0 (from -r requirements.txt (line 262))
+
+[INFO]   Downloading opentelemetry_semantic_conventions-0.48b0-py3-none-any.whl.metadata (2.4 kB)
+
+[INFO] Collecting opentelemetry-util-http==0.48b0 (from -r requirements.txt (line 263))
+
+[INFO]   Downloading opentelemetry_util_http-0.48b0-py3-none-any.whl.metadata (2.5 kB)
+
+[INFO] Collecting opt_einsum==3.4.0 (from -r requirements.txt (line 264))
+
+[INFO]   Downloading opt_einsum-3.4.0-py3-none-any.whl.metadata (6.3 kB)
+
+[INFO] Collecting optree==0.18.0 (from -r requirements.txt (line 265))
+
+[INFO]   Downloading optree-0.18.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (34 kB)
+
+[INFO] Collecting optuna==4.0.0 (from -r requirements.txt (line 266))
+
+[INFO]   Downloading optuna-4.0.0-py3-none-any.whl.metadata (16 kB)
+
+[INFO] Collecting orderly-set==5.2.2 (from -r requirements.txt (line 267))
+
+[INFO]   Downloading orderly_set-5.2.2-py3-none-any.whl.metadata (6.3 kB)
+
+[INFO] Collecting orjson==3.10.0 (from -r requirements.txt (line 268))
+
+[INFO]   Downloading orjson-3.10.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (49 kB)
+
+[INFO] Collecting overrides==7.7.0 (from -r requirements.txt (line 269))
+
+[INFO]   Downloading overrides-7.7.0-py3-none-any.whl.metadata (5.8 kB)
+
+[INFO] Collecting packaging==24.1 (from -r requirements.txt (line 270))
+
+[INFO]   Downloading packaging-24.1-py3-none-any.whl.metadata (3.2 kB)
+
+[INFO] Collecting pandas==2.2.3 (from -r requirements.txt (line 271))
+
+[INFO]   Downloading pandas-2.2.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (89 kB)
+
+[INFO] Collecting parameterized==0.9.0 (from -r requirements.txt (line 272))
+
+[INFO]   Downloading parameterized-0.9.0-py2.py3-none-any.whl.metadata (18 kB)
+
+[INFO] Collecting paramiko==3.5.0 (from -r requirements.txt (line 273))
+
+[INFO]   Downloading paramiko-3.5.0-py3-none-any.whl.metadata (4.4 kB)
+
+[INFO] Collecting parso==0.8.4 (from -r requirements.txt (line 274))
+
+[INFO]   Downloading parso-0.8.4-py2.py3-none-any.whl.metadata (7.7 kB)
+
+[INFO] Collecting passlib==1.7.4 (from -r requirements.txt (line 275))
+
+[INFO]   Downloading passlib-1.7.4-py2.py3-none-any.whl.metadata (1.7 kB)
+
+[INFO] Collecting pdfminer.six==20251230 (from -r requirements.txt (line 276))
+
+[INFO]   Downloading pdfminer_six-20251230-py3-none-any.whl.metadata (4.3 kB)
+
+[INFO] Collecting pdfplumber==0.11.9 (from -r requirements.txt (line 277))
+
+[INFO]   Downloading pdfplumber-0.11.9-py3-none-any.whl.metadata (43 kB)
+
+[INFO] Collecting peewee==3.17.7 (from -r requirements.txt (line 278))
+
+[INFO]   Downloading peewee-3.17.7.tar.gz (939 kB)
+
+[INFO]      ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü 939.5/939.5 kB 260.9 MB/s eta 0:00:00
+[INFO] 
+
+[INFO]   Installing build dependencies: started
+
+[INFO]   Installing build dependencies: finished with status 'done'
+
+[INFO]   Getting requirements to build wheel: started
+
+[INFO]   Getting requirements to build wheel: finished with status 'done'
+
+[INFO]   Preparing metadata (pyproject.toml): started
+
+[INFO]   Preparing metadata (pyproject.toml): finished with status 'done'
+
+[INFO] Collecting pexpect==4.9.0 (from -r requirements.txt (line 279))
+
+[INFO]   Downloading pexpect-4.9.0-py2.py3-none-any.whl.metadata (2.5 kB)
+
+[INFO] Collecting pfzy==0.3.4 (from -r requirements.txt (line 280))
+
+[INFO]   Downloading pfzy-0.3.4-py3-none-any.whl.metadata (4.9 kB)
+
+[INFO] Collecting pgvector==0.3.6 (from -r requirements.txt (line 281))
+
+[INFO]   Downloading pgvector-0.3.6-py3-none-any.whl.metadata (13 kB)
+
+[INFO] Collecting pillow==10.4.0 (from -r requirements.txt (line 282))
+
+[INFO]   Downloading pillow-10.4.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (9.2 kB)
+
+[INFO] Collecting pinecone-client==5.0.1 (from -r requirements.txt (line 283))
+
+[INFO]   Downloading pinecone_client-5.0.1-py3-none-any.whl.metadata (19 kB)
+
+[INFO] Collecting pinecone-plugin-inference==1.1.0 (from -r requirements.txt (line 284))
+
+[INFO]   Downloading pinecone_plugin_inference-1.1.0-py3-none-any.whl.metadata (2.2 kB)
+
+[INFO] Collecting pinecone-plugin-interface==0.0.7 (from -r requirements.txt (line 285))
+
+[INFO]   Downloading pinecone_plugin_interface-0.0.7-py3-none-any.whl.metadata (1.2 kB)
+
+[INFO] Collecting pkginfo==1.11.2 (from -r requirements.txt (line 286))
+
+[INFO]   Downloading pkginfo-1.11.2-py3-none-any.whl.metadata (11 kB)
+
+[INFO] Collecting platformdirs==4.3.6 (from -r requirements.txt (line 287))
+
+[INFO]   Downloading platformdirs-4.3.6-py3-none-any.whl.metadata (11 kB)
+
+[INFO] Collecting poetry==1.8.4 (from -r requirements.txt (line 288))
+
+[INFO]   Downloading poetry-1.8.4-py3-none-any.whl.metadata (6.9 kB)
+
+[INFO] Collecting poetry-core==1.9.1 (from -r requirements.txt (line 289))
+
+[INFO]   Downloading poetry_core-1.9.1-py3-none-any.whl.metadata (3.5 kB)
+
+[INFO] Collecting poetry-plugin-export==1.8.0 (from -r requirements.txt (line 290))
+
+[INFO]   Downloading poetry_plugin_export-1.8.0-py3-none-any.whl.metadata (2.8 kB)
+
+[INFO] Collecting polars==1.38.1 (from -r requirements.txt (line 291))
+
+[INFO]   Downloading polars-1.38.1-py3-none-any.whl.metadata (10 kB)
+
+[INFO] Collecting polars-runtime-32==1.38.1 (from -r requirements.txt (line 292))
+
+[INFO]   Downloading polars_runtime_32-1.38.1-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.5 kB)
+
+[INFO] Collecting pooch==1.8.2 (from -r requirements.txt (line 293))
+
+[INFO]   Downloading pooch-1.8.2-py3-none-any.whl.metadata (10 kB)
+
+[INFO] Collecting portalocker==2.10.1 (from -r requirements.txt (line 294))
+
+[INFO]   Downloading portalocker-2.10.1-py3-none-any.whl.metadata (8.5 kB)
+
+[INFO] Collecting postgrest==2.28.2 (from -r requirements.txt (line 295))
+
+[INFO]   Downloading postgrest-2.28.2-py3-none-any.whl.metadata (3.4 kB)
+
+[INFO] Collecting posthog==3.7.0 (from -r requirements.txt (line 296))
+
+[INFO]   Downloading posthog-3.7.0-py2.py3-none-any.whl.metadata (2.0 kB)
+
+[INFO] Collecting praat-parselmouth==0.4.6 (from -r requirements.txt (line 297))
+
+[INFO]   Downloading praat_parselmouth-0.4.6-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.9 kB)
+
+[INFO] Collecting primp==0.7.0 (from -r requirements.txt (line 298))
+
+[INFO]   Downloading primp-0.7.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (10 kB)
+
+[INFO] Collecting prometheus_client==0.21.0 (from -r requirements.txt (line 299))
+
+[INFO]   Downloading prometheus_client-0.21.0-py3-none-any.whl.metadata (1.8 kB)
+
+[INFO] Collecting prompt_toolkit==3.0.48 (from -r requirements.txt (line 300))
+
+[INFO]   Downloading prompt_toolkit-3.0.48-py3-none-any.whl.metadata (6.4 kB)
+
+[INFO] Collecting propcache==0.4.1 (from -r requirements.txt (line 301))
+
+[INFO]   Downloading propcache-0.4.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (13 kB)
+
+[INFO] Collecting proto-plus==1.25.0 (from -r requirements.txt (line 302))
+
+[INFO]   Downloading proto_plus-1.25.0-py3-none-any.whl.metadata (2.2 kB)
+
+[INFO] Collecting protobuf==4.25.8 (from -r requirements.txt (line 303))
+
+[INFO]   Downloading protobuf-4.25.8-cp37-abi3-manylinux2014_x86_64.whl.metadata (541 bytes)
+
+[INFO] Collecting psutil==7.2.2 (from -r requirements.txt (line 304))
+
+[INFO]   Downloading psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl.metadata (22 kB)
+
+[INFO] Collecting psycopg==3.2.3 (from -r requirements.txt (line 305))
+
+[INFO]   Downloading psycopg-3.2.3-py3-none-any.whl.metadata (4.3 kB)
+
+[INFO] Collecting psycopg2-binary==2.9.10 (from -r requirements.txt (line 306))
+
+[INFO]   Downloading psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+
+[INFO] Collecting ptyprocess==0.7.0 (from -r requirements.txt (line 307))
+
+[INFO]   Downloading ptyprocess-0.7.0-py2.py3-none-any.whl.metadata (1.3 kB)
+
+[INFO] Collecting pulsar-client==3.5.0 (from -r requirements.txt (line 308))
+
+[INFO]   Downloading pulsar_client-3.5.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.0 kB)
+
+[INFO] Collecting pure_eval==0.2.3 (from -r requirements.txt (line 309))
+
+[INFO]   Downloading pure_eval-0.2.3-py3-none-any.whl.metadata (6.3 kB)
+
+[INFO] Collecting py==1.11.0 (from -r requirements.txt (line 310))
+
+[INFO]   Downloading py-1.11.0-py2.py3-none-any.whl.metadata (2.8 kB)
+
+[INFO] Collecting pyarrow==18.0.0 (from -r requirements.txt (line 311))
+
+[INFO]   Downloading pyarrow-18.0.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (3.3 kB)
+
+[INFO] Collecting pyasn1==0.6.1 (from -r requirements.txt (line 312))
+
+[INFO]   Downloading pyasn1-0.6.1-py3-none-any.whl.metadata (8.4 kB)
+
+[INFO] Collecting pyasn1_modules==0.4.1 (from -r requirements.txt (line 313))
+
+[INFO]   Downloading pyasn1_modules-0.4.1-py3-none-any.whl.metadata (3.5 kB)
+
+[INFO] Collecting PyAudio==0.2.14 (from -r requirements.txt (line 314))
+
+[INFO]   Downloading PyAudio-0.2.14.tar.gz (47 kB)
+
+[INFO]   Installing build dependencies: started
+
+[INFO]   Installing build dependencies: finished with status 'done'
+
+[INFO]   Getting requirements to build wheel: started
+
+[INFO]   Getting requirements to build wheel: finished with status 'done'
+
+[INFO]   Preparing metadata (pyproject.toml): started
+
+[INFO]   Preparing metadata (pyproject.toml): finished with status 'done'
+
+[INFO] Collecting pycairo==1.29.0 (from -r requirements.txt (line 315))
+
+[INFO]   Downloading pycairo-1.29.0.tar.gz (665 kB)
+
+[INFO]      ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü 665.9/665.9 kB 468.8 MB/s eta 0:00:00
+[INFO] 
+
+[INFO]   Installing build dependencies: started
+
+[INFO]   Installing build dependencies: finished with status 'done'
+
+[INFO]   Getting requirements to build wheel: started
+
+[INFO]   Getting requirements to build wheel: finished with status 'done'
+
+[INFO]   Installing backend dependencies: started
+
+[INFO]   Installing backend dependencies: finished with status 'done'
+
+[INFO]   Preparing metadata (pyproject.toml): started
+
+[INFO]   Preparing metadata (pyproject.toml): finished with status 'error'
+
+[INFO]   error: subprocess-exited-with-error
+  
+  ├ù Preparing metadata (pyproject.toml) did not run successfully.
+  Γöé exit code: 1
+  Γò░ΓöÇ> [20 lines of output]
+      + meson setup /tmp/pip-install-89tk0jdt/pycairo_44c1d57f42f648eaa5dc802e493579c3 /tmp/pip-install-89tk0jdt/pycairo_44c1d57f42f648eaa5dc802e493579c3/.mesonpy-9ywapy3i -Dbuildtype=release -Db_ndebug=if-release -Db_vscrt=md -Dwheel=true -Dtests=false --native-file=/tmp/pip-install-89tk0jdt/pycairo_44c1d57f42f648eaa5dc802e493579c3/.mesonpy-9ywapy3i/meson-python-native-file.ini
+      The Meson build system
+      Version: 1.10.1
+      Source dir: /tmp/pip-install-89tk0jdt/pycairo_44c1d57f42f648eaa5dc802e493579c3
+      Build dir: /tmp/pip-install-89tk0jdt/pycairo_44c1d57f42f648eaa5dc802e493579c3/.mesonpy-9ywapy3i
+      Build type: native build
+      Project name: pycairo
+      Project version: 1.29.0
+      
+      ../meson.build:1:0: ERROR: Unknown compiler(s): [['cc'], ['gcc'], ['clang'], ['nvc'], ['pgcc'], ['icc'], ['icx']]
+      The following exception(s) were encountered:
+      Running `cc --version` gave "[Errno 2] No such file or directory: 'cc'"
+      Running `gcc --version` gave "[Errno 2] No such file or directory: 'gcc'"
+      Running `clang --version` gave "[Errno 2] No such file or directory: 'clang'"
+      Running `nvc --version` gave "[Errno 2] No such file or directory: 'nvc'"
+      Running `pgcc --version` gave "[Errno 2] No such file or directory: 'pgcc'"
+      Running `icc --version` gave "[Errno 2] No such file or directory: 'icc'"
+      Running `icx --version` gave "[Errno 2] No such file or directory: 'icx'"
+      
+      A full log can be found at /tmp/pip-install-89tk0jdt/pycairo_44c1d57f42f648eaa5dc802e493579c3/.mesonpy-9ywapy3i/meson-logs/meson-log.txt
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+
+[INFO] error: metadata-generation-failed
+
+├ù Encountered error while generating package metadata.
+Γò░ΓöÇ> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+
+[ERRO] [stage-0 6/8] RUN --mount=type=cache,id=s/dea9f773-4310-436f-a949-08299edb89e9-/root/cache/pip,target=/root/.cache/pip python -m venv --copies /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt
+Dockerfile:20
+-------------------
+18 |     ENV NIXPACKS_PATH=/opt/venv/bin:$NIXPACKS_PATH
+19 |     COPY . /app/.
+20 | >>> RUN --mount=type=cache,id=s/dea9f773-4310-436f-a949-08299edb89e9-/root/cache/pip,target=/root/.cache/pip python -m venv --copies /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt
+21 |
+22 |
+-------------------
+ERROR: failed to build: failed to solve: process "/bin/bash -ol pipefail -c python -m venv --copies /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt" did not complete successfully: exit code: 1
+Error: Docker build failed

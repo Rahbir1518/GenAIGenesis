@@ -1,0 +1,9 @@
+cmake
+pkg-config
+libxcb1-dev
+libxcb-render0-dev
+libxcb-shm0-dev
+libxext-dev
+libpq-dev
+ffmpeg
+portaudio19-dev
