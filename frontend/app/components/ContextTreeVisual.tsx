@@ -128,9 +128,16 @@ function buildLayout(
   const domainKeys = Array.from(domainMap.keys());
   const totalDomains = domainKeys.length;
 
-  // Lay out domain nodes (level 1)
-  const domainTotalWidth = totalDomains * NODE_W + (totalDomains - 1) * NODE_GAP_X;
-  const domainStartX = -domainTotalWidth / 2 + NODE_W / 2;
+  // Calculate each domain's subtree width (max of domain node vs its children)
+  const domainWidths: number[] = domainKeys.map((key) => {
+    const children = domainMap.get(key) || [];
+    const childCount = children.length;
+    if (childCount <= 1) return NODE_W;
+    return childCount * NODE_W + (childCount - 1) * NODE_GAP_X;
+  });
+
+  const totalTreeWidth = domainWidths.reduce((sum, w) => sum + w, 0) + (totalDomains - 1) * NODE_GAP_X;
+  let cursorX = -totalTreeWidth / 2;
 
   const domainNodeIds = new Map<string, string>();
 
@@ -138,6 +145,10 @@ function buildLayout(
     const domainLabel = domainKeys[di];
     const domainNodeId = `__domain_${di}__`;
     domainNodeIds.set(domainLabel, domainNodeId);
+
+    const subtreeWidth = domainWidths[di];
+    const domainCenterX = cursorX + subtreeWidth / 2;
+    cursorX += subtreeWidth + NODE_GAP_X;
 
     // Check if this domain itself is in the traversal list
     const domainTraversalNode = nodes.find(
@@ -154,7 +165,7 @@ function buildLayout(
       nodeType: "domain",
       ownerName: "",
       parentId: rootId,
-      x: domainStartX + di * (NODE_W + NODE_GAP_X),
+      x: domainCenterX,
       y: ROOT_Y + LEVEL_GAP_Y,
       visitIndex: visitIdx,
     });
@@ -173,7 +184,7 @@ function buildLayout(
     const childCount = children.length;
     if (childCount === 0) continue;
 
-    const childTotalWidth = childCount * NODE_W + (childCount - 1) * (NODE_GAP_X / 2);
+    const childTotalWidth = childCount * NODE_W + (childCount - 1) * NODE_GAP_X;
     const childStartX = parentX - childTotalWidth / 2 + NODE_W / 2;
     const childY = ROOT_Y + LEVEL_GAP_Y * 2;
     maxY = Math.max(maxY, childY);
@@ -192,7 +203,7 @@ function buildLayout(
         nodeType: child.node_type,
         ownerName: child.owner_name,
         parentId: parentNodeId,
-        x: childStartX + ci * (NODE_W + NODE_GAP_X / 2),
+        x: childStartX + ci * (NODE_W + NODE_GAP_X),
         y: childY,
         visitIndex: visitIdx,
       });
