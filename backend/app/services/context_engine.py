@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import math
 from datetime import datetime, timezone
@@ -11,6 +12,82 @@ from app.services.supabase import get_supabase
 from app.services import ai
 
 logger = logging.getLogger(__name__)
+
+
+# ---------------------------------------------------------------------------
+# Staleness Decay
+# ---------------------------------------------------------------------------
+
+def staleness_decay(raw_confidence: float, updated_at: str | datetime) -> float:
+    """Apply staleness decay: effective = raw × e^(−days/14)."""
+    if isinstance(updated_at, str):
+        # Parse ISO timestamp
+        updated_at = datetime.fromisoformat(updated_at.replace("Z", "+00:00"))
+    now = datetime.now(timezone.utc)
+    days = (now - updated_at).total_seconds() / 86400
+    return raw_confidence * math.exp(-days / 14)
+
+
+# ---------------------------------------------------------------------------
+# Auto-create Default Agent
+# ---------------------------------------------------------------------------
+
+_AGENT_PROMPTS = {
+    "engineering": "Extract technical knowledge about code, architecture, APIs, databases, deployments, and system design.",
+    "sales": "Extract sales knowledge about products, pricing, objections, competitors, and customer pain points.",
+    "custom": "Extract general knowledge relevant to the workspace.",
+}
+
+_AGENT_NAMES = {
+    "engineering": "Engineering Agent",
+    "sales": "Sales Agent",
+    "custom": "General Agent",
+}
+
+
+def _ensure_default_agent(sb, workspace_id: str, agent_type: str) -> dict:
+    """Create a default agent for a workspace if none exists for the given type."""
+    # Check again to avoid race conditions
+    existing = (
+        sb.table("agents")
+        .select("*")
+        .eq("workspace_id", workspace_id)
+        .eq("type", agent_type)
+        .limit(1)
+        .execute()
+    )
+    if existing.data:
+        return existing.data[0]
+
+    data = {
+        "workspace_id": workspace_id,
+        "type": agent_type,
+        "name": _AGENT_NAMES.get(agent_type, "Agent"),
+        "extraction_prompt": _AGENT_PROMPTS.get(agent_type, _AGENT_PROMPTS["custom"]),
+        "domain_scope": [],
+    }
+    resp = sb.table("agents").insert(data).execute()
+    if resp.data:
+        logger.info(f"Auto-created {agent_type} agent for workspace {workspace_id}")
+        return resp.data[0]
+    return data
+
+
+def _resolve_github_owner(sb, workspace_id: str, github_username: str) -> str | None:
+    """Find workspace_member id by github_username."""
+    if not github_username:
+        return None
+    resp = (
+        sb.table("workspace_members")
+        .select("id")
+        .eq("workspace_id", workspace_id)
+        .eq("github_username", github_username)
+        .limit(1)
+        .execute()
+    )
+    if resp.data:
+        return resp.data[0]["id"]
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -250,7 +327,10 @@ async def _ensure_domain_node(agent_id: str, domain: str) -> str | None:
 async def process_message(message_id: str) -> list[dict]:
     """Extract context from a message and upsert tree nodes.
     
-    Returns list of created/updated tree nodes.
+    1. Classifies the message type (engineering / sales / general).
+    2. Auto-creates agents if the workspace has none.
+    3. Routes extraction to the matching agent type(s).
+    4. Returns list of created/updated tree nodes.
     """
     sb = get_supabase()
 
@@ -277,6 +357,13 @@ async def process_message(message_id: str) -> list[dict]:
         sb.table("messages").update({"processed": True}).eq("id", message_id).execute()
         return []
 
+    # Classify message type so we route to the correct agent(s)
+    try:
+        classification = await ai.classify_message_type(content)
+    except Exception:
+        classification = {"category": "general", "confidence": 0.5}
+    msg_category = classification.get("category", "general")
+
     # Get all agents for this workspace
     agents_resp = (
         sb.table("agents")
@@ -286,13 +373,20 @@ async def process_message(message_id: str) -> list[dict]:
     )
     agents = agents_resp.data or []
 
+    # Auto-create agents if none exist
     if not agents:
-        sb.table("messages").update({"processed": True}).eq("id", message_id).execute()
-        return []
+        agent_type = msg_category if msg_category in ("engineering", "sales") else "engineering"
+        agent = _ensure_default_agent(sb, workspace_id, agent_type)
+        agents = [agent]
+
+    # Prefer agents matching the message category; fall back to all
+    matching_agents = [a for a in agents if a.get("type") == msg_category]
+    if not matching_agents:
+        matching_agents = agents
 
     created_nodes = []
 
-    for agent in agents:
+    for agent in matching_agents:
         # Extract facts
         try:
             facts = await ai.extract_context(
@@ -319,10 +413,13 @@ async def process_message(message_id: str) -> list[dict]:
             except Exception as e:
                 logger.error(f"Failed to upsert node: {e}")
 
-    # Mark message as processed
+    # Mark message as processed with classification info
     sb.table("messages").update({
         "processed": True,
-        "extracted_context": {"facts_count": len(created_nodes)},
+        "extracted_context": {
+            "facts_count": len(created_nodes),
+            "category": msg_category,
+        },
     }).eq("id", message_id).execute()
 
     return created_nodes
@@ -366,3 +463,226 @@ async def bootstrap_agent(agent_id: str, workspace_id: str) -> int:
     }).eq("id", agent_id).execute()
 
     return total_nodes
+
+
+# ---------------------------------------------------------------------------
+# Process PR into Context Tree
+# ---------------------------------------------------------------------------
+
+async def process_pr_into_context(
+    workspace_id: str,
+    pr_record: dict,
+    diff_text: str = "",
+) -> list[dict]:
+    """Extract engineering context from a stored PR and populate tree_nodes.
+
+    Called automatically after a PR is stored via the GitHub webhook.
+    """
+    sb = get_supabase()
+
+    # Find engineering agents
+    agents_resp = (
+        sb.table("agents")
+        .select("*")
+        .eq("workspace_id", workspace_id)
+        .eq("type", "engineering")
+        .execute()
+    )
+    agents = agents_resp.data or []
+
+    if not agents:
+        agent = _ensure_default_agent(sb, workspace_id, "engineering")
+        agents = [agent]
+
+    # Extract structured facts from the PR
+    facts = await ai.extract_pr_facts(
+        title=pr_record.get("title", ""),
+        summary=pr_record.get("summary", ""),
+        author=pr_record.get("author_username", ""),
+        diff_text=diff_text,
+    )
+
+    if not facts:
+        return []
+
+    owner_id = _resolve_github_owner(
+        sb, workspace_id, pr_record.get("author_username")
+    )
+
+    created_nodes = []
+    for agent in agents:
+        for fact in facts:
+            try:
+                node = await upsert_tree_node(
+                    agent_id=agent["id"],
+                    fact=fact,
+                    source="pr",
+                    source_ref=pr_record.get("id"),
+                    owner_id=owner_id,
+                )
+                created_nodes.append(node)
+            except Exception as e:
+                logger.error(f"Failed to upsert PR node: {e}")
+
+    logger.info(
+        f"Created {len(created_nodes)} tree nodes from PR #{pr_record.get('pr_number')}"
+    )
+    return created_nodes
+
+
+# ---------------------------------------------------------------------------
+# Process Sales Record into Context Tree
+# ---------------------------------------------------------------------------
+
+async def process_sales_record(record_id: str) -> list[dict]:
+    """Extract context from a sales record and populate tree_nodes."""
+    sb = get_supabase()
+
+    rec_resp = sb.table("sales_records").select("*").eq("id", record_id).execute()
+    if not rec_resp.data:
+        return []
+
+    record = rec_resp.data[0]
+    workspace_id = record["workspace_id"]
+
+    # Find sales agents
+    agents_resp = (
+        sb.table("agents")
+        .select("*")
+        .eq("workspace_id", workspace_id)
+        .eq("type", "sales")
+        .execute()
+    )
+    agents = agents_resp.data or []
+
+    if not agents:
+        agent = _ensure_default_agent(sb, workspace_id, "sales")
+        agents = [agent]
+
+    raw_text = record.get("raw_text", "")
+    title = record.get("title", "")
+    facts = await ai.extract_sales_facts(title=title, content=raw_text)
+
+    if not facts:
+        return []
+
+    created_nodes = []
+    for agent in agents:
+        for fact in facts:
+            try:
+                node = await upsert_tree_node(
+                    agent_id=agent["id"],
+                    fact=fact,
+                    source="manual",
+                    source_ref=record_id,
+                )
+                created_nodes.append(node)
+            except Exception as e:
+                logger.error(f"Failed to upsert sales node: {e}")
+
+    # Update sales record with generated summary
+    if facts:
+        summary = "; ".join(f.get("summary", "") for f in facts[:3])
+        sb.table("sales_records").update({"summary": summary}).eq("id", record_id).execute()
+
+    logger.info(f"Created {len(created_nodes)} tree nodes from sales record {record_id}")
+    return created_nodes
+
+
+# ---------------------------------------------------------------------------
+# Process Onboarding Session into Context Tree
+# ---------------------------------------------------------------------------
+
+async def process_onboarding_session(session_id: str) -> dict:
+    """Process an onboarding session: generate AI persona summary and extract
+    expertise knowledge into the context tree.
+    """
+    sb = get_supabase()
+
+    sess_resp = sb.table("onboarding_sessions").select("*").eq("id", session_id).execute()
+    if not sess_resp.data:
+        return {}
+
+    session = sess_resp.data[0]
+    workspace_id = session["workspace_id"]
+    user_name = session.get("user_name", "Unknown")
+    role = session.get("role", "viewer")
+    raw_responses = session.get("raw_responses", {})
+    goals = session.get("goals") or []
+
+    # Build a persona summary from the onboarding data
+    onboarding_text = (
+        f"User: {user_name}\nRole: {role}\n"
+        f"Goals: {', '.join(goals) if goals else 'none'}\n"
+        f"Responses: {json.dumps(raw_responses)}"
+    )
+
+    from google.genai import types
+    client = ai._get_client()
+    persona_prompt = (
+        f"Based on this onboarding data, write a concise persona summary (2-3 sentences) "
+        f"describing this team member's expertise, role, and what they can help with:\n{onboarding_text}"
+    )
+    response = client.models.generate_content(
+        model=ai.MODEL,
+        contents=persona_prompt,
+        config=types.GenerateContentConfig(temperature=0.2, max_output_tokens=512),
+    )
+    persona_summary = response.text.strip()
+
+    # Update the session
+    sb.table("onboarding_sessions").update({
+        "ai_persona_summary": persona_summary,
+        "status": "completed",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+    }).eq("id", session_id).execute()
+
+    # Find the workspace member
+    member_resp = (
+        sb.table("workspace_members")
+        .select("id")
+        .eq("workspace_id", workspace_id)
+        .eq("user_id", session["user_id"])
+        .limit(1)
+        .execute()
+    )
+    member_id = member_resp.data[0]["id"] if member_resp.data else None
+
+    # Extract expertise as tree_node entries for relevant agents
+    agent_type = "engineering" if role in ("engineer", "admin") else "sales" if role == "sales" else "custom"
+    agents_resp = (
+        sb.table("agents")
+        .select("*")
+        .eq("workspace_id", workspace_id)
+        .eq("type", agent_type)
+        .execute()
+    )
+    agents = agents_resp.data or []
+    if not agents:
+        agent = _ensure_default_agent(sb, workspace_id, agent_type)
+        agents = [agent]
+
+    nodes_created = 0
+    for goal in goals:
+        for agent in agents:
+            try:
+                fact = {
+                    "domain": role or "general",
+                    "label": f"{user_name} — {goal[:40]}",
+                    "summary": f"{user_name} ({role}) has expertise/interest in: {goal}. {persona_summary}",
+                    "owner_hint": "yes",
+                }
+                await upsert_tree_node(
+                    agent_id=agent["id"],
+                    fact=fact,
+                    source="manual",
+                    owner_id=member_id,
+                )
+                nodes_created += 1
+            except Exception as e:
+                logger.error(f"Failed to create onboarding node: {e}")
+
+    return {
+        "persona_summary": persona_summary,
+        "nodes_created": nodes_created,
+    }

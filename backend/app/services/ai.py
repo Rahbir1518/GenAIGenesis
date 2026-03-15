@@ -60,11 +60,15 @@ def _parse_json(text: str) -> Any:
 # ---------------------------------------------------------------------------
 
 async def generate_embedding(text: str) -> list[float]:
-    """Generate a 768-dim embedding using Gemini text-embedding-004."""
+    """Generate an embedding using Gemini embedding model.
+
+    Output dimensionality is set to 768 to match the DB vector column.
+    """
     client = _get_client()
     result = client.models.embed_content(
         model=EMBED_MODEL,
         contents=text,
+        config=types.EmbedContentConfig(output_dimensionality=768),
     )
     return list(result.embeddings[0].values)
 
@@ -183,6 +187,7 @@ Rules:
 4. Reference which domain/node the information comes from.
 5. Keep answers concise (2-4 sentences max).
 6. If context is completely insufficient, say you don't have enough information.
+7. IMPORTANT — Always answer in plain, non-technical language that a business or sales person can understand. Never include function names, code snippets, variable names, file paths, or implementation details. Instead, describe what the system does, why it matters, and how it works at a high level. For example, instead of "the authenticate() function validates JWT tokens", say "the system verifies the user's identity before granting access."
 
 Question: \"\"\"{question_text}\"\"\"
 """
@@ -272,3 +277,111 @@ async def find_experts(
     if isinstance(parsed, dict) and "experts" in parsed:
         return parsed["experts"]
     return []
+
+
+# ---------------------------------------------------------------------------
+# PR Fact Extraction
+# ---------------------------------------------------------------------------
+
+PR_EXTRACTION_PROMPT = """You are a knowledge extraction engine for a software engineering workspace.
+Analyze the following pull request and extract structured engineering facts.
+
+For each fact, return:
+- "domain": the engineering domain (e.g., "authentication", "api", "database", "deployment", "frontend", "backend", "testing", "devops", "security")
+- "label": a short label (3-8 words)
+- "summary": a detailed summary (1-3 sentences)
+- "owner_hint": "yes" (the PR author is the subject-matter expert)
+
+PR Title: {title}
+PR Author: {author}
+PR Summary: {summary}
+Diff excerpt (if available):
+\"\"\"{diff_text}\"\"\"
+
+Return a JSON array. If there are no meaningful engineering facts, return [].
+"""
+
+
+async def extract_pr_facts(
+    title: str,
+    summary: str,
+    author: str,
+    diff_text: str = "",
+) -> list[dict]:
+    """Extract structured engineering facts from a pull request."""
+    client = _get_client()
+    prompt = PR_EXTRACTION_PROMPT.format(
+        title=title,
+        summary=summary,
+        author=author,
+        diff_text=diff_text[:5000],
+    )
+    response = client.models.generate_content(
+        model=MODEL,
+        contents=prompt,
+        config=types.GenerateContentConfig(temperature=0.1, max_output_tokens=2048),
+    )
+    parsed = _parse_json(response.text)
+    return parsed if isinstance(parsed, list) else []
+
+
+# ---------------------------------------------------------------------------
+# Sales Fact Extraction
+# ---------------------------------------------------------------------------
+
+SALES_EXTRACTION_PROMPT = """You are a knowledge extraction engine for a sales workspace.
+Analyze the following sales record and extract structured facts useful for a sales knowledge base.
+
+For each fact, return:
+- "domain": the sales domain (e.g., "pricing", "objections", "competitor", "feature_request", "customer_pain", "deal_stage", "product_knowledge")
+- "label": a short label (3-8 words)
+- "summary": a detailed summary (1-3 sentences)
+- "owner_hint": "no"
+
+Title: {title}
+Content:
+\"\"\"{content}\"\"\"
+
+Return a JSON array. If there are no meaningful sales facts, return [].
+"""
+
+
+async def extract_sales_facts(title: str, content: str) -> list[dict]:
+    """Extract structured sales facts from a sales record."""
+    client = _get_client()
+    prompt = SALES_EXTRACTION_PROMPT.format(title=title, content=content[:6000])
+    response = client.models.generate_content(
+        model=MODEL,
+        contents=prompt,
+        config=types.GenerateContentConfig(temperature=0.1, max_output_tokens=2048),
+    )
+    parsed = _parse_json(response.text)
+    return parsed if isinstance(parsed, list) else []
+
+
+# ---------------------------------------------------------------------------
+# Message Type Classification (for routing to correct agent)
+# ---------------------------------------------------------------------------
+
+MESSAGE_CLASSIFY_PROMPT = """Classify this workspace chat message into a category.
+Return a JSON object with:
+- "category": one of "engineering", "sales", "general"
+- "confidence": float between 0 and 1
+
+Message:
+\"\"\"{message_text}\"\"\"
+"""
+
+
+async def classify_message_type(message_text: str) -> dict:
+    """Classify a message as engineering, sales, or general."""
+    client = _get_client()
+    response = client.models.generate_content(
+        model=MODEL,
+        contents=MESSAGE_CLASSIFY_PROMPT.format(message_text=message_text),
+        config=types.GenerateContentConfig(temperature=0.0, max_output_tokens=256),
+    )
+    parsed = _parse_json(response.text)
+    if isinstance(parsed, dict) and "category" in parsed:
+        return parsed
+    return {"category": "general", "confidence": 0.5}

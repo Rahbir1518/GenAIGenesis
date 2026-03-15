@@ -16,6 +16,7 @@ from app.services.context_engine import (
     upsert_tree_node,
 )
 from app.services.supabase import get_supabase
+from app.services import moorcheh as moorcheh_service
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +76,61 @@ async def ask_pipeline(
             "is_who_knows": is_who_knows,
         })
 
+        # ----- Engineering fast-path via Moorcheh PR index -----
+        if question_type == "engineering" and not is_who_knows:
+            yield sse_event("status", {"step": "moorcheh_sync", "message": "Syncing PR data into Moorcheh..."})
+            try:
+                result = await asyncio.to_thread(
+                    moorcheh_service.engineering_search_pipeline_sync,
+                    workspace_id,
+                    question_text,
+                )
+                moorcheh_answer = result.get("answer", "")
+                moorcheh_sources = result.get("sources", [])
+
+                if moorcheh_answer and moorcheh_answer.strip():
+                    yield sse_event("status", {"step": "moorcheh_search", "message": "Searching PR knowledge base..."})
+
+                    # Emit source traversal events for the frontend
+                    for i, src in enumerate(moorcheh_sources[:5]):
+                        yield sse_event("traversal", {
+                            "index": i,
+                            "node_id": src.get("id", f"moorcheh-{i}"),
+                            "label": src.get("text", src.get("id", "PR"))[:80],
+                            "summary": src.get("text", "")[:200],
+                            "confidence": round(src.get("score", 0.9), 2),
+                            "effective_confidence": round(src.get("score", 0.9), 2),
+                            "similarity": round(src.get("score", 0.9), 3),
+                            "owner_name": "",
+                            "node_type": "pr_context",
+                            "agent_name": "Moorcheh Engineering",
+                            "parent_label": None,
+                        })
+                        await asyncio.sleep(0.3)
+
+                    question_record = _record_question(
+                        sb, workspace_id, asked_by, question_text,
+                        question_type, domains, urgency,
+                        [], moorcheh_answer, 0.90, False, None,
+                    )
+                    _update_analytics(sb, workspace_id, auto_answered=True)
+
+                    yield sse_event("result", {
+                        "type": "answer",
+                        "answer": moorcheh_answer,
+                        "confidence": 0.90,
+                        "source_node": {
+                            "id": "moorcheh",
+                            "label": "GitHub PR Knowledge Base",
+                            "agent_name": "Moorcheh Engineering",
+                        },
+                        "question_id": question_record.get("id") if question_record else None,
+                    })
+                    return
+            except Exception as moorcheh_err:
+                logger.warning("Moorcheh engineering path failed, falling back: %s", moorcheh_err)
+                yield sse_event("status", {"step": "moorcheh_fallback", "message": "PR search unavailable, using context tree..."})
+
         # ----- Step 2: Vector Search -----
         yield sse_event("status", {"step": "search", "message": "Searching context tree..."})
 
@@ -91,6 +147,7 @@ async def ask_pipeline(
 
         all_matches = []
         traversed_node_ids = []
+        traversal_events = []  # collect for embedding in agent channel
 
         for agent in agents:
             matches = await find_matching_nodes(
@@ -102,16 +159,42 @@ async def ask_pipeline(
             for m in matches:
                 m["agent_name"] = agent["name"]
                 m["agent_type"] = agent["type"]
+                m["agent_id_ref"] = agent["id"]
 
             all_matches.extend(matches)
 
         # Sort by similarity
         all_matches.sort(key=lambda x: x.get("similarity", 0), reverse=True)
 
+        # ----- Build parent label lookup for tree hierarchy -----
+        parent_label_map = {}
+        try:
+            node_ids_with_parents = [n.get("parent_id") for n in all_matches if n.get("parent_id")]
+            if node_ids_with_parents:
+                parent_resp = (
+                    sb.table("tree_nodes")
+                    .select("id, label, parent_id, node_type")
+                    .in_("id", list(set(node_ids_with_parents)))
+                    .execute()
+                )
+                for p in (parent_resp.data or []):
+                    parent_label_map[p["id"]] = p["label"]
+        except Exception:
+            pass
+
+        def _node_depth(node: dict) -> int:
+            """Determine depth: domain=1, module with parent=2, else 1."""
+            if node.get("node_type") == "domain":
+                return 1
+            if node.get("parent_id"):
+                return 2
+            return 1
+
         # ----- Step 3: Emit Traversal Events -----
         for i, node in enumerate(all_matches[:8]):
             traversed_node_ids.append(node["id"])
-            yield sse_event("traversal", {
+            pid = node.get("parent_id")
+            traversal_event = {
                 "index": i,
                 "node_id": node["id"],
                 "label": node.get("label", "Unknown"),
@@ -122,8 +205,12 @@ async def ask_pipeline(
                 "owner_name": node.get("owner_name", "Unknown"),
                 "node_type": node.get("node_type", "module"),
                 "agent_name": node.get("agent_name", ""),
-                "parent_label": None,
-            })
+                "parent_id": pid,
+                "parent_label": parent_label_map.get(pid) if pid else None,
+                "depth": _node_depth(node),
+            }
+            traversal_events.append(traversal_event)
+            yield sse_event("traversal", traversal_event)
             await asyncio.sleep(0.5)  # Stagger for animation
 
         # ----- Step 4: Evaluate Confidence & Decide -----
@@ -211,6 +298,15 @@ async def ask_pipeline(
                 "question_id": question_record.get("id") if question_record else None,
             })
 
+            # Post answer to the relevant agent channel
+            _post_answer_to_agent_channel(
+                sb, workspace_id, question_text, answer_text,
+                round(best_confidence, 2),
+                best_match.get("label", ""),
+                best_match.get("agent_id_ref") or best_match.get("agent_id"),
+                traversal_nodes=traversal_events,
+            )
+
         elif best_confidence >= 0.50:
             # Medium confidence — answer with caveat
             yield sse_event("status", {"step": "answer", "message": "Generating answer with caveat..."})
@@ -237,6 +333,16 @@ async def ask_pipeline(
                 },
                 "question_id": question_record.get("id") if question_record else None,
             })
+
+            # Post answer to the relevant agent channel
+            _post_answer_to_agent_channel(
+                sb, workspace_id, question_text, answer_text,
+                round(best_confidence, 2),
+                best_match.get("label", ""),
+                best_match.get("agent_id_ref") or best_match.get("agent_id"),
+                caveat="This answer is based on limited context. The information may be incomplete or outdated.",
+                traversal_nodes=traversal_events,
+            )
 
         else:
             # Low confidence — route to owner
@@ -284,6 +390,15 @@ async def ask_pipeline(
                 "question_id": question_record.get("id") if question_record else None,
             })
 
+            # Post ping to the relevant agent channel
+            _post_ping_to_agent_channel(
+                sb, workspace_id, question_text,
+                route_name, round(best_confidence, 2),
+                best_match.get("label", "this area"),
+                best_match.get("agent_id_ref") or best_match.get("agent_id"),
+                traversal_nodes=traversal_events,
+            )
+
     except Exception as e:
         logger.exception("Bot pipeline error")
         yield sse_event("error", {"message": f"An error occurred: {str(e)}"})
@@ -302,7 +417,8 @@ async def handle_response(
     
     1. Update the question record with the answer
     2. Add the answer as new context to the tree
-    3. Return the updated question
+    3. Notify the original asker via a message (if applicable)
+    4. Return the updated question
     """
     sb = get_supabase()
 
@@ -344,7 +460,99 @@ async def handle_response(
         except Exception as e:
             logger.error(f"Failed to add response to tree: {e}")
 
+    # Notify the original asker by inserting a system message
+    try:
+        asked_by = question.get("asked_by")
+        if asked_by:
+            sb.table("messages").insert({
+                "workspace_id": workspace_id,
+                "channel": "general",
+                "content": (
+                    f"✅ Your question has been answered!\n\n"
+                    f"**Q:** {question['question_text']}\n"
+                    f"**A:** {response_text}"
+                ),
+            }).execute()
+    except Exception as e:
+        logger.error(f"Failed to notify asker: {e}")
+
+    # Also post the answer to the relevant agent channel(s)
+    for agent in (agents_resp.data or []):
+        try:
+            _post_answer_to_agent_channel(
+                sb, workspace_id,
+                question["question_text"], response_text,
+                1.0,  # Human-provided answer
+                (question.get("classified_domains") or ["general"])[0],
+                agent["id"],
+            )
+        except Exception as e:
+            logger.error(f"Failed to post response to agent channel: {e}")
+
     return {"ok": True, "question_id": question_id}
+
+
+# ---------------------------------------------------------------------------
+# Agent Channel Message Helpers
+# ---------------------------------------------------------------------------
+
+def _post_answer_to_agent_channel(
+    sb, workspace_id: str, question_text: str, answer_text: str,
+    confidence: float, source_label: str, agent_id: str | None,
+    caveat: str | None = None,
+    traversal_nodes: list[dict] | None = None,
+):
+    """Post a bot answer as a message in the relevant agent channel."""
+    if not agent_id:
+        return
+    try:
+        caveat_line = f"\n⚠️ {caveat}" if caveat else ""
+        traversal_json = json.dumps(traversal_nodes or [])
+        content = (
+            f"<!-- context-answer -->\n"
+            f"<!-- traversal-data:{traversal_json} -->\n"
+            f"❓ **Q:** {question_text}\n\n"
+            f"💡 **A:** {answer_text}\n\n"
+            f"📍 Source: {source_label} · "
+            f"Confidence: {round(confidence * 100)}%"
+            f"{caveat_line}"
+        )
+        sb.table("messages").insert({
+            "workspace_id": workspace_id,
+            "channel": f"agent:{agent_id}",
+            "content": content,
+        }).execute()
+    except Exception as e:
+        logger.error(f"Failed to post answer to agent channel: {e}")
+
+
+def _post_ping_to_agent_channel(
+    sb, workspace_id: str, question_text: str,
+    route_name: str, confidence: float,
+    domain: str, agent_id: str | None,
+    traversal_nodes: list[dict] | None = None,
+):
+    """Post a ping/route notification as a message in the relevant agent channel."""
+    if not agent_id:
+        return
+    try:
+        traversal_json = json.dumps(traversal_nodes or [])
+        content = (
+            f"<!-- context-ping -->\n"
+            f"<!-- traversal-data:{traversal_json} -->\n"
+            f"🔔 **Ping:** @{route_name}\n\n"
+            f"❓ {question_text}\n\n"
+            f"📍 Domain: {domain} · "
+            f"Confidence: {round(confidence * 100)}%\n"
+            f"Routed because confidence was too low for auto-answer."
+        )
+        sb.table("messages").insert({
+            "workspace_id": workspace_id,
+            "channel": f"agent:{agent_id}",
+            "content": content,
+        }).execute()
+    except Exception as e:
+        logger.error(f"Failed to post ping to agent channel: {e}")
 
 
 # ---------------------------------------------------------------------------

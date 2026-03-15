@@ -279,6 +279,43 @@ async def get_routed_questions(
     return _rows(resp)
 
 
+# ── Engineering / Moorcheh endpoints ────────────────────────────────────
+
+class EngineeringAskBody(BaseModel):
+    workspace_id: str
+    question: str
+
+
+@router.post("/engineering/ask", tags=["engineering"])
+async def ask_engineering(
+    body: EngineeringAskBody,
+    user_id: str = Depends(get_current_user_id),
+):
+    """Ask an engineering question — searches GitHub PR data via Moorcheh."""
+    import asyncio
+    from app.services.moorcheh import engineering_search_pipeline_sync
+
+    result = await asyncio.to_thread(
+        engineering_search_pipeline_sync,
+        body.workspace_id,
+        body.question,
+    )
+    return result
+
+
+@router.post("/engineering/sync-prs", tags=["engineering"])
+async def sync_engineering_prs(
+    workspace_id: str = Query(...),
+    user_id: str = Depends(get_current_user_id),
+):
+    """Manually trigger syncing workspace PRs into Moorcheh."""
+    import asyncio
+    from app.services.moorcheh import sync_workspace_prs
+
+    count = await asyncio.to_thread(sync_workspace_prs, workspace_id)
+    return {"synced": count, "workspace_id": workspace_id}
+
+
 # ── Workspace analytics for interrupt counter ───────────────────────────
 
 @router.get("/workspaces/{workspace_id}/interrupt-count", tags=["analytics"])

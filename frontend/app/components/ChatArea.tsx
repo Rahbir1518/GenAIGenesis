@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { apiFetch } from "@/lib/api";
+import ContextTreeVisual from "./ContextTreeVisual";
 
 type Message = {
   id: string;
@@ -110,6 +111,170 @@ export default function ChatArea({
         {messages.map((msg) => {
           const isBot = !msg.sender_id;
           const senderName = msg.workspace_members?.display_name || (isBot ? "numen" : "Unknown");
+          const isContextAnswer = msg.content.startsWith("<!-- context-answer -->");
+          const isContextPing = msg.content.startsWith("<!-- context-ping -->");
+
+          // Parse traversal data from embedded JSON
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          let traversalNodes: any[] = [];
+          const traversalMatch = msg.content.match(/<!-- traversal-data:([\s\S]*?) -->/);
+          if (traversalMatch) {
+            try {
+              traversalNodes = JSON.parse(traversalMatch[1]);
+            } catch {
+              // Ignore parse errors
+            }
+          }
+
+          // Render rich context-answer card
+          if (isBot && isContextAnswer) {
+            const lines = msg.content.split("\n").filter(l => !l.startsWith("<!--"));
+            const questionLine = lines.find(l => l.includes("**Q:**")) || "";
+            const answerLine = lines.find(l => l.includes("**A:**")) || "";
+            const metaLine = lines.find(l => l.includes("Source:") || l.includes("Confidence:")) || "";
+            const caveatLine = lines.find(l => l.includes("⚠️")) || "";
+
+            const question = questionLine.replace(/.*\*\*Q:\*\*\s*/, "");
+            const answer = answerLine.replace(/.*\*\*A:\*\*\s*/, "");
+            const confidenceMatch = metaLine.match(/Confidence:\s*(\d+)%/);
+            const confidence = confidenceMatch ? parseInt(confidenceMatch[1]) : 0;
+            const sourceMatch = metaLine.match(/Source:\s*([^·]+)/);
+            const source = sourceMatch ? sourceMatch[1].trim() : "";
+            const caveat = caveatLine.replace(/⚠️\s*/, "").trim();
+
+            return (
+              <div key={msg.id} className="animate-message-appear">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-semibold bg-accent text-white font-display">
+                    n
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-sm font-semibold text-accent">numen</span>
+                      <span className="px-1 py-0.5 rounded bg-accent/10 text-accent text-[9px] font-semibold uppercase leading-none">
+                        Bot
+                      </span>
+                      <span className="text-[10px] text-[var(--text-muted)]">
+                        {formatTime(msg.created_at)}
+                      </span>
+                    </div>
+
+                    {/* Traversal Diagram */}
+                    {traversalNodes.length > 0 && (
+                      <ContextTreeVisual
+                        nodes={traversalNodes}
+                        activeIndex={-1}
+                        isComplete={true}
+                        questionText={question}
+                      />
+                    )}
+
+                    <div className="bg-accent/5 border border-accent/20 rounded-lg p-3 space-y-2">
+                      <div className="flex items-start gap-2">
+                        <span className="text-accent text-sm mt-0.5">❓</span>
+                        <p className="text-sm text-[var(--text-muted)]">{question}</p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <span className="text-accent text-sm mt-0.5">💡</span>
+                        <p className="text-sm text-foreground whitespace-pre-wrap">{answer}</p>
+                      </div>
+                      {caveat && (
+                        <div className="mt-1 p-2 bg-amber-400/10 border border-amber-400/30 rounded text-xs text-amber-400">
+                          ⚠️ {caveat}
+                        </div>
+                      )}
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        {source && (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded bg-accent/15 text-accent text-xs font-mono">
+                            📍 {source}
+                          </span>
+                        )}
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono ${
+                          confidence >= 82
+                            ? "bg-green-400/10 text-green-400"
+                            : confidence >= 50
+                            ? "bg-amber-400/10 text-amber-400"
+                            : "bg-red-400/10 text-red-400"
+                        }`}>
+                          {confidence}% confidence
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          // Render rich context-ping card
+          if (isBot && isContextPing) {
+            const lines = msg.content.split("\n").filter(l => !l.startsWith("<!--"));
+            const pingLine = lines.find(l => l.includes("**Ping:**")) || "";
+            const questionLine = lines.find(l => l.startsWith("❓")) || "";
+            const metaLine = lines.find(l => l.includes("Domain:") || l.includes("Confidence:")) || "";
+            const routeReason = lines.find(l => l.includes("Routed because")) || "";
+
+            const pingedName = pingLine.replace(/.*@/, "").trim();
+            const questionText = questionLine.replace(/❓\s*/, "").trim();
+            const confidenceMatch = metaLine.match(/Confidence:\s*(\d+)%/);
+            const confidence = confidenceMatch ? parseInt(confidenceMatch[1]) : 0;
+            const domainMatch = metaLine.match(/Domain:\s*([^·]+)/);
+            const domain = domainMatch ? domainMatch[1].trim() : "";
+
+            return (
+              <div key={msg.id} className="animate-message-appear">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-semibold bg-accent text-white font-display">
+                    n
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-sm font-semibold text-accent">numen</span>
+                      <span className="px-1 py-0.5 rounded bg-accent/10 text-accent text-[9px] font-semibold uppercase leading-none">
+                        Bot
+                      </span>
+                      <span className="text-[10px] text-[var(--text-muted)]">
+                        {formatTime(msg.created_at)}
+                      </span>
+                    </div>
+
+                    {/* Traversal Diagram */}
+                    {traversalNodes.length > 0 && (
+                      <ContextTreeVisual
+                        nodes={traversalNodes}
+                        activeIndex={-1}
+                        isComplete={true}
+                        questionText={questionText}
+                      />
+                    )}
+
+                    <div className="bg-purple-400/5 border border-purple-400/20 rounded-lg p-3 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">🔔</span>
+                        <div>
+                          <p className="text-sm font-semibold text-purple-400">
+                            Ping: @{pingedName}
+                          </p>
+                          <p className="text-[10px] text-[var(--text-muted)]">
+                            {domain && `${domain} · `}Confidence: {confidence}%
+                          </p>
+                        </div>
+                      </div>
+                      <p className="text-sm text-foreground">{questionText}</p>
+                      {routeReason && (
+                        <p className="text-[10px] text-[var(--text-muted)] italic">{routeReason}</p>
+                      )}
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-red-400/10 text-red-400`}>
+                        {confidence}% confidence — routed to expert
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          // Default message rendering
           return (
             <div key={msg.id} className="animate-message-appear">
               <div className="flex items-start gap-3">

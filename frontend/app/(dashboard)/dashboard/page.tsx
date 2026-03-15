@@ -1,4 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
+import { UserButton } from "@clerk/nextjs";
 import { apiFetch } from "@/lib/api";
 import DashboardLanding from "@/app/components/DashboardLanding";
 import Link from "next/link";
@@ -23,6 +24,9 @@ export default async function DashboardPage() {
         <Link href="/" className="absolute top-4 left-6 z-10 font-display font-bold text-lg tracking-[0.3em] text-white hover:text-white/80 transition-colors">
           numen
         </Link>
+        <div className="absolute top-4 right-6 z-10">
+          <UserButton />
+        </div>
         <div className="max-w-2xl w-full">
           <h1 className="text-3xl font-display font-bold text-center mb-2">
             Your Workspaces
@@ -48,8 +52,8 @@ export default async function DashboardPage() {
             ))}
           </div>
 
-          <div className="border-t border-white/10 pt-6">
-            <DashboardLanding />
+          <div className="mt-6">
+            <DashboardLanding embedded />
           </div>
         </div>
       </div>

@@ -24,16 +24,19 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+* {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   display: none;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 @keyframes fade-in-up {
@@ -113,3 +116,45 @@ body::-webkit-scrollbar {
   to { stroke-dashoffset: 0; }
 }
 .animate-path-draw { animation: path-draw 0.6s ease-out forwards; }
+
+@keyframes tree-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(37,99,235,0.4)); box-shadow: inset 0 0 0 1px rgba(37,99,235,0.3); }
+  50% { filter: drop-shadow(0 0 12px rgba(37,99,235,0.8)); box-shadow: inset 0 0 0 2px rgba(37,99,235,0.6); }
+}
+.animate-tree-node-active > rect {
+  animation: tree-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes tree-line-visited {
+  from { stroke-dashoffset: 200; stroke-dasharray: 200; }
+  to { stroke-dashoffset: 0; stroke-dasharray: 200; }
+}
+.animate-tree-line-visited {
+  animation: tree-line-visited 0.5s ease-out forwards;
+}
+
+@keyframes tree-line-draw {
+  from { stroke-dashoffset: 200; stroke-dasharray: 200; }
+  to { stroke-dashoffset: 0; stroke-dasharray: 200; }
+}
+.animate-tree-line-draw {
+  animation: tree-line-draw 1s ease-out infinite;
+}
+
+@keyframes tree-node-appear {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-tree-node-appear {
+  animation: tree-node-appear 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes tree-found-pulse {
+  0% { transform: scale(0.9); opacity: 0.8; stroke-width: 1px; }
+  50% { transform: scale(1.1); opacity: 1; stroke-width: 2px; }
+  100% { transform: scale(0.9); opacity: 0.8; stroke-width: 1px; }
+}
+.animate-tree-found-pulse {
+  animation: tree-found-pulse 1.2s ease-in-out infinite;
+  transform-origin: center;
+}
