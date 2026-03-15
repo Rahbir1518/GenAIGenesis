@@ -1,0 +1,500 @@
+﻿[INFO] Collecting mpmath==1.3.0 (from -r requirements.txt (line 231))
+
+[INFO]   Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+
+[INFO] Collecting msgpack==1.1.0 (from -r requirements.txt (line 232))
+
+[INFO]   Downloading msgpack-1.1.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (8.4 kB)
+
+[INFO] Collecting multidict==6.1.0 (from -r requirements.txt (line 233))
+
+[INFO]   Downloading multidict-6.1.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.0 kB)
+
+[INFO] Collecting multiprocess==0.70.17 (from -r requirements.txt (line 234))
+
+[INFO]   Downloading multiprocess-0.70.17-py312-none-any.whl.metadata (7.2 kB)
+
+[INFO] Collecting multitasking==0.0.11 (from -r requirements.txt (line 235))
+
+[INFO]   Downloading multitasking-0.0.11-py3-none-any.whl.metadata (5.5 kB)
+
+[INFO] Collecting mypy-extensions==1.0.0 (from -r requirements.txt (line 236))
+
+[INFO]   Downloading mypy_extensions-1.0.0-py3-none-any.whl.metadata (1.1 kB)
+
+[INFO] Collecting namex==0.1.0 (from -r requirements.txt (line 237))
+
+[INFO]   Downloading namex-0.1.0-py3-none-any.whl.metadata (322 bytes)
+
+[INFO] Collecting nanoid==2.0.0 (from -r requirements.txt (line 238))
+
+[INFO]   Downloading nanoid-2.0.0-py3-none-any.whl.metadata (3.5 kB)
+
+[INFO] Collecting narwhals==1.13.3 (from -r requirements.txt (line 239))
+
+[INFO]   Downloading narwhals-1.13.3-py3-none-any.whl.metadata (7.4 kB)
+
+[INFO] Collecting nest-asyncio==1.6.0 (from -r requirements.txt (line 240))
+
+[INFO]   Downloading nest_asyncio-1.6.0-py3-none-any.whl.metadata (2.8 kB)
+
+[INFO] Collecting networkx==3.4.2 (from -r requirements.txt (line 241))
+
+[INFO]   Downloading networkx-3.4.2-py3-none-any.whl.metadata (6.3 kB)
+
+[INFO] Collecting nltk==3.9.1 (from -r requirements.txt (line 242))
+
+[INFO]   Downloading nltk-3.9.1-py3-none-any.whl.metadata (2.9 kB)
+
+[INFO] Collecting numexpr==2.10.1 (from -r requirements.txt (line 243))
+
+[INFO]   Downloading numexpr-2.10.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.2 kB)
+
+[INFO] Collecting numpy==2.2.0 (from -r requirements.txt (line 244))
+
+[INFO]   Downloading numpy-2.2.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (62 kB)
+
+[INFO] Collecting oauthlib==3.2.2 (from -r requirements.txt (line 245))
+
+[INFO]   Downloading oauthlib-3.2.2-py3-none-any.whl.metadata (7.5 kB)
+
+[INFO] Collecting onnxruntime==1.20.0 (from -r requirements.txt (line 246))
+
+[INFO]   Downloading onnxruntime-1.20.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (4.4 kB)
+
+[INFO] Collecting openai==1.54.3 (from -r requirements.txt (line 247))
+
+[INFO]   Downloading openai-1.54.3-py3-none-any.whl.metadata (24 kB)
+
+[INFO] Collecting opencv-contrib-python==4.10.0.84 (from -r requirements.txt (line 248))
+
+[INFO]   Downloading opencv_contrib_python-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+
+[INFO] Collecting opencv-python==4.10.0.84 (from -r requirements.txt (line 249))
+
+[INFO]   Downloading opencv_python-4.10.0.84-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+
+[INFO] Collecting opencv-python-headless==4.13.0.92 (from -r requirements.txt (line 250))
+
+[INFO]   Downloading opencv_python_headless-4.13.0.92-cp37-abi3-manylinux_2_28_x86_64.whl.metadata (19 kB)
+
+[INFO] Collecting opensearch-py==2.7.1 (from -r requirements.txt (line 251))
+
+[INFO]   Downloading opensearch_py-2.7.1-py3-none-any.whl.metadata (6.9 kB)
+
+[INFO] Collecting opentelemetry-api==1.27.0 (from -r requirements.txt (line 252))
+
+[INFO]   Downloading opentelemetry_api-1.27.0-py3-none-any.whl.metadata (1.4 kB)
+
+[INFO] Collecting opentelemetry-exporter-otlp-proto-common==1.27.0 (from -r requirements.txt (line 253))
+
+[INFO]   Downloading opentelemetry_exporter_otlp_proto_common-1.27.0-py3-none-any.whl.metadata (1.8 kB)
+
+[INFO] Collecting opentelemetry-exporter-otlp-proto-grpc==1.27.0 (from -r requirements.txt (line 254))
+
+[INFO]   Downloading opentelemetry_exporter_otlp_proto_grpc-1.27.0-py3-none-any.whl.metadata (2.3 kB)
+
+[INFO] Collecting opentelemetry-exporter-otlp-proto-http==1.27.0 (from -r requirements.txt (line 255))
+
+[INFO]   Downloading opentelemetry_exporter_otlp_proto_http-1.27.0-py3-none-any.whl.metadata (2.3 kB)
+
+[INFO] Collecting opentelemetry-exporter-prometheus==0.48b0 (from -r requirements.txt (line 256))
+
+[INFO]   Downloading opentelemetry_exporter_prometheus-0.48b0-py3-none-any.whl.metadata (1.8 kB)
+
+[INFO] Collecting opentelemetry-instrumentation==0.48b0 (from -r requirements.txt (line 257))
+
+[INFO]   Downloading opentelemetry_instrumentation-0.48b0-py3-none-any.whl.metadata (6.1 kB)
+
+[INFO] Collecting opentelemetry-instrumentation-asgi==0.48b0 (from -r requirements.txt (line 258))
+
+[INFO]   Downloading opentelemetry_instrumentation_asgi-0.48b0-py3-none-any.whl.metadata (2.0 kB)
+
+[INFO] Collecting opentelemetry-instrumentation-fastapi==0.48b0 (from -r requirements.txt (line 259))
+
+[INFO]   Downloading opentelemetry_instrumentation_fastapi-0.48b0-py3-none-any.whl.metadata (2.1 kB)
+
+[INFO] Collecting opentelemetry-proto==1.27.0 (from -r requirements.txt (line 260))
+
+[INFO]   Downloading opentelemetry_proto-1.27.0-py3-none-any.whl.metadata (2.3 kB)
+
+[INFO] Collecting opentelemetry-sdk==1.27.0 (from -r requirements.txt (line 261))
+
+[INFO]   Downloading opentelemetry_sdk-1.27.0-py3-none-any.whl.metadata (1.5 kB)
+
+[INFO] Collecting opentelemetry-semantic-conventions==0.48b0 (from -r requirements.txt (line 262))
+
+[INFO]   Downloading opentelemetry_semantic_conventions-0.48b0-py3-none-any.whl.metadata (2.4 kB)
+
+[INFO] Collecting opentelemetry-util-http==0.48b0 (from -r requirements.txt (line 263))
+
+[INFO]   Downloading opentelemetry_util_http-0.48b0-py3-none-any.whl.metadata (2.5 kB)
+
+[INFO] Collecting opt_einsum==3.4.0 (from -r requirements.txt (line 264))
+
+[INFO]   Downloading opt_einsum-3.4.0-py3-none-any.whl.metadata (6.3 kB)
+
+[INFO] Collecting optree==0.18.0 (from -r requirements.txt (line 265))
+
+[INFO]   Downloading optree-0.18.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (34 kB)
+
+[INFO] Collecting optuna==4.0.0 (from -r requirements.txt (line 266))
+
+[INFO]   Downloading optuna-4.0.0-py3-none-any.whl.metadata (16 kB)
+
+[INFO] Collecting orderly-set==5.2.2 (from -r requirements.txt (line 267))
+
+[INFO]   Downloading orderly_set-5.2.2-py3-none-any.whl.metadata (6.3 kB)
+
+[INFO] Collecting orjson==3.10.0 (from -r requirements.txt (line 268))
+
+[INFO]   Downloading orjson-3.10.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (49 kB)
+
+[INFO] Collecting overrides==7.7.0 (from -r requirements.txt (line 269))
+
+[INFO]   Downloading overrides-7.7.0-py3-none-any.whl.metadata (5.8 kB)
+
+[INFO] Collecting packaging==24.1 (from -r requirements.txt (line 270))
+
+[INFO]   Downloading packaging-24.1-py3-none-any.whl.metadata (3.2 kB)
+
+[INFO] Collecting pandas==2.2.3 (from -r requirements.txt (line 271))
+
+[INFO]   Downloading pandas-2.2.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (89 kB)
+
+[INFO] Collecting parameterized==0.9.0 (from -r requirements.txt (line 272))
+
+[INFO]   Downloading parameterized-0.9.0-py2.py3-none-any.whl.metadata (18 kB)
+
+[INFO] Collecting paramiko==3.5.0 (from -r requirements.txt (line 273))
+
+[INFO]   Downloading paramiko-3.5.0-py3-none-any.whl.metadata (4.4 kB)
+
+[INFO] Collecting parso==0.8.4 (from -r requirements.txt (line 274))
+
+[INFO]   Downloading parso-0.8.4-py2.py3-none-any.whl.metadata (7.7 kB)
+
+[INFO] Collecting passlib==1.7.4 (from -r requirements.txt (line 275))
+
+[INFO]   Downloading passlib-1.7.4-py2.py3-none-any.whl.metadata (1.7 kB)
+
+[INFO] Collecting pdfminer.six==20251230 (from -r requirements.txt (line 276))
+
+[INFO]   Downloading pdfminer_six-20251230-py3-none-any.whl.metadata (4.3 kB)
+
+[INFO] Collecting pdfplumber==0.11.9 (from -r requirements.txt (line 277))
+
+[INFO]   Downloading pdfplumber-0.11.9-py3-none-any.whl.metadata (43 kB)
+
+[INFO] Collecting peewee==3.17.7 (from -r requirements.txt (line 278))
+
+[INFO]   Downloading peewee-3.17.7.tar.gz (939 kB)
+
+[INFO]      ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü 939.5/939.5 kB 178.1 MB/s eta 0:00:00
+[INFO] 
+
+[INFO]   Installing build dependencies: started
+
+[INFO]   Installing build dependencies: finished with status 'done'
+
+[INFO]   Getting requirements to build wheel: started
+
+[INFO]   Getting requirements to build wheel: finished with status 'done'
+
+[INFO]   Preparing metadata (pyproject.toml): started
+
+[INFO]   Preparing metadata (pyproject.toml): finished with status 'done'
+
+[INFO] Collecting pexpect==4.9.0 (from -r requirements.txt (line 279))
+
+[INFO]   Downloading pexpect-4.9.0-py2.py3-none-any.whl.metadata (2.5 kB)
+
+[INFO] Collecting pfzy==0.3.4 (from -r requirements.txt (line 280))
+
+[INFO]   Downloading pfzy-0.3.4-py3-none-any.whl.metadata (4.9 kB)
+
+[INFO] Collecting pgvector==0.3.6 (from -r requirements.txt (line 281))
+
+[INFO]   Downloading pgvector-0.3.6-py3-none-any.whl.metadata (13 kB)
+
+[INFO] Collecting pillow==10.4.0 (from -r requirements.txt (line 282))
+
+[INFO]   Downloading pillow-10.4.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (9.2 kB)
+
+[INFO] Collecting pinecone-client==5.0.1 (from -r requirements.txt (line 283))
+
+[INFO]   Downloading pinecone_client-5.0.1-py3-none-any.whl.metadata (19 kB)
+
+[INFO] Collecting pinecone-plugin-inference==1.1.0 (from -r requirements.txt (line 284))
+
+[INFO]   Downloading pinecone_plugin_inference-1.1.0-py3-none-any.whl.metadata (2.2 kB)
+
+[INFO] Collecting pinecone-plugin-interface==0.0.7 (from -r requirements.txt (line 285))
+
+[INFO]   Downloading pinecone_plugin_interface-0.0.7-py3-none-any.whl.metadata (1.2 kB)
+
+[INFO] Collecting pkginfo==1.11.2 (from -r requirements.txt (line 286))
+
+[INFO]   Downloading pkginfo-1.11.2-py3-none-any.whl.metadata (11 kB)
+
+[INFO] Collecting platformdirs==4.3.6 (from -r requirements.txt (line 287))
+
+[INFO]   Downloading platformdirs-4.3.6-py3-none-any.whl.metadata (11 kB)
+
+[INFO] Collecting poetry==1.8.4 (from -r requirements.txt (line 288))
+
+[INFO]   Downloading poetry-1.8.4-py3-none-any.whl.metadata (6.9 kB)
+
+[INFO] Collecting poetry-core==1.9.1 (from -r requirements.txt (line 289))
+
+[INFO]   Downloading poetry_core-1.9.1-py3-none-any.whl.metadata (3.5 kB)
+
+[INFO] Collecting poetry-plugin-export==1.8.0 (from -r requirements.txt (line 290))
+
+[INFO]   Downloading poetry_plugin_export-1.8.0-py3-none-any.whl.metadata (2.8 kB)
+
+[INFO] Collecting polars==1.38.1 (from -r requirements.txt (line 291))
+
+[INFO]   Downloading polars-1.38.1-py3-none-any.whl.metadata (10 kB)
+
+[INFO] Collecting polars-runtime-32==1.38.1 (from -r requirements.txt (line 292))
+
+[INFO]   Downloading polars_runtime_32-1.38.1-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.5 kB)
+
+[INFO] Collecting pooch==1.8.2 (from -r requirements.txt (line 293))
+
+[INFO]   Downloading pooch-1.8.2-py3-none-any.whl.metadata (10 kB)
+
+[INFO] Collecting portalocker==2.10.1 (from -r requirements.txt (line 294))
+
+[INFO]   Downloading portalocker-2.10.1-py3-none-any.whl.metadata (8.5 kB)
+
+[INFO] Collecting postgrest==2.28.2 (from -r requirements.txt (line 295))
+
+[INFO]   Downloading postgrest-2.28.2-py3-none-any.whl.metadata (3.4 kB)
+
+[INFO] Collecting posthog==3.7.0 (from -r requirements.txt (line 296))
+
+[INFO]   Downloading posthog-3.7.0-py2.py3-none-any.whl.metadata (2.0 kB)
+
+[INFO] Collecting praat-parselmouth==0.4.6 (from -r requirements.txt (line 297))
+
+[INFO]   Downloading praat_parselmouth-0.4.6-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.9 kB)
+
+[INFO] Collecting primp==0.7.0 (from -r requirements.txt (line 298))
+
+[INFO]   Downloading primp-0.7.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (10 kB)
+
+[INFO] Collecting prometheus_client==0.21.0 (from -r requirements.txt (line 299))
+
+[INFO]   Downloading prometheus_client-0.21.0-py3-none-any.whl.metadata (1.8 kB)
+
+[INFO] Collecting prompt_toolkit==3.0.48 (from -r requirements.txt (line 300))
+
+[INFO]   Downloading prompt_toolkit-3.0.48-py3-none-any.whl.metadata (6.4 kB)
+
+[INFO] Collecting propcache==0.4.1 (from -r requirements.txt (line 301))
+
+[INFO]   Downloading propcache-0.4.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (13 kB)
+
+[INFO] Collecting proto-plus==1.25.0 (from -r requirements.txt (line 302))
+
+[INFO]   Downloading proto_plus-1.25.0-py3-none-any.whl.metadata (2.2 kB)
+
+[INFO] Collecting protobuf==4.25.8 (from -r requirements.txt (line 303))
+
+[INFO]   Downloading protobuf-4.25.8-cp37-abi3-manylinux2014_x86_64.whl.metadata (541 bytes)
+
+[INFO] Collecting psutil==7.2.2 (from -r requirements.txt (line 304))
+
+[INFO]   Downloading psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl.metadata (22 kB)
+
+[INFO] Collecting psycopg==3.2.3 (from -r requirements.txt (line 305))
+
+[INFO]   Downloading psycopg-3.2.3-py3-none-any.whl.metadata (4.3 kB)
+
+[INFO] Collecting psycopg2-binary==2.9.10 (from -r requirements.txt (line 306))
+
+[INFO]   Downloading psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+
+[INFO] Collecting ptyprocess==0.7.0 (from -r requirements.txt (line 307))
+
+[INFO]   Downloading ptyprocess-0.7.0-py2.py3-none-any.whl.metadata (1.3 kB)
+
+[INFO] Collecting pulsar-client==3.5.0 (from -r requirements.txt (line 308))
+
+[INFO]   Downloading pulsar_client-3.5.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.0 kB)
+
+[INFO] Collecting pure_eval==0.2.3 (from -r requirements.txt (line 309))
+
+[INFO]   Downloading pure_eval-0.2.3-py3-none-any.whl.metadata (6.3 kB)
+
+[INFO] Collecting py==1.11.0 (from -r requirements.txt (line 310))
+
+[INFO]   Downloading py-1.11.0-py2.py3-none-any.whl.metadata (2.8 kB)
+
+[INFO] Collecting pyarrow==18.0.0 (from -r requirements.txt (line 311))
+
+[INFO]   Downloading pyarrow-18.0.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (3.3 kB)
+
+[INFO] Collecting pyasn1==0.6.1 (from -r requirements.txt (line 312))
+
+[INFO]   Downloading pyasn1-0.6.1-py3-none-any.whl.metadata (8.4 kB)
+
+[INFO] Collecting pyasn1_modules==0.4.1 (from -r requirements.txt (line 313))
+
+[INFO]   Downloading pyasn1_modules-0.4.1-py3-none-any.whl.metadata (3.5 kB)
+
+[INFO] Collecting PyAudio==0.2.14 (from -r requirements.txt (line 314))
+
+[INFO]   Downloading PyAudio-0.2.14.tar.gz (47 kB)
+
+[INFO]   Installing build dependencies: started
+
+[INFO]   Installing build dependencies: finished with status 'done'
+
+[INFO]   Getting requirements to build wheel: started
+
+[INFO]   Getting requirements to build wheel: finished with status 'done'
+
+[INFO]   Preparing metadata (pyproject.toml): started
+
+[INFO]   Preparing metadata (pyproject.toml): finished with status 'done'
+
+[INFO] Collecting pycairo==1.29.0 (from -r requirements.txt (line 315))
+
+[INFO]   Downloading pycairo-1.29.0.tar.gz (665 kB)
+
+[INFO]      ΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü 665.9/665.9 kB 370.0 MB/s eta 0:00:00
+[INFO] 
+
+[INFO]   Installing build dependencies: started
+
+[INFO]   Installing build dependencies: finished with status 'done'
+
+[INFO]   Getting requirements to build wheel: started
+
+[INFO]   Getting requirements to build wheel: finished with status 'done'
+
+[INFO]   Installing backend dependencies: started
+
+[INFO]   Installing backend dependencies: finished with status 'done'
+
+[INFO]   Preparing metadata (pyproject.toml): started
+
+[INFO]   Preparing metadata (pyproject.toml): finished with status 'error'
+
+[INFO]   error: subprocess-exited-with-error
+  
+  ├ù Preparing metadata (pyproject.toml) did not run successfully.
+  Γöé exit code: 1
+  Γò░ΓöÇ> [86 lines of output]
+      + meson setup /tmp/pip-install-c2f9y56q/pycairo_ff5407c776f14a4aa2b54abd845c227a /tmp/pip-install-c2f9y56q/pycairo_ff5407c776f14a4aa2b54abd845c227a/.mesonpy-kkup58lf -Dbuildtype=release -Db_ndebug=if-release -Db_vscrt=md -Dwheel=true -Dtests=false --native-file=/tmp/pip-install-c2f9y56q/pycairo_ff5407c776f14a4aa2b54abd845c227a/.mesonpy-kkup58lf/meson-python-native-file.ini
+      The Meson build system
+      Version: 1.10.1
+      Source dir: /tmp/pip-install-c2f9y56q/pycairo_ff5407c776f14a4aa2b54abd845c227a
+      Build dir: /tmp/pip-install-c2f9y56q/pycairo_ff5407c776f14a4aa2b54abd845c227a/.mesonpy-kkup58lf
+      Build type: native build
+      Project name: pycairo
+      Project version: 1.29.0
+      C compiler for the host machine: cc (gcc 13.3.0 "gcc (GCC) 13.3.0")
+      C linker for the host machine: cc ld.bfd 2.43.1
+      Host machine cpu family: x86_64
+      Host machine cpu: x86_64
+      Program python3 found: YES (/opt/venv/bin/python)
+      Compiler for C supports arguments -Wall: YES
+      Compiler for C supports arguments -Warray-bounds: YES
+      Compiler for C supports arguments -Wcast-align: YES
+      Compiler for C supports arguments -Wconversion: YES
+      Compiler for C supports arguments -Wextra: YES
+      Compiler for C supports arguments -Wformat=2: YES
+      Compiler for C supports arguments -Wformat-nonliteral: YES
+      Compiler for C supports arguments -Wformat-security: YES
+      Compiler for C supports arguments -Wimplicit-function-declaration: YES
+      Compiler for C supports arguments -Winit-self: YES
+      Compiler for C supports arguments -Wmissing-format-attribute: YES
+      Compiler for C supports arguments -Wmissing-noreturn: YES
+      Compiler for C supports arguments -Wnested-externs: YES
+      Compiler for C supports arguments -Wold-style-definition: YES
+      Compiler for C supports arguments -Wpacked: YES
+      Compiler for C supports arguments -Wpointer-arith: YES
+      Compiler for C supports arguments -Wreturn-type: YES
+      Compiler for C supports arguments -Wshadow: YES
+      Compiler for C supports arguments -Wsign-compare: YES
+      Compiler for C supports arguments -Wstrict-aliasing: YES
+      Compiler for C supports arguments -Wundef: YES
+      Compiler for C supports arguments -Wunused-but-set-variable: YES
+      Compiler for C supports arguments -Wswitch-default: YES
+      Compiler for C supports arguments -Wno-missing-field-initializers: YES
+      Compiler for C supports arguments -Wno-unused-parameter: YES
+      Compiler for C supports arguments -fno-strict-aliasing: YES
+      Compiler for C supports arguments -fvisibility=hidden: YES
+      Found pkg-config: YES (/bin/pkg-config) 1.8.1
+      Run-time dependency cairo found: YES 1.18.0
+      Found pkg-config: YES (/bin/pkg-config) 1.8.1
+      Run-time dependency python found: YES 3.12
+      Build targets in project: 4
+      
+      pycairo 1.29.0
+      
+        User defined options
+          Native files: /tmp/pip-install-c2f9y56q/pycairo_ff5407c776f14a4aa2b54abd845c227a/.mesonpy-kkup58lf/meson-python-native-file.ini
+          b_ndebug    : if-release
+          b_vscrt     : md
+          buildtype   : release
+          tests       : false
+          wheel       : true
+      
+      Found ninja-1.13.0.git.kitware.jobserver-pipe-1 at /tmp/pip-build-env-0w_tv_bi/normal/bin/ninja
+      + /tmp/pip-build-env-0w_tv_bi/normal/bin/ninja
+      [1/21] Copying file cairo/__init__.py
+      [2/21] Copying file cairo/__init__.pyi
+      [3/21] Copying file cairo/py.typed
+      [4/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/bufferproxy.c.o
+      [5/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/surface.c.o
+      FAILED: [code=1] cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/surface.c.o
+      cc -Icairo/_cairo.cpython-312-x86_64-linux-gnu.so.p -Icairo -I../cairo -I/usr/include/cairo -I/usr/include/libpng16 -I/usr/include/freetype2 -I/usr/include/pixman-1 -I/nix/store/901c80rlps5q05bnjk1sj4zaz5k736nc-python3-3.12.7/include/python3.12 -fvisibility=hidden -fdiagnostics-color=always -DNDEBUG -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -O3 -fPIC -DPYCAIRO_VERSION_MAJOR=1 -DPYCAIRO_VERSION_MINOR=29 -DPYCAIRO_VERSION_MICRO=0 -Wall -Warray-bounds -Wcast-align -Wconversion -Wextra -Wformat=2 -Wformat-nonliteral -Wformat-security -Wimplicit-function-declaration -Winit-self -Wmissing-format-attribute -Wmissing-noreturn -Wnested-externs -Wold-style-definition -Wpacked -Wpointer-arith -Wreturn-type -Wshadow -Wsign-compare -Wstrict-aliasing -Wundef -Wunused-but-set-variable -Wswitch-default -Wno-missing-field-initializers -Wno-unused-parameter -fno-strict-aliasing -fvisibility=hidden -MD -MQ cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/surface.c.o -MF cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/surface.c.o.d -o cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/surface.c.o -c ../cairo/surface.c
+      In file included from ../cairo/surface.c:2318:
+      /usr/include/cairo/cairo-xcb.h:46:10: fatal error: xcb/xcb.h: No such file or directory
+         46 | #include <xcb/xcb.h>
+            |          ^~~~~~~~~~~
+      compilation terminated.
+      [6/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/textextents.c.o
+      [7/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/rectangle.c.o
+      [8/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/glyph.c.o
+      [9/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/textcluster.c.o
+      [10/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/misc.c.o
+      [11/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/path.c.o
+      [12/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/matrix.c.o
+      [13/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/cairomodule.c.o
+      [14/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/error.c.o
+      [15/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/device.c.o
+      [16/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/region.c.o
+      [17/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/pattern.c.o
+      [18/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/font.c.o
+      [19/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/context.c.o
+      [20/21] Compiling C object cairo/_cairo.cpython-312-x86_64-linux-gnu.so.p/enums.c.o
+      ninja: build stopped: subcommand failed.
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+
+[INFO] error: metadata-generation-failed
+
+├ù Encountered error while generating package metadata.
+Γò░ΓöÇ> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+
+[ERRO] [stage-0 7/9] RUN --mount=type=cache,id=s/dea9f773-4310-436f-a949-08299edb89e9-/root/cache/pip,target=/root/.cache/pip python -m venv --copies /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt
+Dockerfile:20
+-------------------
+18 |     ENV NIXPACKS_PATH=/opt/venv/bin:$NIXPACKS_PATH
+19 |     COPY . /app/.
+20 | >>> RUN --mount=type=cache,id=s/dea9f773-4310-436f-a949-08299edb89e9-/root/cache/pip,target=/root/.cache/pip python -m venv --copies /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt
+21 |
+22 |
+-------------------
+ERROR: failed to build: failed to solve: process "/bin/bash -ol pipefail -c python -m venv --copies /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt" did not complete successfully: exit code: 1
+Docker build failed
