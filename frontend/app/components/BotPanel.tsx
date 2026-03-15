@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { useAuth } from "@clerk/nextjs";
-import ContextTraversal from "./ContextTraversal";
+import ContextTreeVisual from "./ContextTreeVisual";
 
 type TraversalNode = {
   node_id: string;
@@ -14,6 +14,9 @@ type TraversalNode = {
   owner_name: string;
   node_type: string;
   agent_name: string;
+  parent_id?: string | null;
+  parent_label?: string | null;
+  depth?: number;
 };
 
 type Expert = {
@@ -68,8 +71,6 @@ export default function BotPanel({
   const [activeTraversalIndex, setActiveTraversalIndex] = useState(-1);
   const [result, setResult] = useState<ResultData | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [respondingTo, setRespondingTo] = useState<string | null>(null);
-  const [responseInput, setResponseInput] = useState("");
   const abortRef = useRef<AbortController | null>(null);
   const [questionType, setQuestionType] = useState<QuestionType>(null);
 
@@ -143,8 +144,8 @@ export default function BotPanel({
           }
         }
       }
-    } catch (err: any) {
-      if (err.name !== "AbortError") {
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name !== "AbortError") {
         setResult({
           type: "no_context",
           answer: `Error: ${err.message}`,
@@ -155,8 +156,9 @@ export default function BotPanel({
       setIsProcessing(false);
       setStatus("");
     }
-  }, [input, isProcessing, workspaceId, memberId, getToken]);
+  }, [input, isProcessing, workspaceId, memberId, getToken, questionType]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleSSEEvent(event: string, data: any) {
     switch (event) {
       case "status":
@@ -194,28 +196,6 @@ export default function BotPanel({
   async function handlePing(message: string) {
     onPing(message);
     // No need to close — let user continue
-  }
-
-  async function handleRespond(questionId: string) {
-    if (!responseInput.trim()) return;
-    try {
-      const token = await getToken();
-      await fetch(`${API_BASE}/respond/${questionId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          response_text: responseInput.trim(),
-          responder_member_id: memberId,
-        }),
-      });
-      setRespondingTo(null);
-      setResponseInput("");
-    } catch {
-      // Silently fail
-    }
   }
 
   return (
@@ -306,10 +286,11 @@ export default function BotPanel({
 
             {/* Traversal */}
             {traversalNodes.length > 0 && (
-              <ContextTraversal
+              <ContextTreeVisual
                 nodes={traversalNodes}
                 activeIndex={activeTraversalIndex}
                 isComplete={!isProcessing}
+                questionText={question}
               />
             )}
 
@@ -365,7 +346,7 @@ export default function BotPanel({
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-foreground mb-2">
-                      I don't have enough confidence to answer this directly. Let me route this to the right person.
+                      I don&apos;t have enough confidence to answer this directly. Let me route this to the right person.
                     </p>
 
                     <div className="p-3 bg-accent/10 border border-accent/30 rounded-lg">

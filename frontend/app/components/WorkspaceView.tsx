@@ -159,13 +159,14 @@ export default function WorkspaceView({
   }
 
   function handlePing(message: string) {
-    // Send the ping message to #general
+    // Send the ping message to #general and to the active agent channel
     handleSendPingMessage(message);
   }
 
   async function handleSendPingMessage(message: string) {
     try {
       const token = await getToken();
+      // Always post to #general
       await apiFetch(`/workspaces/${workspaceId}/messages`, {
         method: "POST",
         token,
@@ -174,6 +175,17 @@ export default function WorkspaceView({
           content: message,
         }),
       });
+      // Also post to the active agent channel if viewing one
+      if (activeAgent) {
+        await apiFetch(`/workspaces/${workspaceId}/messages`, {
+          method: "POST",
+          token,
+          body: JSON.stringify({
+            channel: `agent:${activeAgent.id}`,
+            content: `<!-- context-ping -->\n🔔 **Ping:** ${message}`,
+          }),
+        });
+      }
     } catch { /* fail silently */ }
   }
 

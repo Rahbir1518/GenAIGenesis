@@ -44,7 +44,7 @@ next-env.d.ts
 venv/
 env/
 .env/
-
+.venv
 # Python Bytecode & Cache
 __pycache__/
 *.py[cod]
