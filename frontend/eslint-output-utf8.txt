@@ -1,0 +1,232 @@
+﻿
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\[slug]\page.tsx
+  19:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\page.tsx
+  14:39  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  17:14  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\page.tsx:17:14
+  15 |
+  16 |     if (!workspaces || workspaces.length === 0) {
+> 17 |       return <DashboardLanding />;
+     |              ^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  18 |     }
+  19 |
+  20 |     // Show a workspace picker so users can choose or create more                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/error-boundaries
+  22:7   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\page.tsx:22:7
+  20 |     // Show a workspace picker so users can choose or create more
+  21 |     return (
+> 22 |       <div className="min-h-screen bg-background flex items-center justify-center p-6 relative">
+     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |         <Link href="/" className="absolute top-4 left-6 z-10 font-display font-bold text-lg tracking-[0.3em] text-white hover:text-white/80 transition-colors">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 24 |           numen
+     ΓÇª
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 54 |         </div>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 55 |       </div>
+     | ^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  56 |     );
+  57 |   } catch {
+  58 |     return <DashboardLanding />;  react-hooks/error-boundaries
+  23:9   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\page.tsx:23:9
+  21 |     return (
+  22 |       <div className="min-h-screen bg-background flex items-center justify-center p-6 relative">
+> 23 |         <Link href="/" className="absolute top-4 left-6 z-10 font-display font-bold text-lg tracking-[0.3em] text-white hover:text-white/80 transition-colors">
+     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 24 |           numen
+     | ^^^^^^^^^^^^^^^
+> 25 |         </Link>
+     | ^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  26 |         <div className="max-w-2xl w-full">
+  27 |           <h1 className="text-3xl font-display font-bold text-center mb-2">
+  28 |             Your Workspaces                                                                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/error-boundaries
+  26:9   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\page.tsx:26:9
+  24 |           numen
+  25 |         </Link>
+> 26 |         <div className="max-w-2xl w-full">
+     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 27 |           <h1 className="text-3xl font-display font-bold text-center mb-2">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |             Your Workspaces
+     ΓÇª
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |           </div>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 54 |         </div>
+     | ^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  55 |       </div>
+  56 |     );
+  57 |   } catch {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/error-boundaries
+  27:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\page.tsx:27:11
+  25 |         </Link>
+  26 |         <div className="max-w-2xl w-full">
+> 27 |           <h1 className="text-3xl font-display font-bold text-center mb-2">
+     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 28 |             Your Workspaces
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 29 |           </h1>
+     | ^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  30 |           <p className="text-center text-[var(--text-muted)] mb-8">
+  31 |             Select a workspace or create a new one.
+  32 |           </p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/error-boundaries
+  30:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\page.tsx:30:11
+  28 |             Your Workspaces
+  29 |           </h1>
+> 30 |           <p className="text-center text-[var(--text-muted)] mb-8">
+     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |             Select a workspace or create a new one.
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 32 |           </p>
+     | ^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  33 |
+  34 |           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+  35 |             {workspaces.map((ws: any) => (                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/error-boundaries
+  34:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\page.tsx:34:11
+  32 |           </p>
+  33 |
+> 34 |           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 35 |             {workspaces.map((ws: any) => (
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 36 |               <Link
+     ΓÇª
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 48 |             ))}
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 49 |           </div>
+     | ^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  50 |
+  51 |           <div className="border-t border-white/10 pt-6">
+  52 |             <DashboardLanding />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/error-boundaries
+  35:34  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-explicit-any
+  51:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\page.tsx:51:11
+  49 |           </div>
+  50 |
+> 51 |           <div className="border-t border-white/10 pt-6">
+     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 52 |             <DashboardLanding />
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |           </div>
+     | ^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  54 |         </div>
+  55 |       </div>
+  56 |     );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/error-boundaries
+  52:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\(dashboard)\dashboard\page.tsx:52:13
+  50 |
+  51 |           <div className="border-t border-white/10 pt-6">
+> 52 |             <DashboardLanding />
+     |             ^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  53 |           </div>
+  54 |         </div>
+  55 |       </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/error-boundaries
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\components\BotPanel.tsx
+   74:10  warning  'respondingTo' is assigned a value but never used                                                                  @typescript-eslint/no-unused-vars
+  149:19  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  161:6   warning  React Hook useCallback has a missing dependency: 'questionType'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  163:48  error    Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  202:18  warning  'handleRespond' is defined but never used                                                                          @typescript-eslint/no-unused-vars
+  372:28  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                    react/no-unescaped-entities
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\components\ChatArea.tsx
+  31:3  warning  'currentUserId' is defined but never used       @typescript-eslint/no-unused-vars
+  32:3  warning  'currentDisplayName' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\components\ContextTreeVisual.tsx
+  95:11  warning  'domainKey' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\components\CreateAgentModal.tsx
+  38:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\components\DashboardLanding.tsx
+  35:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  45:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  70:17  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\components\WorkspaceView.tsx
+   59:10  warning  'selectedAgentId' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+   99:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\components\WorkspaceView.tsx:99:5
+   97 |
+   98 |   useEffect(() => {
+>  99 |     fetchData();
+      |     ^^^^^^^^^ Avoid calling setState() directly within an effect
+  100 |   }, [fetchData]);
+  101 |
+  102 |   useEffect(() => {                                                                                                     react-hooks/set-state-in-effect
+  103:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\components\WorkspaceView.tsx:103:5
+  101 |
+  102 |   useEffect(() => {
+> 103 |     fetchInterrupts();
+      |     ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  104 |     const interval = setInterval(fetchInterrupts, 15000);
+  105 |     return () => clearInterval(interval);
+  106 |   }, [fetchInterrupts]);  react-hooks/set-state-in-effect
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\app\pricing\page.tsx
+   72:13  error  Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+  246:21  error  Do not use an `<a>` element to navigate to `/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\lib\api.ts
+  14:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Code\GenAIGenesis\GenAIGenesis\frontend\middleware.ts
+  13:11  warning  'pathname' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 35 problems (27 errors, 8 warnings)
+

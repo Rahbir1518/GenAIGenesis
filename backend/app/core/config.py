@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     github_webhook_secret: str = ""
     github_access_token: str = ""
 
+    # Moorcheh
+    moorcheh_api_key: str = ""
+
     # AI Settings
     confidence_threshold: float = 0.82
     embedding_model: str = "text-embedding-004"

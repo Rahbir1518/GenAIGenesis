@@ -24,7 +24,7 @@ def verify_signature(payload_body: bytes, secret_token: str, signature_header: s
     return hmac.compare_digest(expected_signature, signature_header)
 
 async def summarize_and_store_pr(workspace_id: str, pr_data: dict, diff_url: str):
-    """Background task focused only on the github_pull_requests table."""
+    """Background task: summarize PR, store in github_pull_requests, and populate tree_nodes."""
     try:
         sb = get_supabase()
         
@@ -62,7 +62,17 @@ async def summarize_and_store_pr(workspace_id: str, pr_data: dict, diff_url: str
             on_conflict="github_node_id" 
         ).execute()
         
+        stored_pr = (res.data or [pr_record])[0]
         logger.info(f"✅ PR #{pr_data.get('number')} saved to Supabase")
+
+        # 5. Extract engineering context into tree_nodes
+        from app.services.context_engine import process_pr_into_context
+        nodes = await process_pr_into_context(
+            workspace_id=str(workspace_id),
+            pr_record=stored_pr,
+            diff_text=diff_text[:5000],
+        )
+        logger.info(f"✅ Created {len(nodes)} tree nodes from PR #{pr_data.get('number')}")
 
     except Exception as e:
         logger.exception(f"❌ Background Task Failed: {e}")

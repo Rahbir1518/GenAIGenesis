@@ -69,7 +69,7 @@ export default function Home() {
         <ScrollFade className="relative w-full max-w-3xl mx-auto">
           <GlobeWrapper />
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <h1 className="font-display font-bold text-white text-[6rem] md:text-[10rem] lg:text-[12rem] tracking-[0.15em] leading-none select-none opacity-90 drop-shadow-[0_0_40px_rgba(255,255,255,0.1)]">
+            <h1 className="font-display font-bold text-white text-[6rem] md:text-[10rem] lg:text-[12rem] tracking-[0.15em] pl-[0.15em] leading-none select-none opacity-90 drop-shadow-[0_0_40px_rgba(255,255,255,0.1)]">
               numen
             </h1>
           </div>
